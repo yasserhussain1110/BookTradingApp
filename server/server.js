@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
+require('./config/config');
 
-app.listen(8080, () => {
-  console.log("Server started on " + 8080);
+
+
+const port = process.env.PORT;
+app.listen(port, () => {
+  console.log(`Server started on ${port}`);
 });
