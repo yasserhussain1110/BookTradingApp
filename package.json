@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "nodemon server/server.js",
-    "test": ""
+    "test": "NODE_ENV=test mocha server/**/*.test.js"
   },
   "keywords": [
     "FCC",

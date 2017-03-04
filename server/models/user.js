@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const ObjectID = require('mongodb').ObjectID;
 const validator = require('validator');
 
 const UserSchema = mongoose.Schema({
@@ -32,64 +31,6 @@ const UserSchema = mongoose.Schema({
   }]
 });
 
-const BookSchema = mongoose.Schema({
-  name: {
-    type: String,
-    trim: true,
-    minlength: 1
-  },
+const User = mongoose.model('User', UserSchema);
 
-  description: {
-    type: String,
-    trim: true,
-    minlength: 1
-  },
-
-  thumbnailURL: {
-    type: String,
-    trim: true,
-    minlength: 1,
-    validate: {
-      validator: validator.isURL,
-      message: '{VALUE} is not a valid URL'
-    },
-    required: true
-  },
-
-  _ownedBy: {
-    type: ObjectID,
-    required: true
-  },
-
-  _addedBy: {
-    type: ObjectID,
-    required: true
-  }
-});
-
-const TradeRequestSchema = mongoose.Schema({
-  from: {
-    _userId: {
-      required: true,
-      type: ObjectID
-    },
-
-    _bookId: {
-      type: ObjectID
-    }
-  },
-
-  to: {
-    _userId: {
-      required: true,
-      type: ObjectID
-    },
-
-    _bookId: {
-      type: ObjectID,
-      required: true
-    }
-  }
-});
-
-TradeRequestSchema.index({'from._userId': 1, 'to._userId': 1, 'to._bookId': 1}, {unique: true});
+module.exports = User;
