@@ -11,7 +11,7 @@ const UserSchema = mongoose.Schema({
     trim: true,
     minlength: 1,
     validate: {
-      validator: validator.isEmail,
+      validator: email => validator.isEmail(email),
       message: '{VALUE} is not a valid email'
     },
     required: true

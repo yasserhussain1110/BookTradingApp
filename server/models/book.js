@@ -19,7 +19,7 @@ const BookSchema = mongoose.Schema({
     trim: true,
     minlength: 1,
     validate: {
-      validator: validator.isURL,
+      validator: url => validator.isURL(url),
       message: '{VALUE} is not a valid URL'
     },
     required: true
