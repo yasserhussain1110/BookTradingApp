@@ -66,12 +66,50 @@ UserSchema.methods.toJSON = function () {
 UserSchema.methods.generateAuthToken = function () {
   let user = this;
   let access = 'auth';
-  let tokenString = jwt.sign({id: user._id.toHexString(), access}, 'abc123');
+  let tokenString = jwt.sign({_id: user._id.toHexString(), access}, 'abc123');
 
   user.tokens.push({access, tokenString});
   return user.save().then(() => {
     return tokenString;
   });
+};
+
+UserSchema.statics.findByToken = function (tokenString) {
+  let User = this;
+  let decoded;
+
+  try {
+    decoded = jwt.verify(tokenString, 'abc123');
+  } catch (e) {
+    return Promise.reject("Invalid Token");
+  }
+
+  let {_id, access} = decoded;
+
+  return User.findOne({
+    _id: _id,
+    'tokens.access': access,
+    'tokens.tokenString': tokenString
+  });
+};
+
+UserSchema.statics.findByCreds = function (email, password) {
+  let User = this;
+  return User.findOne({email})
+    .then(user => {
+      if (!user) {
+        return Promise.reject("No such user");
+      }
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(password, user.password, function (err, res) {
+          if (res) {
+            resolve(user)
+          } else {
+            reject("Incorrect Password");
+          }
+        });
+      });
+    });
 };
 
 const User = mongoose.model('User', UserSchema);

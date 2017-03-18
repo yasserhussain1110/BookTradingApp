@@ -5,7 +5,9 @@ const port = process.env.PORT;
 
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const User = require('./models/user');
+const auth = require('./middleware/auth');
 
 const app = express();
 
@@ -20,9 +22,27 @@ app.post('/users', (req, res) => {
     .then(token => {
       res.header('x-auth', token).send(user);
     })
-    .catch(e=> {
-      console.log(e);
+    .catch(e => {
       res.status(400).send(e);
+    });
+});
+
+app.post('/users/me', auth, (req, res) => {
+  res.send(req.user);
+});
+
+app.post('/users/login', (req, res) => {
+  let {email, password} = req.body;
+
+  User.findByCreds(email, password)
+    .then(user => {
+      return user.generateAuthToken().then(token => {
+        res.header('x-auth', token).send(user);
+      });
+    })
+    .catch(e => {
+      console.log(e);
+      res.status(400).send();
     });
 });
 
