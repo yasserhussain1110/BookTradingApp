@@ -68,13 +68,15 @@ const addTradeRequestRoutes = app => {
 
         let requestedBooksOriginalOwner = tr._requestedBook._ownedBy;
 
-        // Reject all other trade requests involving same requestedBook
+        // Reject or close all other trade requests involving same requested and exchange books
         handleOtherRelatedTradeRequests(tr).then(() => {
           tr._requestedBook._ownedBy = tr._requester;
+          return tr._requestedBook.save();
+        }).then(() => {
           if (tr._exchangeBook) {
             tr._exchangeBook._ownedBy = requestedBooksOriginalOwner;
+            return tr._exchangeBook.save();
           }
-          return tr._requestedBook.save();
         }).then(() => {
           tr.status = "accepted";
           return tr.save();
@@ -116,17 +118,17 @@ const addTradeRequestRoutes = app => {
             _id: {
               $ne: tr._id
             }
-          }, {status: "rejected"})
+          }, {status: "closed"})
         }
       })
 
-      // Reject trade request, requesting for this trade request's exchange book
+      // Close trade request, requesting for this trade request's exchange book
       .then(() => {
         if (tr._exchangeBook) {
           return TradeRequest.update({
             status: "opened",
             _requestedBook: tr._exchangeBook._id
-          }, {status: "rejected"})
+          }, {status: "closed"})
         }
       })
   };
