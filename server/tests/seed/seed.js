@@ -22,21 +22,21 @@ const bookThreeId = new ObjectID();
 
 const books = [{
   _id: bookOneId,
-  name: "Harry Potter",
+  title: "Harry Potter",
   description: "Harry book",
   thumbnailURL: "http://www.thumbnail.com/harry",
   _ownedBy: userOneId,
   _addedBy: userOneId
 }, {
   _id: bookTwoId,
-  name: "Percy Jackson",
+  title: "Percy Jackson",
   description: "Percy wants to fight",
   thumbnailURL: "http://www.thumbnail.com/percy",
   _ownedBy: userTwoId,
   _addedBy: userTwoId
 }, {
   _id: bookThreeId,
-  name: 'Sherlock Holmes',
+  title: 'Sherlock Holmes',
   description: 'A book by A. C. Doyle',
   thumbnailURL: "http://www.thumbnail.com/sherlock",
   _ownedBy: userTwoId,
@@ -50,8 +50,8 @@ const tradeRequests = [{
 
 const populateUsers = (done) => {
   User.remove({}).then(()=> {
-    var userOne = new User(users[0]).save();
-    var userTwo = new User(users[1]).save();
+    let userOne = new User(users[0]).save();
+    let userTwo = new User(users[1]).save();
     return Promise.all([userOne, userTwo]);
   }).then(()=>done());
 };

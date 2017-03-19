@@ -131,3 +131,5 @@ const addTradeRequestRoutes = app => {
       })
   };
 };
+
+module.exports = addTradeRequestRoutes;
