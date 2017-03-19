@@ -2,16 +2,17 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const BookSchema = mongoose.Schema({
-  name: {
+  title: {
     type: String,
     trim: true,
-    minlength: 1
+    minlength: 1,
+    required: true
   },
 
   description: {
     type: String,
     trim: true,
-    minlength: 1
+    minlength: 5
   },
 
   thumbnailURL: {
@@ -27,11 +28,13 @@ const BookSchema = mongoose.Schema({
 
   _ownedBy: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
 
   _addedBy: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   }
 });

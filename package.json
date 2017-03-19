@@ -23,6 +23,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
     "express": "^4.14.1",
+    "google-books-search-2": "^0.3.0",
     "jsonwebtoken": "^7.3.0",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.24",
