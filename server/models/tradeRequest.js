@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const TradeRequestSchema = mongoose.Schema({
   status: {
     type: String,
-    enum: ["opened", "rejected", "accepted"],
+    enum: ["opened", "closed", "rejected", "accepted"],
     default: "opened"
   },
 
