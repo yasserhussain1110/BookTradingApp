@@ -139,7 +139,7 @@ describe("Testing Path - /tradeRequests/:id/accept", () => {
       .end(done);
   });
 
-  it('Should close/reject other related requests', done => {
+  it("Should accept the target trade request and close/reject other related requests", done => {
     request(app)
       .post(`/tradeRequests/${seedTradeRequests[1]._id}/accept`)
       .set('x-auth', seedUsers[0].tokens[0].tokenString)
@@ -198,7 +198,12 @@ describe("Testing Path - /tradeRequests/:id/reject", () => {
       .set('x-auth', seedUsers[1].tokens[0].tokenString)
       .send()
       .expect(200)
-      .end(done);
+      .end((err, res) => {
+        TradeRequest.findById(seedTradeRequests[0]).then(tr => {
+          expect(tr.status).toBe("rejected");
+          done();
+        });
+      });
   });
 
   it("Users who do not own requested book should not be able to reject requests", done => {
@@ -209,7 +214,10 @@ describe("Testing Path - /tradeRequests/:id/reject", () => {
       .expect(403)
       .end((err, res) => {
         expect(res.body.error).toBe("Book not owned by user");
-        done();
+        TradeRequest.findById(seedTradeRequests[0]).then(tr => {
+          expect(tr.status).toBe("opened");
+          done();
+        });
       });
   });
 });
