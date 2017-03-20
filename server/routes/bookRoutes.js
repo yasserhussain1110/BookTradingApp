@@ -1,4 +1,4 @@
-const books = require('google-books-search-2');
+const googleBooksAPI = require('google-books-search-2');
 const Book = require('../models/book');
 const TradeRequests = require('../models/tradeRequest');
 const auth = require('../middleware/auth');
@@ -40,7 +40,7 @@ const addBookRoutes = app => {
     }
 
     // Kick off a search for the book, then add it to database
-    books.search(title, options).then(results => {
+    googleBooksAPI.search(title, options).then(results => {
       let {title, description, thumbnail} = results[0];
       let book = new Book({
         title,
