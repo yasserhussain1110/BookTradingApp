@@ -18,6 +18,17 @@ const addBookRoutes = app => {
     })
   });
 
+  app.get('/books/:id', (req, res) => {
+    let bookId = req.params.id;
+
+    Book.findById(bookId).then(book => {
+      res.send(book);
+    }).catch(e => {
+      console.log(e);
+      res.status(400).send(e);
+    })
+  });
+
   app.post('/books', auth, (req, res) => {
     // Request should be authorized and it should have a book title
 

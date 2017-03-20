@@ -41,7 +41,7 @@ const BookSchema = mongoose.Schema({
 });
 
 BookSchema.methods.toJSON = function() {
-  var book = this;
+  let book = this;
   return _.pick(book, ['title', 'description', 'thumbnailURL', '_ownedBy', '_addedBy']);
 };
 
