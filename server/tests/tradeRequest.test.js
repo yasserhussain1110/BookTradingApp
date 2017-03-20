@@ -78,7 +78,7 @@ describe("Testing Path - /tradeRequests", () => {
   });
 
 
-  it("Must have requestedBook in request", done => {
+  it("Should have '_requestedBook' in request", done => {
     request(app)
       .post("/tradeRequests")
       .set('x-auth', seedUsers[2].tokens[0].tokenString)
