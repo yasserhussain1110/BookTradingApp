@@ -21,11 +21,19 @@ const users = [{
 }, {
   _id: userTwoId,
   email: 'test2@gmail.com',
-  password: 'password2'
+  password: 'password2',
+  tokens: [{
+    access: 'auth',
+    tokenString: jwt.sign({_id: userTwoId, access: 'auth'}, 'abc123').toString()
+  }]
 }, {
   _id: userThreeId,
   email: 'test3@gmail.com',
-  password: '3rdpassword'
+  password: '3rdpassword',
+  tokens: [{
+    access: 'auth',
+    tokenString: jwt.sign({_id: userThreeId, access: 'auth'}, 'abc123').toString()
+  }]
 }, {
   _id: userFourId,
   email: 'test4@gmail.com',

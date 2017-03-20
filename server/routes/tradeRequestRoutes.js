@@ -15,7 +15,7 @@ const addTradeRequestRoutes = app => {
     (exchangeBook ? Book.findOne({_id: exchangeBook, _ownedBy: user._id}) : Promise.resolve("ignore"))
       .then(book => {
         if (!book) {
-          return Promise.reject("No such book");
+          return Promise.reject({error: "No such exchange book"});
         }
       })
       .then(() => {
@@ -23,7 +23,7 @@ const addTradeRequestRoutes = app => {
       })
       .then(book => {
         if (!book) {
-          return Promise.reject("No such book");
+          return Promise.reject({error: "No such requested book"});
         }
       })
       .then(() => {
@@ -38,7 +38,7 @@ const addTradeRequestRoutes = app => {
         res.status(200).send();
       })
       .catch(e => {
-        console.log(e);
+        //console.log(e);
         res.status(400).send(e);
       });
 
@@ -61,7 +61,7 @@ const addTradeRequestRoutes = app => {
         }
 
         if (!tr._requestedBook._ownedBy.equals(user._id)) {
-          return res.status(403).send(err);
+          return res.status(403).send();
         }
 
         // Now the actual code
@@ -83,7 +83,7 @@ const addTradeRequestRoutes = app => {
         }).then(() => {
           res.status(200).send();
         }).catch(e => {
-          console.log(e);
+          //console.log(e);
           res.status(400).send(e);
         });
       });

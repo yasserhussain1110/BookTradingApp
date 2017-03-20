@@ -49,7 +49,77 @@ describe("Testing Schema - TradeRequests", () => {
 });
 
 
+describe("/tradeRequests", () => {
+  it("Should not create trade requests via unauthorized requests", done => {
+    request(app)
+      .post("/tradeRequests")
+      .send()
+      .expect(401)
+      .end(done);
+  });
+
+
+  it("Must have requestedBook in request", done => {
+    request(app)
+      .post("/tradeRequests")
+      .set('x-auth', seedUsers[2].tokens[0].tokenString)
+      .send()
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe("requestedBook is required");
+        done();
+      })
+  });
+
+
+  it("Requester should possess the exchange book", done => {
+    request(app)
+      .post("/tradeRequests")
+      .set('x-auth', seedUsers[2].tokens[0].tokenString)
+      .send({
+        requestedBook: seedBooks[3]._id,
+        exchangeBook: seedBooks[0]._id
+      })
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        expect(res.body.error).toBe("No such exchange book");
+        done();
+      })
+  });
+
+  it("Requester should not possess the requested book", done => {
+    request(app)
+      .post("/tradeRequests")
+      .set('x-auth', seedUsers[2].tokens[0].tokenString)
+      .send({
+        requestedBook: seedBooks[4]._id,
+        exchangeBook: seedBooks[4]._id
+      })
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        expect(res.body.error).toBe("No such requested book");
+        done();
+      })
+  });
+});
+
+
 describe("/tradeRequests/:id/accept", () => {
+  it("Should not allow third persons to accept trade requests", done => {
+    request(app)
+      .post(`/tradeRequests/${seedTradeRequests[1]._id}/accept`)
+      .set('x-auth', seedUsers[1].tokens[0].tokenString)
+      .send()
+      .expect(403)
+      .end(done);
+  });
+
   it('Should close/reject other related requests', done => {
     request(app)
       .post(`/tradeRequests/${seedTradeRequests[1]._id}/accept`)
@@ -80,7 +150,7 @@ describe("/tradeRequests/:id/accept", () => {
       });
   });
 
-  it('Should change owned by fields of books', done => {
+  it("Should change '_ownedby' fields of books", done => {
     request(app)
       .post(`/tradeRequests/${seedTradeRequests[1]._id}/accept`)
       .set('x-auth', seedUsers[0].tokens[0].tokenString)
@@ -94,7 +164,6 @@ describe("/tradeRequests/:id/accept", () => {
         Book.findById(seedBooks[0]._id).then(book => {
           expect(book._ownedBy).toEqual(seedUsers[1]._id);
           return Book.findById(seedBooks[2]._id);
-          done();
         }).then(book => {
           expect(book._ownedBy).toEqual(seedUsers[0]._id);
           done();
