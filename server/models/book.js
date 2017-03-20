@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const _ = require('lodash');
 
 const BookSchema = mongoose.Schema({
   title: {
@@ -38,6 +39,11 @@ const BookSchema = mongoose.Schema({
     required: true
   }
 });
+
+BookSchema.methods.toJSON = function() {
+  var book = this;
+  return _.pick(book, ['title', 'description', 'thumbnailURL', '_ownedBy', '_addedBy']);
+};
 
 const Book = mongoose.model('Book', BookSchema);
 

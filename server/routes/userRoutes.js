@@ -34,6 +34,26 @@ const addUserRoutes = app => {
         res.status(400).send(e);
       });
   });
+
+  app.patch('/users/me', auth, (req, res) => {
+    let user = req.user;
+
+    user.modify(req.body).then(user => {
+      res.send(user);
+    }).catch(e => {
+      res.status(400).send();
+    })
+  });
+
+  app.delete('/users/me/token', auth, (req, res) => {
+    let user = req.user;
+
+    user.removeToken(req.token).then(() => {
+      res.status(200).send();
+    }).catch(() => {
+      res.status(400).send();
+    });
+  });
 };
 
 module.exports = addUserRoutes;

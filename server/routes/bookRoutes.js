@@ -1,5 +1,6 @@
 const books = require('google-books-search-2');
 const Book = require('../models/book');
+const TradeRequests = require('../models/tradeRequest');
 const auth = require('../middleware/auth');
 
 const options = {
@@ -7,6 +8,16 @@ const options = {
 };
 
 const addBookRoutes = app => {
+
+  app.get('/books', (req, res) => {
+    Book.find().then(books => {
+      res.send(books);
+    }).catch(e => {
+      console.log(e);
+      res.status(400).send(e);
+    })
+  });
+
   app.post('/books', auth, (req, res) => {
     // Request should be authorized and it should have a boom name
 
@@ -47,7 +58,17 @@ const addBookRoutes = app => {
     }).then(book => {
       return book.remove();
     }).then(book => {
-      res.send(book);
+      return TradeRequests.update({
+        _requestedBook: book._id
+      }, {status: "rejected"})
+        .then(() => {
+          TradeRequests.update({
+            _exchangeBook: book._id
+          }, {status: "closed"})
+        })
+        .then(() => {
+          res.send(book);
+        });
     }).catch(e => {
       console.log(e);
       res.status(400).send(e);
