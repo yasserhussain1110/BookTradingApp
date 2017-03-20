@@ -19,7 +19,7 @@ const addBookRoutes = app => {
   });
 
   app.post('/books', auth, (req, res) => {
-    // Request should be authorized and it should have a boom name
+    // Request should be authorized and it should have a book title
 
     let user = req.user;
     let title = req.body.title;
