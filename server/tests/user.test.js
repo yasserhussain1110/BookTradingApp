@@ -3,10 +3,7 @@ const app = require('./../server');
 const expect = require('expect');
 const User = require('../models/user');
 
-const seed = require('./seed/seed');
-
-const populateUsers = seed.populateUsers;
-const seedUsers = seed.users;
+const {populateUsers, seedUsers} = require('./seed/seed');
 
 beforeEach(populateUsers);
 

@@ -4,24 +4,21 @@ const app = require('./../server');
 const TradeRequest = require('../models/tradeRequest');
 const Book = require('../models/book');
 
-const seed = require('./seed/seed');
-
 const {
   populateUsers,
   populateBooks,
-  populateTradeRequests
-} = seed;
-
-const seedUsers = seed.users;
-const seedBooks = seed.books;
-const seedTradeRequests = seed.tradeRequests;
+  populateTradeRequests,
+  seedUsers,
+  seedBooks,
+  seedTradeRequests
+} = require('./seed/seed');
 
 beforeEach(populateUsers);
 beforeEach(populateBooks);
 beforeEach(populateTradeRequests);
 
 describe("Testing Schema - TradeRequests", () => {
-  it("should not allow a user to request another's same book twice", done => {
+  it("Should not allow a user to request another's same book twice", done => {
     let tradeRequest = new TradeRequest(seedTradeRequests[0]);
     tradeRequest.save().then().catch(e => {
       expect(e.code).toBe(11000);
@@ -29,7 +26,7 @@ describe("Testing Schema - TradeRequests", () => {
     });
   });
 
-  it("should allow a user to request another's multiple books", done => {
+  it("Should allow a user to request another's multiple books", done => {
     let tradeRequest = new TradeRequest({
       _requester: seedUsers[0]._id,
       _requestedBook: seedBooks[3]._id,
@@ -49,7 +46,7 @@ describe("Testing Schema - TradeRequests", () => {
 });
 
 
-describe("/tradeRequests", () => {
+describe("Testing Path - /tradeRequests", () => {
   it("Should not create trade requests via unauthorized requests", done => {
     request(app)
       .post("/tradeRequests")
@@ -110,7 +107,7 @@ describe("/tradeRequests", () => {
 });
 
 
-describe("/tradeRequests/:id/accept", () => {
+describe("Testing Path - /tradeRequests/:id/accept", () => {
   it("Should not allow third persons to accept trade requests", done => {
     request(app)
       .post(`/tradeRequests/${seedTradeRequests[1]._id}/accept`)

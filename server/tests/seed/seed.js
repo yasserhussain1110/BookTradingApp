@@ -10,7 +10,7 @@ const userTwoId = new ObjectID();
 const userThreeId = new ObjectID();
 const userFourId = new ObjectID();
 
-const users = [{
+const seedUsers = [{
   _id: userOneId,
   email: 'test1@gmail.com',
   password: 'password1',
@@ -47,7 +47,7 @@ const bookFourId = new ObjectID();
 const bookFiveId = new ObjectID();
 const bookSixId = new ObjectID();
 
-const books = [{
+const seedBooks = [{
   _id: bookOneId,
   title: "Harry Potter",
   description: "Harry book",
@@ -91,7 +91,7 @@ const books = [{
   _addedBy: userFourId
 }];
 
-const tradeRequests = [{
+const seedTradeRequests = [{
   _id: new ObjectID(),
   _requester: userOneId,
   _requestedBook: bookThreeId,
@@ -120,23 +120,23 @@ const tradeRequests = [{
 
 const populateUsers = (done) => {
   User.remove({}).then(() => {
-    let userOne = new User(users[0]).save();
-    let userTwo = new User(users[1]).save();
-    let userThree = new User(users[2]).save();
-    let userFour = new User(users[3]).save();
+    let userOne = new User(seedUsers[0]).save();
+    let userTwo = new User(seedUsers[1]).save();
+    let userThree = new User(seedUsers[2]).save();
+    let userFour = new User(seedUsers[3]).save();
     return Promise.all([userOne, userTwo, userThree, userFour]);
   }).then(() => done());
 };
 
 const populateBooks = (done) => {
   Book.remove({}).then(() => {
-    Book.insertMany(books);
+    Book.insertMany(seedBooks);
   }).then(() => done());
 };
 
 const populateTradeRequests = (done) => {
   TradeRequest.remove({}).then(() => {
-    TradeRequest.insertMany(tradeRequests);
+    TradeRequest.insertMany(seedTradeRequests);
   }).then(() => done());
 };
 
@@ -144,7 +144,7 @@ module.exports = {
   populateUsers,
   populateBooks,
   populateTradeRequests,
-  users,
-  books,
-  tradeRequests
+  seedUsers,
+  seedBooks,
+  seedTradeRequests
 };
