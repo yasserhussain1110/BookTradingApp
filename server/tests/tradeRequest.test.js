@@ -191,19 +191,19 @@ describe("Testing Path - /tradeRequests/:id/accept", () => {
   });
 });
 
-describe("Testing Path - /tradeRequests/:id/close", () => {
-  it("Users who own requested book should be able to close requests", done => {
+describe("Testing Path - /tradeRequests/:id/reject", () => {
+  it("Users who own requested book should be able to reject requests", done => {
     request(app)
-      .post(`/tradeRequests/${seedTradeRequests[0]._id}/close`)
+      .post(`/tradeRequests/${seedTradeRequests[0]._id}/reject`)
       .set('x-auth', seedUsers[1].tokens[0].tokenString)
       .send()
       .expect(200)
       .end(done);
   });
 
-  it("Users who do not own requested book should not be able to close requests", done => {
+  it("Users who do not own requested book should not be able to reject requests", done => {
     request(app)
-      .post(`/tradeRequests/${seedTradeRequests[0]._id}/close`)
+      .post(`/tradeRequests/${seedTradeRequests[0]._id}/reject`)
       .set('x-auth', seedUsers[2].tokens[0].tokenString)
       .send()
       .expect(403)

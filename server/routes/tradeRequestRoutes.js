@@ -43,12 +43,12 @@ const addTradeRequestRoutes = app => {
       });
   });
 
-  app.post('/tradeRequests/:id/close', auth, (req, res) => {
+  app.post('/tradeRequests/:id/reject', auth, (req, res) => {
     let userId = req.user._id;
     let trId = req.params.id;
 
     TradeRequest.ensureTradeRequestIsForUser(trId, userId).then(tr => {
-      return tr.update({status: "closed"});
+      return tr.update({status: "rejected"});
     }).then(() => {
       res.status(200).send();
     }).catch(err => {
@@ -59,7 +59,23 @@ const addTradeRequestRoutes = app => {
         return res.status(400).send(err);
       }
     });
+  });
 
+  app.post('/tradeRequests/:id/close', auth, (req, res) => {
+    let userId = req.user._id;
+    let trId = req.params.id;
+
+    TradeRequest.findOne({
+      _requester: userId,
+      _id: trId
+    }).then(tr => {
+      return tr.update({status: "closed"});
+    }).then(() => {
+      res.status(200).send();
+    }).catch(err => {
+      //console.log(err);
+      res.status(400).send(err);
+    });
   });
 
   app.post('/tradeRequests/:id/accept', auth, (req, res) => {
