@@ -1,6 +1,6 @@
 const path = require('path');
-const utils = require('./utils/utils');
-const vueLoaderConfig = require('./utils/vue-loader.conf');
+const utils = require('./webpack-utils/utils');
+const vueLoaderConfig = require('./webpack-utils/vue-loader.conf');
 
 
 function resolve (dir) {
