@@ -9,6 +9,13 @@ const app = express();
 
 app.use(bodyParser.json());
 
+if (process.env.NODE_ENV === "development") {
+  console.log("Running In Development");
+  require('./tools/setupDev')(app);
+} else if (process.env.NODE_ENV === "production") {
+  console.log("Running In Production");
+}
+
 require('./routes/userRoutes')(app);
 require('./routes/bookRoutes')(app);
 require('./routes/tradeRequestRoutes')(app);
