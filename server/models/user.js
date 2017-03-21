@@ -3,6 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
+const customValidator = require('../validation/customValidator');
 
 const UserSchema = mongoose.Schema({
   email: {
@@ -17,16 +18,36 @@ const UserSchema = mongoose.Schema({
     required: true
   },
 
-  name: {
-    type: String,
-    trim: true,
-    minlength: 3
-  },
-
   password: {
     type: String,
     required: true,
-    minlength: 6
+    minlength: 6,
+
+    /*
+     * This validation is not strictly required
+     * because required takes care of undef and null
+     * values
+     */
+    validate: {
+      validator: customValidator.isNotNullOrUndefined,
+      message: '{VALUE} must not be null or undefined'
+    }
+  },
+
+  name: {
+    type: String,
+    trim: true,
+    minlength: 3,
+
+    /*
+     * Here isNotNullOrUndefined validation is
+     * absolutely essential because this field
+     * is not required (is optional)
+     */
+    validate: {
+      validator: customValidator.isNotNullOrUndefined,
+      message: '{VALUE} must not be null or undefined'
+    }
   },
 
   tokens: [{
@@ -86,8 +107,8 @@ UserSchema.methods.removeToken = function (tokenString) {
 UserSchema.methods.modify = function (updatedInfo) {
   let user = this;
   let updatableInfo = _.pick(updatedInfo, ['name', 'email', 'password']);
-
-  return user.update(updatableInfo);
+  Object.assign(user, updatableInfo);
+  return user.save();
 };
 
 UserSchema.statics.findByToken = function (tokenString) {

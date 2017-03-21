@@ -41,7 +41,7 @@ const addUserRoutes = app => {
     user.modify(req.body).then(user => {
       res.send(user);
     }).catch(e => {
-      res.status(400).send();
+      res.status(400).send(e);
     })
   });
 

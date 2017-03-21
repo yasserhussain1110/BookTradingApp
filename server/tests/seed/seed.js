@@ -14,6 +14,7 @@ const seedUsers = [{
   _id: userOneId,
   email: 'test1@gmail.com',
   password: 'password1',
+  name: "User1 Harry",
   tokens: [{
     access: 'auth',
     tokenString: jwt.sign({_id: userOneId, access: 'auth'}, 'abc123').toString()
@@ -21,6 +22,7 @@ const seedUsers = [{
 }, {
   _id: userTwoId,
   email: 'test2@gmail.com',
+  name: "User2 Sirius",
   password: 'password2',
   tokens: [{
     access: 'auth',
