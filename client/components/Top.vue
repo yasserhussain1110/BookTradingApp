@@ -1,16 +1,23 @@
 <template>
   <div class="top">
     <h1>{{ msg }}</h1>
-    <div>
+
+    <div class="side-buttons">
       <button>Login</button>
       <button>SignUp</button>
+      <auth></auth>
     </div>
   </div>
 </template>
 
 <script>
+  import Auth from './Auth';
+
   export default {
     name: 'top',
+    components: {
+      Auth
+    },
     data () {
       return {
         msg: 'Book Trading App'
@@ -21,4 +28,48 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .top {
+    position: relative;
+  }
+
+  h1 {
+    display: inline-block;
+  }
+
+  .side-buttons {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .side-buttons button:nth-of-type(1) {
+    background-color: green;
+    color: white;
+  }
+
+  .side-buttons button:nth-of-type(2) {
+    background-color: #4BC2DD;
+    color: black;
+  }
+
+  .side-buttons button {
+    font-size: 1.14em;
+    padding: 5px 0;
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 80px;
+  }
+
+  .side-buttons button:focus {
+    outline: none;
+  }
+
+  .side-buttons button:hover {
+    cursor: pointer;
+  }
+
+  button::-moz-focus-inner {
+    border: 0;
+  }
 </style>
