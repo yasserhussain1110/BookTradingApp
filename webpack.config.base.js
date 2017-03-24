@@ -3,7 +3,7 @@ const utils = require('./webpack-utils/utils');
 const vueLoaderConfig = require('./webpack-utils/vue-loader.conf');
 
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir);
 }
 

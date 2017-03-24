@@ -1,4 +1,4 @@
-const baseWebpackConfig = require('./webpack.base.conf');
+const baseWebpackConfig = require('./webpack.config.base.js');
 const utils = require('./webpack-utils/utils');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -13,8 +13,9 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 
 module.exports = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({ sourceMap: false })
+    rules: utils.styleLoaders({sourceMap: false})
   },
+  devtool: false,
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
