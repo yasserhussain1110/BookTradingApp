@@ -2,11 +2,14 @@
   <div class="top">
     <h1>{{ msg }}</h1>
 
-    <div class="side-buttons">
-      <button>Login</button>
-      <button>SignUp</button>
-      <auth></auth>
+    <div class="side-buttons"
+         v-bind:class="{hidden: showForm}"
+    >
+      <button v-on:click="showLoginForm">Login</button>
+      <button v-on:click="showSignUpForm">SignUp</button>
     </div>
+
+    <auth :showForm="showForm" :form="form"></auth>
   </div>
 </template>
 
@@ -20,7 +23,19 @@
     },
     data () {
       return {
-        msg: 'Book Trading App'
+        msg: 'Book Trading App',
+        showForm: false,
+        form: ""
+      }
+    },
+    methods: {
+      showLoginForm: function () {
+        this.form = "LogIn";
+        this.showForm = true;
+      },
+      showSignUpForm: function () {
+        this.form = "SignUp";
+        this.showForm = true;
       }
     }
   }
@@ -71,5 +86,9 @@
 
   button::-moz-focus-inner {
     border: 0;
+  }
+
+  .hidden {
+    display: none;
   }
 </style>

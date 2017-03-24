@@ -1,7 +1,8 @@
 <template>
-  <div class="auth">
+  <div class="auth"
+       v-bind:class="showOrHideForm">
     <div>
-      <label>LOG IN</label>
+      <label>{{ this.form }}</label>
     </div>
     <div class="input-field">
       <input placeholder="Email                                              "/>
@@ -11,7 +12,7 @@
     </div>
     <div class="button-field">
       <button class="auth-button">
-        <span>Login</span>
+        <span>{{ this.form }}</span>
         <img src="../assets/svg/login-icon.svg"/>
       </button>
     </div>
@@ -22,8 +23,20 @@
 
   export default {
     name: 'auth',
+    props: ['showForm', 'form'],
+    created: function () {
+      console.log(this);
+    },
     data () {
       return {}
+    },
+    computed: {
+      showOrHideForm: function () {
+        return {
+          show: this.showForm,
+          hide: !this.showForm,
+        }
+      }
     }
   }
 </script>
@@ -37,7 +50,16 @@
     border-radius: 5px;
     text-align: left;
     padding: 20px 30px;
+  }
+
+  .show {
     z-index: 0;
+    display: initial;
+  }
+
+  .hide {
+    z-index: -1;
+    display: none;
   }
 
   label {
