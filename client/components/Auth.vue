@@ -5,10 +5,10 @@
       <label>{{ this.form }}</label>
     </div>
     <div class="input-field">
-      <input placeholder="Email                                              "/>
+      <input placeholder="Your Email                                      "/>
     </div>
     <div class="input-field">
-      <input placeholder="Password                                        "/>
+      <input placeholder="Your Password                                "/>
     </div>
     <div class="button-field">
       <button class="auth-button">
@@ -88,9 +88,10 @@
     border-radius: 5px;
     margin: 10px 0;
     padding: 10px 10px;
-    font-weight: 600;
+    font-weight: 500;
     width: 200px;
     font-family: 'FontAwesome';
+    font-size: 1.1em;
   }
 
   img {
@@ -98,5 +99,17 @@
     height: 20px;
     vertical-align: middle;
     margin-left: 5px;
+  }
+
+  input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  input::-moz-placeholder { /* Firefox 19+ */
+    font-size: 10px;
+    color: black;
+    opacity: 0.6;
+    font-weight: 600;
   }
 </style>
