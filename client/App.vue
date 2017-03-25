@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <top></top>
-    <side-bar></side-bar>
+    <flex-container></flex-container>
   </div>
 </template>
 
 <script>
   import Top from './components/Top';
-  import SideBar from './components/SideBar.vue';
+  import FlexContainer from './components/FlexContainer.vue';
 
   export default {
     name: 'app',
     components: {
       Top,
-      SideBar
+      FlexContainer
     }
   }
 </script>
@@ -33,7 +33,7 @@
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
+    text-align: left;
     color: #2c3e50;
     margin: 20px auto;
     width: 90%;

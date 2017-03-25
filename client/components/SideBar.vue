@@ -43,15 +43,22 @@
   }
 </script>
 
-<style>
+<style scoped>
   .side-nav-bar {
     position: relative;
-    width: 16%;
+    width: 22%;
+    /*
+     * 0% height collapses
+     * flex-box so that its height does not match parent anymore
+     * which then allows it to grow according to its contents
+     */
+    height: 0%;
     text-align: left;
     background-color: #B5C588;
     padding: 20px 0 20px 10px;
     border-radius: 10px;
     margin-top: 30px;
+    display: inline-block;
   }
 
   /* #0D3C55 */

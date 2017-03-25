@@ -45,6 +45,7 @@
 <style scoped>
   .top {
     position: relative;
+    text-align: center;
   }
 
   h1 {

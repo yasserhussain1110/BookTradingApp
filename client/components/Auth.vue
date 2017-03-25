@@ -43,7 +43,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .auth {
     position: absolute;
     right: 0;
