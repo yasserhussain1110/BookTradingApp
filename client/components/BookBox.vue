@@ -117,7 +117,7 @@
     background-color: white;
     border: 2px solid #008000;
     border-radius: 20px;
-    padding: 10px;
+    padding: 2% 3% 1% 3%;
     height: 0%;
   }
 
