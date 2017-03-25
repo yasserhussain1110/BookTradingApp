@@ -23,7 +23,7 @@
     </ul>
 
     <div class="collapse">
-      <i class="fa fa-arrow-left fa-3x collapse-icon" aria-hidden="true"></i>
+      <i class="fa fa-arrow-left fa-2x collapse-icon" aria-hidden="true"></i>
     </div>
   </div>
 </template>
@@ -99,10 +99,10 @@
 
   .collapse {
     position: absolute;
-    width: 60px;
-    height: 60px;
-    left: -30px;
-    top: 60px;
+    width: 40px;
+    height: 40px;
+    left: -15px;
+    top: 65px;
     opacity: 0.4;
     background-color: white;
     border-radius: 50%;
@@ -116,7 +116,7 @@
 
   .collapse-icon {
     vertical-align: middle;
-    margin-top: 5px;
-    margin-left: 8px;
+    margin-top: 4px;
+    margin-left: 6px;
   }
 </style>
