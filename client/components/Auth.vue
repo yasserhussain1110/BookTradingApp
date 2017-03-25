@@ -2,7 +2,7 @@
   <div class="auth"
        v-bind:class="showOrHideForm">
     <div>
-      <label>{{ this.form }}</label>
+      <label>{{ form }}</label>
     </div>
     <div class="input-field">
       <input placeholder="Your Email                                      "/>
@@ -12,7 +12,7 @@
     </div>
     <div class="button-field">
       <button class="auth-button">
-        <span>{{ this.form }}</span>
+        <span>{{ form }}</span>
         <img src="../assets/svg/login-icon.svg"/>
       </button>
     </div>
