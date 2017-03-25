@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <top></top>
+    <side-bar></side-bar>
   </div>
 </template>
 
 <script>
-  import Top from './components/Top'
+  import Top from './components/Top';
+  import SideBar from './components/SideBar.vue';
 
   export default {
     name: 'app',
     components: {
-      Top
+      Top,
+      SideBar
     }
   }
 </script>
