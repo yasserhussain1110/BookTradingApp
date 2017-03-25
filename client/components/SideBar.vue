@@ -46,16 +46,27 @@
 <style scoped>
   .side-nav-bar {
     position: relative;
-    width: 22%;
+
+    /*
+     * This property makes the sidebar width fixed
+     * to 160px. In short it means,
+     * in case of this flexbox -
+     * don't grow, don't shrink width 160px
+     * See - http://stackoverflow.com/questions/23794713/flexbox-two-fixed-width-columns-one-flexible
+     */
+
+    flex: 0 0 160px;
     /*
      * 0% height collapses
      * flex-box so that its height does not match parent anymore
      * which then allows it to grow according to its contents
+     * See - http://stackoverflow.com/questions/27575779/prevent-a-flex-items-height-from-expanding-to-match-other-flex-items
      */
+
     height: 0%;
     text-align: left;
     background-color: #B5C588;
-    padding: 20px 0 20px 10px;
+    padding: 10px 0 10px 0.5%;
     border-radius: 10px;
     margin-top: 30px;
     display: inline-block;
@@ -83,7 +94,7 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;
     font-size: 0.85em;
-    margin: 10px 10px;
+    margin: 10px 2%;
   }
 
   .sub-option {
@@ -101,8 +112,8 @@
     position: absolute;
     width: 40px;
     height: 40px;
-    left: -15px;
-    top: 65px;
+    left: -20px;
+    top: 55px;
     opacity: 0.4;
     background-color: white;
     border-radius: 50%;

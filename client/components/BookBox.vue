@@ -62,6 +62,33 @@
           src="http://books.google.com/books/content?id=aJ1av7UFBPwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"/>
       </a>
     </div>
+
+    <div class="gallery">
+      <a>
+        <img
+          src="http://books.google.com/books/content?id=aJ1av7UFBPwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"/>
+      </a>
+    </div>
+
+    <div class="gallery">
+      <a>
+        <img
+          src="http://books.google.com/books/content?id=aJ1av7UFBPwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"/>
+      </a>
+    </div>
+
+    <div class="gallery">
+      <a>
+        <img
+          src="http://books.google.com/books/content?id=aJ1av7UFBPwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"/>
+      </a>
+    </div>
+
+    <div class="pager">
+      <div class="page">1</div>
+
+      <div class="page">2</div>
+    </div>
   </div>
 </template>
 
@@ -110,6 +137,34 @@
   a:hover {
     text-decoration: none;
     cursor: pointer;
+  }
+
+  .pager {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .page {
+    display: inline-block;
+    width: 14px;
+    height: 15px;
+    padding: 10px 10px 10px 13px;
+    background-color: #4BC2DD;
+    border-radius: 8px;
+    box-shadow: 2px 2px gray;
+    color: black;
+    margin: 0 5px;
+  }
+
+  .page:hover {
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+  }
+
+  .page:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
   }
 
 </style>

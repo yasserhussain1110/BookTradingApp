@@ -36,7 +36,6 @@
     text-align: left;
     color: #2c3e50;
     margin: 20px auto;
-    width: 90%;
-    height: 500px;
+    width: 95%;
   }
 </style>
