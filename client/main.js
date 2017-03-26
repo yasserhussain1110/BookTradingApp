@@ -15,9 +15,25 @@ const store = new Vuex.Store({
     user: null,
     books: [],
     token: "",
-    justLoggedIn: false
+    justLoggedIn: false,
+    navigationSection: {
+      name: "my-books", // my-books, my-requests
+      subSection: null   // requests-by-me, requests-for-me
+    }
   },
   mutations: {
+    noSubSection(state){
+      state.navigationSection.subSection = null;
+    },
+    changeSubSection(state, sub) {
+      if (state.navigationSection.name === "my-requests") {
+        state.navigationSection.subSection = sub;
+      }
+    },
+    changeMainNav(state, newNav) {
+      state.navigationSection.name = newNav;
+      state.navigationSection.subSection = null;
+    },
     loggedIn (state) {
       state.isLoggedIn = true;
     },

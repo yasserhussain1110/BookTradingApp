@@ -1,21 +1,38 @@
 <template>
   <div class="side-nav-bar">
     <ul class="parent-list">
-      <li class="nav option">
-        <a class="link parent-link no-sub-link" href="#">All Books</a>
+      <li
+        class="nav option"
+        v-bind:class="[nav.name==='all-books' ? 'nav-selected' : '']">
+        <a
+          v-on:click="changeMainNav('all-books')"
+          class="link parent-link no-sub-link">
+          All Books
+        </a>
       </li>
 
-      <li class="nav option">
-        <a class="link parent-link no-sub-link" href="#">My Books</a>
+      <li
+        class="nav option"
+        v-bind:class="[nav.name==='my-books' ? 'nav-selected' : '']">
+        <a
+          v-on:click="changeMainNav('my-books')"
+          class="link parent-link no-sub-link">
+          My Books
+        </a>
       </li>
 
-      <li class="nav option">
-        <a class="link parent-link" href="#">
-          <span class="arrow">&#9654;</span>
+      <li
+        class="nav option"
+        v-bind:class="[nav.name==='my-requests' ? 'nav-selected' : '']">
+        <a
+          id="my-requests"
+          v-on:click="changeMainNav('my-requests')"
+          class="link parent-link">
+
           <span>My Requests</span>
         </a>
 
-        <ul class="sub-options-holder">
+        <ul class="hide sub-options-holder">
           <li class="nav sub-option">Requests By Me</li>
           <li class="nav sub-option">Requests For Me</li>
         </ul>
@@ -30,6 +47,7 @@
 
 <script>
   import 'font-awesome/css/font-awesome.css';
+  import {mapState} from 'vuex';
 
   export default {
     name: 'side-bar',
@@ -39,6 +57,18 @@
     },
     data () {
       return {}
+    },
+    computed: {
+      localComputed () {
+      },
+      ...mapState({
+        nav: state => state.navigationSection
+      })
+    },
+    methods: {
+      changeMainNav: function (newNav) {
+        this.$store.commit('changeMainNav', newNav);
+      }
     }
   }
 </script>
@@ -70,31 +100,43 @@
     border-radius: 10px;
     margin-top: 30px;
     display: inline-block;
+    color: #AFFAD0;
   }
 
-  /* #0D3C55 */
-  .side-nav-bar * {
-    color: black;
+  .nav > a {
+    margin-left: 15px;
   }
 
-  .arrow {
+  .nav-selected {
+    background-color: #0D3C55;
+  }
+
+  .nav-selected > a {
+    margin-left: 4px;
+  }
+
+  .nav-selected:before {
+    content: '▶';
     font-size: 0.7em;
     vertical-align: text-top;
   }
 
   li {
     list-style: none;
+    padding: 5px;
+    border-radius: 5px;
   }
 
   a {
     text-decoration: none;
+    cursor: pointer;
   }
 
   .option {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;
     font-size: 0.85em;
-    margin: 10px 2%;
+    margin: 5px 6px 5px 0px;
   }
 
   .sub-option {
@@ -105,7 +147,7 @@
   }
 
   .no-sub-link {
-    margin-left: 12px;
+    margin-left: 0;
   }
 
   .collapse {
@@ -129,5 +171,9 @@
     vertical-align: middle;
     margin-top: 4px;
     margin-left: 6px;
+  }
+
+  .hide {
+    display: none;
   }
 </style>
