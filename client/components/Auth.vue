@@ -16,6 +16,11 @@
         <img src="../assets/svg/login-icon.svg"/>
       </button>
     </div>
+
+    <div class="back">
+      <div class="x">X</div>
+    </div>
+
   </div>
 </template>
 
@@ -52,6 +57,7 @@
     border-radius: 5px;
     text-align: left;
     padding: 20px 30px;
+    overflow: hidden;
   }
 
   .show {
@@ -81,6 +87,7 @@
     border: none;
     border-radius: 5px;
     color: white;
+    box-shadow: -1px 1px #ADD8E6;
   }
 
   input {
@@ -111,5 +118,48 @@
     color: black;
     opacity: 0.6;
     font-weight: 600;
+  }
+
+  /*
+   * How did I make a clipped button ?
+   *
+   * Absolutely positioned button on top of container form.
+   *
+   * Moved it slightly top right, so that the top & right portion
+   * of the button came outside of the container.
+   *
+   * Next used css prop overflow hidden on container.
+   */
+  .back {
+    height: 30px;
+    width: 30px;
+    background-color: #ED4337;
+    border-radius: 50%;
+    top: -5px;
+    right: -5px;
+    position: absolute;
+    box-shadow: -1px 1px gray;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+  }
+
+  .x {
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 0.8em;
+    font-weight: bolder;
+  }
+
+  .auth-button:hover, .back:hover {
+    cursor: pointer;
+  }
+
+  .auth-button:active, .back:active {
+    transform: translate(-1px, 1px);
+    box-shadow: none;
+  }
+
+  .auth-button:focus, .back:focus {
+    outline: none;
   }
 </style>
