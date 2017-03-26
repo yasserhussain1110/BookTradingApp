@@ -1,18 +1,18 @@
 <template>
   <div class="auth"
-       v-bind:class="showOrHideForm">
+       v-bind:class="showOrHideClass">
     <div>
-      <label>{{ form }}</label>
+      <label>{{ formName }}</label>
     </div>
     <div class="input-field">
-      <input placeholder="Your Email                                      "/>
+      <input v-model="email" placeholder="Your Email                                      "/>
     </div>
     <div class="input-field">
-      <input placeholder="Your Password                                "/>
+      <input v-model="password" placeholder="Your Password                                "/>
     </div>
     <div class="button-field">
-      <button class="auth-button">
-        <span>{{ form }}</span>
+      <button v-on:click="submit" class="auth-button">
+        <span>{{ formName }}</span>
         <img src="../assets/svg/login-icon.svg"/>
       </button>
     </div>
@@ -25,29 +25,42 @@
 </template>
 
 <script>
-
+  import {mapState} from 'vuex';
   import 'font-awesome/css/font-awesome.css';
 
   export default {
     name: 'auth',
-    props: ['showForm', 'form'],
     created: function () {
       console.log(this);
     },
     data () {
-      return {}
-    },
-    methods: {
-      goBack: function () {
-        this.$emit('back', 'awesome');
+      return {
+        email: "",
+        password: ""
       }
     },
-    computed: {
-      showOrHideForm: function () {
-        return {
-          show: this.showForm,
-          hide: !this.showForm,
-        }
+    computed: mapState({
+      formName: state => state.selectedForm,
+      showOrHideClass: state => state.showAuthForm ? "show" : "hide"
+    }),
+    methods: {
+      goBack: function () {
+        this.$emit('back');
+      },
+      submit: function () {
+        let {email, password} = this;
+        this.$http.post('/login', {email, password})
+          .then(res => {
+            let token = res.headers.map['x-auth'][0];
+            let user = res.user;
+            this.$store.commit('loggedIn');
+            this.$store.commit('gotUser', user);
+            this.$store.commit('gotToken', token);
+            this.$store.commit('hideAuthForm');
+          })
+          .catch(e => {
+            console.log(e.body.error);
+          });
       }
     }
   }

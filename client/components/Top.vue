@@ -3,18 +3,23 @@
     <h1>{{ msg }}</h1>
 
     <div class="side-buttons"
-         v-bind:class="{hidden: showForm}"
-    >
-      <button v-on:click="showLoginForm">Login</button>
-      <button v-on:click="showSignUpForm">SignUp</button>
+         v-bind:class="{hidden: showForm}">
+      <div v-if="isLoggedIn">
+        <button>Logout</button>
+      </div>
+      <div v-else>
+        <button v-on:click="showLoginForm">Login</button>
+        <button v-on:click="showSignUpForm">SignUp</button>
+      </div>
     </div>
 
-    <auth v-on:back="back" :showForm="showForm" :form="form"></auth>
+    <auth v-on:back="back"></auth>
   </div>
 </template>
 
 <script>
   import Auth from './Auth';
+  import {mapState} from 'vuex';
 
   export default {
     name: 'top',
@@ -23,23 +28,25 @@
     },
     data () {
       return {
-        msg: 'Book Trading App',
-        showForm: false,
-        form: ""
+        msg: 'Book Trading App'
       }
     },
+    computed: mapState({
+      isLoggedIn: state => state.isLoggedIn,
+      showForm: state => state.showAuthForm
+    }),
     methods: {
       showLoginForm: function () {
-        this.form = "LogIn";
-        this.showForm = true;
+        this.$store.commit('changeSelectedForm', "Login");
+        this.$store.commit('showAuthForm');
       },
       showSignUpForm: function () {
-        this.form = "SignUp";
-        this.showForm = true;
+        this.$store.commit('changeSelectedForm', "SignUp");
+        this.$store.commit('showAuthForm');
       },
       back: function () {
-        this.showForm = false;
-        this.form = "";
+        this.$store.commit('changeSelectedForm', "");
+        this.$store.commit('hideAuthForm');
       }
     }
   }

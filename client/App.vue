@@ -14,6 +14,23 @@
     components: {
       Top,
       FlexContainer
+    },
+    created: function () {
+      this.$http.get('/books').then(res => {
+        this.$store.commit('gotBooks', res.body);
+      }).catch(e => console.log("weird error", e));
+
+      this.$http.get("/identity")
+        .then(res => {
+          let token = res.headers.map['x-auth'][0];
+          let user = res.body;
+          this.$store.commit('loggedIn');
+          this.$store.commit('gotUser', user);
+          this.$store.commit('gotToken', token);
+        })
+        .catch(res => {
+          this.$store.commit('loggedOff');
+        });
     }
   }
 </script>
