@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-container">
+  <div class="main-content">
     <side-bar></side-bar>
     <book-box></book-box>
   </div>
@@ -20,7 +20,7 @@
 
 <style scoped>
 
-  .flex-container {
+  .main-content {
     display: flex;
   }
 

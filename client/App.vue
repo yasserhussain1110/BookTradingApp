@@ -1,19 +1,22 @@
 <template>
   <div id="app">
+    <logged-in-flash></logged-in-flash>
     <top></top>
-    <flex-container></flex-container>
+    <main-content></main-content>
   </div>
 </template>
 
 <script>
   import Top from './components/Top';
-  import FlexContainer from './components/FlexContainer.vue';
+  import MainContent from './components/MainContent.vue';
+  import LoggedInFlash from './components/LoggedInFlash.vue';
 
   export default {
     name: 'app',
     components: {
       Top,
-      FlexContainer
+      MainContent,
+      LoggedInFlash
     },
     created: function () {
       this.$http.get('/books').then(res => {

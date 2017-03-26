@@ -14,7 +14,8 @@ const store = new Vuex.Store({
     showAuthForm: false,
     user: null,
     books: [],
-    token: ""
+    token: "",
+    justLoggedIn: false
   },
   mutations: {
     loggedIn (state) {
@@ -41,6 +42,12 @@ const store = new Vuex.Store({
     },
     hideAuthForm(state) {
       state.showAuthForm = false;
+    },
+    hasJustLoggedIn(state) {
+      state.justLoggedIn = true;
+    },
+    someTimePassedSinceLoggingIn(state) {
+      state.justLoggedIn = false;
     }
   }
 });

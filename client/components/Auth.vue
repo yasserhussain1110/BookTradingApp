@@ -57,6 +57,10 @@
             this.$store.commit('gotUser', user);
             this.$store.commit('gotToken', token);
             this.$store.commit('hideAuthForm');
+            this.$store.commit('hasJustLoggedIn');
+            setTimeout(() => {
+              this.$store.commit('someTimePassedSinceLoggingIn');
+            }, 2000);
           })
           .catch(e => {
             console.log(e.body.error);
