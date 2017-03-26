@@ -9,7 +9,7 @@
       <button v-on:click="showSignUpForm">SignUp</button>
     </div>
 
-    <auth :showForm="showForm" :form="form"></auth>
+    <auth v-on:back="back" :showForm="showForm" :form="form"></auth>
   </div>
 </template>
 
@@ -36,6 +36,10 @@
       showSignUpForm: function () {
         this.form = "SignUp";
         this.showForm = true;
+      },
+      back: function () {
+        this.showForm = false;
+        this.form = "";
       }
     }
   }

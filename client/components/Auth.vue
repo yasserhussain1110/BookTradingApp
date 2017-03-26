@@ -17,7 +17,7 @@
       </button>
     </div>
 
-    <div class="back">
+    <div v-on:click="goBack" class="back">
       <div class="x">X</div>
     </div>
 
@@ -36,6 +36,11 @@
     },
     data () {
       return {}
+    },
+    methods: {
+      goBack: function () {
+        this.$emit('back', 'awesome');
+      }
     },
     computed: {
       showOrHideForm: function () {
