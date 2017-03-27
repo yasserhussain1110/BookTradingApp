@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <top></top>
-    <main-content></main-content>
+    <app-body></app-body>
   </div>
 </template>
 
 <script>
   import Top from './components/Top';
-  import MainContent from './components/MainContent.vue';
+  import AppBody from './components/AppBody.vue';
 
   export default {
     name: 'app',
     components: {
       Top,
-      MainContent
+      AppBody
     },
     created: function () {
       this.$http.get('/books').then(res => {

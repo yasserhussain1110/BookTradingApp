@@ -1,26 +1,26 @@
 <template>
-  <div class="main-content">
+  <div class="app-body">
     <side-bar></side-bar>
-    <book-box></book-box>
+    <main-view></main-view>
   </div>
 </template>
 
 <script>
   import SideBar from './SideBar.vue';
-  import BookBox from './BookBox.vue';
+  import MainView from './MainView.vue';
 
   export default {
-    name: 'flex-container',
+    name: 'app-body',
     components: {
       SideBar,
-      BookBox
+      MainView
     }
   }
 </script>
 
 <style scoped>
 
-  .main-content {
+  .app-body {
     display: flex;
   }
 
