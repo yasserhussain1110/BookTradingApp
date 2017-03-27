@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <logged-in-flash></logged-in-flash>
     <top></top>
     <main-content></main-content>
   </div>
@@ -9,14 +8,12 @@
 <script>
   import Top from './components/Top';
   import MainContent from './components/MainContent.vue';
-  import LoggedInFlash from './components/LoggedInFlash.vue';
 
   export default {
     name: 'app',
     components: {
       Top,
-      MainContent,
-      LoggedInFlash
+      MainContent
     },
     created: function () {
       this.$http.get('/books').then(res => {

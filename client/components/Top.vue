@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
 
     <div class="side-buttons"
-         v-bind:class="{hidden: showForm}">
+         v-bind:class="{hidden: showAuthForm}">
       <div v-if="isLoggedIn">
         <button>Logout</button>
       </div>
@@ -13,40 +13,57 @@
       </div>
     </div>
 
-    <auth v-on:back="back"></auth>
+    <auth
+      :formName="formName"
+      :showAuthForm="showAuthForm"
+      v-on:back="back"
+      v-on:showFlash="doShowFlash"
+      v-on:hideFlash="doHideFlash">
+    </auth>
+    <logged-in-flash :showFlash="showFlash"></logged-in-flash>
   </div>
 </template>
 
 <script>
   import Auth from './Auth';
+  import LoggedInFlash from './LoggedInFlash.vue';
   import {mapState} from 'vuex';
 
   export default {
     name: 'top',
     components: {
-      Auth
+      Auth,
+      LoggedInFlash
     },
     data () {
       return {
-        msg: 'Book Trading App'
+        msg: 'Book Trading App',
+        showAuthForm: false,
+        formName: "",
+        showFlash: false
       }
     },
     computed: mapState({
-      isLoggedIn: state => state.isLoggedIn,
-      showForm: state => state.showAuthForm
+      isLoggedIn: state => state.isLoggedIn
     }),
     methods: {
       showLoginForm: function () {
-        this.$store.commit('changeSelectedForm', "Login");
-        this.$store.commit('showAuthForm');
+        this.showAuthForm = true;
+        this.formName = "LogIn";
       },
       showSignUpForm: function () {
-        this.$store.commit('changeSelectedForm', "SignUp");
-        this.$store.commit('showAuthForm');
+        this.showAuthForm = true;
+        this.formName = "SignUp";
       },
       back: function () {
-        this.$store.commit('changeSelectedForm', "");
-        this.$store.commit('hideAuthForm');
+        this.showAuthForm = false;
+        this.formName = "";
+      },
+      doShowFlash: function () {
+        this.showFlash = true;
+      },
+      doHideFlash: function () {
+        this.showFlash = false;
       }
     }
   }

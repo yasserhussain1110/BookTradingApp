@@ -1,17 +1,14 @@
 <template>
-  <div class="flash" v-bind:class="{show: show}">
+  <div class="flash" v-bind:class="{show: showFlash}">
     <strong>Success!!</strong>
     <span>You are logged In!</span>
   </div>
 </template>
 
 <script>
-  import {mapState} from 'vuex';
   export default {
     name: 'logged-in-flash',
-    computed: mapState({
-      show: state => state.justLoggedIn
-    }),
+    props: ["showFlash"]
   };
 </script>
 
@@ -30,10 +27,10 @@
     color: #3c763d;
     font-size: 0.9em;
     opacity: 0.9;
-    transition: top 0.5s;
+    transition: top 0.8s;
   }
 
   .show {
-    top: 0;
+    top: 10px;
   }
 </style>

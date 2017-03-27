@@ -10,60 +10,75 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     isLoggedIn: false,
-    selectedForm: "",
-    showAuthForm: false,
     user: null,
     books: [],
     token: "",
-    justLoggedIn: false,
-    navigationSection: {
-      name: "my-books", // my-books, my-requests
-      subSection: null   // requests-by-me, requests-for-me
-    }
+    tradeRequestsByMe: [],
+    tradeRequestsForMe: [],
+    navigation: "allBooks", // One of [allBooks, myBooks, addBook, tradeRequestsByMe, tradeRequestsForMe ]
+    viewType: "bookList",   // One of [bookDetail, bookList, tradeRequestDetail, tradeRequestList, addBookForm]
+    viewObject: null
   },
   mutations: {
-    noSubSection(state){
-      state.navigationSection.subSection = null;
-    },
-    changeSubSection(state, sub) {
-      if (state.navigationSection.name === "my-requests") {
-        state.navigationSection.subSection = sub;
-      }
-    },
-    changeMainNav(state, newNav) {
-      state.navigationSection.name = newNav;
-      state.navigationSection.subSection = null;
-    },
     loggedIn (state) {
       state.isLoggedIn = true;
     },
     loggedOff(state) {
       state.isLoggedIn = false;
     },
-    changeSelectedForm(state, formName) {
-      state.selectedForm = formName;
-    },
     gotUser(state, user) {
       state.user = user;
     },
     gotBooks(state, books) {
-      console.log("got books", books);
       state.books = books;
     },
     gotToken(state, token) {
       state.token = token;
     },
-    showAuthForm(state) {
-      state.showAuthForm = true;
+    showAllBooks(state) {
+      state.navigation = "allBooks";
+      state.viewType = "bookList";
+      state.viewObject = null;
     },
-    hideAuthForm(state) {
-      state.showAuthForm = false;
+    showAllMyBooks(state) {
+      state.navigation = "myBooks";
+      state.viewType = "bookList";
+      state.viewObject = null;
     },
-    hasJustLoggedIn(state) {
-      state.justLoggedIn = true;
+    showAParticularBook(state, bookId) {
+      state.navigation = "allBooks";
+      state.viewType = "bookDetail";
+      state.viewObject = bookId;
     },
-    someTimePassedSinceLoggingIn(state) {
-      state.justLoggedIn = false;
+    showMyParticularBook(state, bookId) {
+      state.navigation = "myBooks";
+      state.viewType = "bookDetail";
+      state.viewObject = bookId;
+    },
+    showTradeRequestsForMe(state) {
+      state.navigation = "tradeRequestsForMe";
+      state.viewType = "tradeRequestList";
+      state.viewObject = null;
+    },
+    showTradeRequestsByMe(state) {
+      state.navigation = "tradeRequestsByMe";
+      state.viewType = "tradeRequestList";
+      state.viewObject = null;
+    },
+    showATradeRequestsForMe(state, trId) {
+      state.navigation = "tradeRequestsForMe";
+      state.viewType = "tradeRequestDetail";
+      state.viewObject = trId;
+    },
+    showATradeRequestsByMe(state, trId) {
+      state.navigation = "tradeRequestsByMe";
+      state.viewType = "tradeRequestDetail";
+      state.viewObject = trId;
+    },
+    showAddBookForm(state) {
+      state.navigation = "addBook";
+      state.viewType = "addBookForm";
+      state.viewObject = null;
     }
   }
 });

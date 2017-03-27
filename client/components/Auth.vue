@@ -25,24 +25,22 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex';
   import 'font-awesome/css/font-awesome.css';
 
   export default {
     name: 'auth',
-    created: function () {
-      console.log(this);
-    },
+    props: ["showAuthForm", "formName"],
     data () {
       return {
         email: "",
         password: ""
       }
     },
-    computed: mapState({
-      formName: state => state.selectedForm,
-      showOrHideClass: state => state.showAuthForm ? "show" : "hide"
-    }),
+    computed: {
+      showOrHideClass: function () {
+        return this.showAuthForm ? "show" : "hide";
+      }
+    },
     methods: {
       goBack: function () {
         this.$emit('back');
@@ -56,10 +54,10 @@
             this.$store.commit('loggedIn');
             this.$store.commit('gotUser', user);
             this.$store.commit('gotToken', token);
-            this.$store.commit('hideAuthForm');
-            this.$store.commit('hasJustLoggedIn');
+            this.$emit("back");
+            this.$emit("showFlash");
             setTimeout(() => {
-              this.$store.commit('someTimePassedSinceLoggingIn');
+              this.$emit('hideFlash');
             }, 2000);
           })
           .catch(e => {
