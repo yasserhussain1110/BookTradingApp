@@ -50,7 +50,7 @@
         this.$http.post('/login', {email, password})
           .then(res => {
             let token = res.headers.map['x-auth'][0];
-            let user = res.user;
+            let user = res.body;
             this.$store.commit('loggedIn');
             this.$store.commit('gotUser', user);
             this.$store.commit('gotToken', token);

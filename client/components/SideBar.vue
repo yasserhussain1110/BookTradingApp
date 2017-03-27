@@ -13,6 +13,7 @@
 
       <li
         class="nav option"
+        v-if="isLoggedIn"
         v-on:click="showAllMyBooks"
         v-bind:class="{'nav-selected': isSelected('myBooks')}">
         <a
@@ -23,6 +24,7 @@
 
       <li
         class="nav option"
+        v-if="isLoggedIn"
         v-on:click="showAddBookForm"
         v-bind:class="{'nav-selected': isSelected('addBook')}">
         <a
@@ -33,6 +35,7 @@
 
       <li
         class="nav option"
+        v-if="isLoggedIn"
         v-on:click="showTradeRequestsByMe"
         v-bind:class="{'nav-selected': isSelected('tradeRequestsByMe')}">
         <a
@@ -43,6 +46,7 @@
 
       <li
         class="nav option"
+        v-if="isLoggedIn"
         v-on:click="showTradeRequestsForMe"
         v-bind:class="{'nav-selected': isSelected('tradeRequestsForMe')}">
         <a
@@ -65,7 +69,8 @@
   export default {
     name: 'side-bar',
     computed: mapState({
-      navigation: state => state.navigation
+      navigation: state => state.navigation,
+      isLoggedIn: state => state.isLoggedIn
     }),
     methods: {
       isSelected: function (nav) {
