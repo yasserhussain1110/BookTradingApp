@@ -3,9 +3,9 @@
     <ul class="parent-list">
       <li
         class="nav option"
-        v-bind:class="[nav.name==='all-books' ? 'nav-selected' : '']">
+        v-on:click="showAllBooks"
+        v-bind:class="{'nav-selected': isSelected('allBooks')}">
         <a
-          v-on:click="changeMainNav('all-books')"
           class="link parent-link no-sub-link">
           All Books
         </a>
@@ -13,9 +13,9 @@
 
       <li
         class="nav option"
-        v-bind:class="[nav.name==='my-books' ? 'nav-selected' : '']">
+        v-on:click="showAllMyBooks"
+        v-bind:class="{'nav-selected': isSelected('myBooks')}">
         <a
-          v-on:click="changeMainNav('my-books')"
           class="link parent-link no-sub-link">
           My Books
         </a>
@@ -23,19 +23,32 @@
 
       <li
         class="nav option"
-        v-bind:class="[nav.name==='my-requests' ? 'nav-selected' : '']">
+        v-on:click="showAddBookForm"
+        v-bind:class="{'nav-selected': isSelected('addBook')}">
         <a
-          id="my-requests"
-          v-on:click="changeMainNav('my-requests')"
-          class="link parent-link">
-
-          <span>My Requests</span>
+          class="link parent-link no-sub-link">
+          Add Book
         </a>
+      </li>
 
-        <ul class="hide sub-options-holder">
-          <li class="nav sub-option">Requests By Me</li>
-          <li class="nav sub-option">Requests For Me</li>
-        </ul>
+      <li
+        class="nav option"
+        v-on:click="showTradeRequestsByMe"
+        v-bind:class="{'nav-selected': isSelected('tradeRequestsByMe')}">
+        <a
+          class="link parent-link no-sub-link">
+          Requests By Me
+        </a>
+      </li>
+
+      <li
+        class="nav option"
+        v-on:click="showTradeRequestsForMe"
+        v-bind:class="{'nav-selected': isSelected('tradeRequestsForMe')}">
+        <a
+          class="link parent-link no-sub-link">
+          Requests For Me
+        </a>
       </li>
     </ul>
 
@@ -47,28 +60,24 @@
 
 <script>
   import 'font-awesome/css/font-awesome.css';
-  import {mapState} from 'vuex';
+  import {mapState, mapMutations} from 'vuex';
 
   export default {
     name: 'side-bar',
-    props: [],
-    created: function () {
-      console.log(this);
-    },
-    data () {
-      return {}
-    },
-    computed: {
-      localComputed () {
-      },
-      ...mapState({
-        nav: state => state.navigationSection
-      })
-    },
+    computed: mapState({
+      navigation: state => state.navigation
+    }),
     methods: {
-      changeMainNav: function (newNav) {
-        this.$store.commit('changeMainNav', newNav);
-      }
+      isSelected: function (nav) {
+        return this.navigation === nav;
+      },
+      ...mapMutations([
+        'showAllBooks', // map this.showAllBooks() to this.$store.commit('showAllBooks')
+        'showAllMyBooks',
+        'showAddBookForm',
+        'showTradeRequestsByMe',
+        'showTradeRequestsForMe'
+      ])
     }
   }
 </script>
@@ -100,7 +109,7 @@
     border-radius: 10px;
     margin-top: 30px;
     display: inline-block;
-    color: #AFFAD0;
+    color: white;
   }
 
   .nav > a {
@@ -125,9 +134,6 @@
     list-style: none;
     padding: 5px;
     border-radius: 5px;
-  }
-
-  a {
     text-decoration: none;
     cursor: pointer;
   }
@@ -151,6 +157,7 @@
   }
 
   .collapse {
+    color: black;
     position: absolute;
     width: 40px;
     height: 40px;
