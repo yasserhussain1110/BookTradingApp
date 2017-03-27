@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "build": "webpack",
-    "test": "NODE_ENV=test mocha server/tests/*.test.js"
+    "test": "NODE_ENV=test mocha server/tests/*.test.js",
+    "fill": "node server/fillDB.js"
   },
   "keywords": [
     "FCC",
