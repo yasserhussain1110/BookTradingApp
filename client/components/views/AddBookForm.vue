@@ -9,7 +9,7 @@
     <div class="filler"></div>
     <div
       class="button add-button"
-      v-bind:class="{clickable: selectedBooks.length}"
+      v-bind:class="{clickable: Object.keys(selectedBooks).length}"
       v-on:click="sendBooksToServer">
       Add Book(s)
     </div>
@@ -37,6 +37,7 @@
 
 <script>
   import 'font-awesome/css/font-awesome.css';
+  import _ from 'lodash';
   import {mapState} from 'vuex';
 
   const clip = content => {
@@ -57,44 +58,44 @@
     data () {
       return {
         title: "",
-        selectedBooks: [],
+        selectedBooks: {},
         books: []
       }
     },
     methods: {
       sendBooksToServer: function () {
-        let booksToSend = this.selectedBooks.map(booksIndex => this.books[booksIndex]);
+        let booksToSend = Object.keys(this.selectedBooks).map(booksIndex => this.books[booksIndex]);
+        /**
+         Response structure example
+         {
+           2 : {
+             success: true,
+             book : {
+               title: "Harry Potter",
+               ...
+             }
+           },
+           7: {
+             success: false,
+             error: {
+               errorMsg: "Something bad happened",
+               ...
+             }
+           }
+         }
+         **/
         this.$http.put('/books', booksToSend, {
           headers: {
             'x-auth': this.token
           }
         }).then(res => {
-          /*
-           Response structure example
-           {
-             2 : {
-               success: true,
-               book : {
-                 title: "Harry Potter",
-                 ...
-               }
-             },
-             7: {
-               success: false,
-               error: {
-                 errorMsg: "Something bad happened",
-                 ...
-               }
-             }
-           }
-           */
           let books = Object.keys(res.body).map(key => {
             return res.body[key];
           }).map(sendBookResult => {
             return sendBookResult.book;
           });
           this.$store.commit('gotBooks', books);
-          this.selectedBooks = [];
+          this.selectedBooks = {};
           console.log("all books added");
         }).catch(res => {
           let successfullyAddedBooks = Object.keys(res.body).map(key => {
@@ -105,24 +106,19 @@
             return sendBookResult.book;
           });
           this.$store.commit('gotBooks', books);
-          this.selectedBooks = [];
+          this.selectedBooks = {};
           console.log(`${successfullyAddedBooks.length} books added successfully`);
         });
       },
       isSelected: function (bookIndex) {
-        return this.selectedBooks.includes(bookIndex);
+        return !!this.selectedBooks[bookIndex];
       },
       clickOnBook: function (bookIndex) {
         this.hideTooltip();
-        // [0, 5, 8] selected book indices
-        let bookListIndex = this.selectedBooks.indexOf(bookIndex);
-        if (bookListIndex === -1) {
-          this.selectedBooks = [...this.selectedBooks, bookIndex];
+        if (this.selectedBooks[bookIndex]) {
+          this.selectedBooks = _.pickBy(this.selectedBooks, (value, key) => key !== String(bookIndex));
         } else {
-          this.selectedBooks = [
-            ...this.selectedBooks.slice(0, bookListIndex),
-            ...this.selectedBooks.slice(bookListIndex + 1)
-          ];
+          this.selectedBooks = _.set(_.clone(this.selectedBooks), bookIndex, true);
         }
       },
       hideTooltip: function () {
@@ -142,7 +138,7 @@
             .then(res => {
               let books = res.body;
               this.books = books;
-              this.selectedBooks = [];
+              this.selectedBooks = {};
             })
             .catch(e => console.log(e));
         }
