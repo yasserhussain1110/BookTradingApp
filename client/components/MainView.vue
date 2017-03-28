@@ -1,9 +1,9 @@
 <template>
-  <book-list v-if="viewType === 'bookList'"></book-list>
-  <book-detail v-else-if="viewType === 'bookDetail'"></book-detail>
-  <add-book-form v-else-if="viewType === 'addBookForm'"></add-book-form>
-  <trade-request-detail v-else-if="viewType === 'tradeRequestDetail'"></trade-request-detail>
-  <trade-request-list v-else-if="viewType === 'tradeRequestList'"></trade-request-list>
+  <book-list class="view" v-if="viewType === 'bookList'"></book-list>
+  <book-detail class="view" v-else-if="viewType === 'bookDetail'"></book-detail>
+  <add-book-form class="view" v-else-if="viewType === 'addBookForm'"></add-book-form>
+  <trade-request-detail class="view" v-else-if="viewType === 'tradeRequestDetail'"></trade-request-detail>
+  <trade-request-list class="view" v-else-if="viewType === 'tradeRequestList'"></trade-request-list>
 </template>
 
 <script>
@@ -39,4 +39,15 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .view {
+    box-sizing: border-box;
+    vertical-align: top;
+    margin-top: 30px;
+    margin-left: 20px;
+    background-color: white;
+    border: 2px solid #008000;
+    border-radius: 20px;
+    padding: 2% 3% 1% 3%;
+    height: 0%;
+  }
 </style>

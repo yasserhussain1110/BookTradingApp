@@ -36,17 +36,6 @@
 </script>
 
 <style scoped>
-  .book-list {
-    box-sizing: border-box;
-    vertical-align: top;
-    margin-top: 30px;
-    margin-left: 20px;
-    background-color: white;
-    border: 2px solid #008000;
-    border-radius: 20px;
-    padding: 2% 3% 1% 3%;
-    height: 0%;
-  }
 
   .gallery {
     background-color: white;

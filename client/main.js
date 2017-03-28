@@ -30,7 +30,7 @@ const store = new Vuex.Store({
       state.user = user;
     },
     gotBooks(state, books) {
-      state.books = books;
+      state.books = [...state.books, ...books];
     },
     gotToken(state, token) {
       state.token = token;

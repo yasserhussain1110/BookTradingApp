@@ -3,7 +3,8 @@ const request = require('supertest');
 const googleBooksAPI = require('google-books-search-2');
 
 const options = {
-  key: process.env.GOOGLE_API_KEY
+  key: process.env.GOOGLE_API_KEY,
+  limit: 30
 };
 
 const handleIdentityIfFound = (req, res, next) => {
@@ -77,7 +78,10 @@ const addNonAPIRoutes = app => {
         return googleBooksAPI.search(title, options);
       })
       .then(googleResults => {
-        let sendableResults = googleResults.slice(0, 10).map(pullOfRequiredInfoFromBookResult);
+        let sendableResults =
+          googleResults
+            .filter(isBookDescriptionTruthy)
+            .map(pullOfRequiredInfoFromBookResult);
         res.send(sendableResults);
       })
       .catch(e => {
@@ -85,6 +89,10 @@ const addNonAPIRoutes = app => {
         res.sendStatus(403);
       });
   });
+};
+
+const isBookDescriptionTruthy = book => {
+  return !!book.description;
 };
 
 const pullOfRequiredInfoFromBookResult = book => {
