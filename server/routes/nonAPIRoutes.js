@@ -1,5 +1,10 @@
 const User = require('../models/user');
 const request = require('supertest');
+const googleBooksAPI = require('google-books-search-2');
+
+const options = {
+  key: process.env.GOOGLE_API_KEY
+};
 
 const handleIdentityIfFound = (req, res, next) => {
   if (req.session && req.session.identity) {
@@ -17,9 +22,33 @@ const handleIdentityIfFound = (req, res, next) => {
   }
 };
 
+const authorizeUser = (req) => {
+  return new Promise((resolve, reject) => {
+    if (req.session && req.session.identity) {
+      let identity = req.session.identity;
+      User.findByToken(identity.token)
+        .then(user => {
+          resolve(user);
+        })
+        .catch(e => {
+          req.session.identity = null;
+          reject("Not Authorized");
+        });
+    } else {
+      reject("Not Authorized");
+    }
+  });
+};
+
 const addNonAPIRoutes = app => {
   app.get('/identity', handleIdentityIfFound, (req, res) => {
-    res.sendStatus(404);
+    authorizeUser(req)
+      .then(user => {
+        res.header('x-auth', req.session.identity.token).status(200).send(user);
+      })
+      .catch(() => {
+        res.sendStatus(404);
+      });
   });
 
   app.post('/login', handleIdentityIfFound, (req, res) => {
@@ -40,6 +69,31 @@ const addNonAPIRoutes = app => {
         res.status(apiRes.statusCode).header('x-auth', token).send(apiRes.body);
       });
   });
+
+  app.post('/searchBook', (req, res) => {
+    authorizeUser(req)
+      .then(() => {
+        let title = req.body.title;
+        return googleBooksAPI.search(title, options);
+      })
+      .then(googleResults => {
+        let sendableResults = googleResults.slice(0, 10).map(pullOfRequiredInfoFromBookResult);
+        res.send(sendableResults);
+      })
+      .catch(e => {
+        console.error(e);
+        res.sendStatus(403);
+      });
+  });
+};
+
+const pullOfRequiredInfoFromBookResult = book => {
+  let {title, description, thumbnail} = book;
+  return {
+    title,
+    description,
+    thumbnailURL: thumbnail
+  }
 };
 
 module.exports = addNonAPIRoutes;
