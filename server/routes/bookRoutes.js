@@ -6,28 +6,14 @@ const options = {
   key: process.env.GOOGLE_API_KEY
 };
 
-const addSingleBook = (book, req, res) => {
-  new Book(Object.assign({}, book, {
-    _ownedBy: req.user._id,
-    _addedBy: req.user._id
-  }))
-    .save()
-    .then(book => {
-      sendResults(book, res, true);
-    })
-    .catch(e => {
-      sendResults(e, res, false);
-    });
-};
-
-const addMultipleBooks = (books, req, res) => {
+const addMultipleBooks = (books, request, response) => {
   let total = books.length;
-  let results = {};
+  let results = [];
   let atLeastOneSucceeded = false;
   books.forEach((book, index) => {
     new Book(Object.assign({}, book, {
-      _ownedBy: req.user._id,
-      _addedBy: req.user._id
+      _ownedBy: request.user._id,
+      _addedBy: request.user._id
     })).save()
       .then(book => {
         results[index] = {
@@ -37,7 +23,7 @@ const addMultipleBooks = (books, req, res) => {
         atLeastOneSucceeded = true;
         total--;
         if (total === 0) {
-          sendResults(results, res, atLeastOneSucceeded);
+          sendResults(results, response, atLeastOneSucceeded);
         }
       })
       .catch(error => {
@@ -47,15 +33,15 @@ const addMultipleBooks = (books, req, res) => {
         };
         total--;
         if (total === 0) {
-          sendResults(results, res, atLeastOneSucceeded);
+          sendResults(results, response, atLeastOneSucceeded);
         }
       });
   });
 };
 
-const sendResults = (results, res, status) => {
+const sendResults = (results, response, status) => {
   let statusCode = status ? 201 : 400;
-  res.status(statusCode).send(results);
+  response.status(statusCode).send(results);
 };
 
 const addBookRoutes = app => {
@@ -66,7 +52,7 @@ const addBookRoutes = app => {
     }).catch(e => {
       console.log(e);
       res.status(400).send(e);
-    })
+    });
   });
 
   app.get('/books/:id', (req, res) => {
@@ -77,14 +63,14 @@ const addBookRoutes = app => {
     }).catch(e => {
       console.log(e);
       res.status(400).send(e);
-    })
+    });
   });
 
   app.put('/books', auth, (req, res) => {
     if (Array.isArray(req.body)) {
       addMultipleBooks(req.body, req, res);
     } else if (typeof req.body === 'object') {
-      addSingleBook(req.body, req, res);
+      addMultipleBooks([req.body], req, res);
     } else {
       res.status(400);
     }
@@ -114,7 +100,7 @@ const addBookRoutes = app => {
     }).catch(e => {
       console.log(e);
       res.status(400).send(e);
-    })
+    });
   });
 };
 

@@ -64,47 +64,44 @@
     },
     methods: {
       sendBooksToServer: function () {
-        let booksToSend = Object.keys(this.selectedBooks).map(booksIndex => this.books[booksIndex]);
-        /**
-         Response structure example
+        if (_.isEmpty(this.selectedBooks)) return;
+
+        let booksToSend = Object.keys(this.selectedBooks).map(bookIndex => this.books[bookIndex]);
+
+        /** Response structure example for api PUT '/books'
+         [
          {
-           2 : {
-             success: true,
-             book : {
-               title: "Harry Potter",
-               ...
-             }
-           },
-           7: {
-             success: false,
-             error: {
-               errorMsg: "Something bad happened",
-               ...
-             }
+           success: true,
+           book: {
+             title: "Harry Potter",
+             ...
+           }
+         },
+         {
+           success: false,
+           error: {
+             errorMsg: "Something bad happened",
+             ...
            }
          }
+         ];
          **/
+
         this.$http.put('/books', booksToSend, {
           headers: {
             'x-auth': this.token
           }
         }).then(res => {
-          let books = Object.keys(res.body).map(key => {
-            return res.body[key];
-          }).map(sendBookResult => {
-            return sendBookResult.book;
-          });
+          let books = res.body.map(sendBookResult => sendBookResult.book);
+
           this.$store.commit('gotBooks', books);
           this.selectedBooks = {};
           console.log("all books added");
         }).catch(res => {
-          let successfullyAddedBooks = Object.keys(res.body).map(key => {
-            return res.body[key];
-          }).filter(sendBookResult => {
-            return sendBookResult.status;
-          }).map(sendBookResult => {
-            return sendBookResult.book;
-          });
+          let successfullyAddedBooks = res.body
+            .filter(sendBookResult => sendBookResult.status)
+            .map(sendBookResult => sendBookResult.book);
+
           this.$store.commit('gotBooks', books);
           this.selectedBooks = {};
           console.log(`${successfullyAddedBooks.length} books added successfully`);
@@ -125,8 +122,8 @@
         document.querySelector(".tooltip").style.display = "none";
       },
       showTooltip: function (book, event) {
-        document.querySelector(".tooltip").style.top = (event.pageY - 160) + "px";
-        document.querySelector(".tooltip").style.left = (event.pageX - 300) + "px";
+        document.querySelector(".tooltip").style.top = (event.pageY - 180) + "px";
+        document.querySelector(".tooltip").style.left = (event.pageX - 320) + "px";
         document.querySelector(".tooltip").style.display = "initial";
         document.querySelector(".tooltip .title").innerHTML = book.title;
         document.querySelector(".tooltip .description").innerHTML = clip(book.description);
@@ -155,8 +152,8 @@
     top: 0;
     left: 0;
     position: absolute;
-    width: 300px;
-    padding: 20px 40px;
+    width: 250px;
+    padding: 20px 10px;
     font-size: 15px;
     opacity: 0.8;
     border-radius: 30px;
