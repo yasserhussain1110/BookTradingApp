@@ -29,8 +29,17 @@ const store = new Vuex.Store({
     gotUser(state, user) {
       state.user = user;
     },
+    attachOwnerInfoToBook(state, {book, owner}){
+      let bookIndex = state.books.indexOf(book);
+      state.books = [
+        ...state.books.slice(0, bookIndex),
+        Object.assign({}, state.books[bookIndex], {_ownedBy: owner}),
+        ...state.books.slice(bookIndex + 1)
+      ];
+      state.viewObject = state.books[bookIndex];
+    },
     removeBook(state, bookId) {
-      state.books = state.books.filter(book=>book._id !== bookId);
+      state.books = state.books.filter(book => book._id !== bookId);
     },
     gotBooks(state, books) {
       state.books = [...state.books, ...books];

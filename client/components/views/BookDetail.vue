@@ -15,7 +15,7 @@
 
       <div class="info">
         <label><strong><u>Owned By:</u></strong></label>
-        <span>{{bookOwner.email}}</span>
+        <span>{{bookOwnerEmail}}</span>
       </div>
 
       <div class="info">
@@ -38,24 +38,14 @@
   import {clip} from '../../lib/helper';
   export default {
     name: "book-detail",
-    data() {
-      return {
-        /**
-         * Need a new property 'bookOwner', can't add owner
-         * info to 'bookShowing' prop because it is a
-         * computed prop. Can't really update it.
-         */
-        bookOwner: {email: ""}
-      };
-    },
     beforeMount() {
-      this.$http.get(`/users/${this.bookShowing._ownedBy}`, {
-        headers: {'x-auth': this.token}
-      }).then(res => {
-        this.bookOwner = res.body;
-      }).catch(e => {
-        console.error(e);
-      });
+      if (typeof this.bookShowing._ownedBy === 'string') {
+        this.$http.get(`/users/${this.bookShowing._ownedBy}`).then(res => {
+          this.$store.commit('attachOwnerInfoToBook', {book: this.bookShowing, owner: res.body});
+        }).catch(e => {
+          console.error(e);
+        });
+      }
     },
     computed: {
       ...mapState({
@@ -69,6 +59,13 @@
       },
       clippedDescription: function () {
         return clip(this.bookShowing.description, 500);
+      },
+      bookOwnerEmail: function () {
+        if (typeof this.bookShowing._ownedBy === 'string') {
+          return "";
+        } else {
+          return this.bookShowing._ownedBy.email;
+        }
       }
     },
     methods: {
@@ -131,6 +128,5 @@
   .info {
     margin: 10px;
   }
-
 
 </style>
