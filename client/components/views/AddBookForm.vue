@@ -39,14 +39,7 @@
   import 'font-awesome/css/font-awesome.css';
   import _ from 'lodash';
   import {mapState} from 'vuex';
-
-  const clip = content => {
-    if (content.length > 150) {
-      return content.slice(0, 147) + "...";
-    } else {
-      return content;
-    }
-  };
+  import {clip} from '../../lib/helper'
 
   export default {
     name: "add-book-form",
@@ -126,7 +119,7 @@
         document.querySelector(".tooltip").style.left = (event.pageX - 320) + "px";
         document.querySelector(".tooltip").style.display = "initial";
         document.querySelector(".tooltip .title").innerHTML = book.title;
-        document.querySelector(".tooltip .description").innerHTML = clip(book.description);
+        document.querySelector(".tooltip .description").innerHTML = clip(book.description, 150);
       },
       search: function () {
         let {title} = this;

@@ -16,6 +16,15 @@ const addUserRoutes = app => {
       });
   });
 
+  app.get('/users/:id', (req, res) => {
+    let userId = req.params.id;
+    User.findById(userId).then(user => {
+      res.send(user);
+    }).catch(e => {
+      res.status(404).send();
+    });
+  });
+
   app.post('/users/me', auth, (req, res) => {
     res.send(req.user);
   });

@@ -1,7 +1,7 @@
 <template>
   <div class="book-list">
     <div class="gallery" v-for="(book, index) in booksToShow">
-      <a><img :src="book.thumbnailURL"/></a>
+      <a v-on:click="showBookDetail(book)"><img :src="book.thumbnailURL"/></a>
     </div>
 
     <div class="pager">
@@ -20,18 +20,36 @@
       ...mapState({
         whoseBooks: state => state.navigation,
         books: state => state.books,
-        userId: state => state.user._id
+        user: state => state.user
       }),
       booksToShow: function () {
         if (this.whoseBooks === "allBooks") {
           return this.books;
         } else if (this.whoseBooks === "myBooks") {
-          return this.books.filter(book => book._ownedBy === this.userId);
+          return this.books.filter(book => book._ownedBy === this.user._id);
         } else {
           console.log("Severe Error: Neither 'allBooks' nor 'myBooks'");
         }
       }
-    }
+    },
+    methods: {
+      showBookDetail: function (book) {
+        // If user has not logged in
+        if (this.user === null) {
+          return this.$store.commit('showAParticularBook', book);
+        }
+
+        if (this.whoseBooks === "myBooks") {
+          this.$store.commit('showMyParticularBook', book);
+        } else if (this.whoseBooks === "allBooks") {
+          if (book._ownedBy === this.user._id) {
+            this.$store.commit('showMyParticularBook', book);
+          } else {
+            this.$store.commit('showAParticularBook', book);
+          }
+        }
+      }
+    },
   }
 </script>
 

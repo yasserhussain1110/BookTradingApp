@@ -69,7 +69,7 @@
     text-decoration: none;
   }
 
-  a:hover {
+  a:hover, button:hover {
     text-decoration: none;
     cursor: pointer;
   }

@@ -29,6 +29,9 @@ const store = new Vuex.Store({
     gotUser(state, user) {
       state.user = user;
     },
+    removeBook(state, bookId) {
+      state.books = state.books.filter(book=>book._id !== bookId);
+    },
     gotBooks(state, books) {
       state.books = [...state.books, ...books];
     },
@@ -45,15 +48,15 @@ const store = new Vuex.Store({
       state.viewType = "bookList";
       state.viewObject = null;
     },
-    showAParticularBook(state, bookId) {
+    showAParticularBook(state, bookObject) {
       state.navigation = "allBooks";
       state.viewType = "bookDetail";
-      state.viewObject = bookId;
+      state.viewObject = bookObject;
     },
-    showMyParticularBook(state, bookId) {
+    showMyParticularBook(state, bookObject) {
       state.navigation = "myBooks";
       state.viewType = "bookDetail";
-      state.viewObject = bookId;
+      state.viewObject = bookObject;
     },
     showTradeRequestsForMe(state) {
       state.navigation = "tradeRequestsForMe";
