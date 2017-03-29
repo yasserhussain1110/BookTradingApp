@@ -1,4 +1,5 @@
 const {seedUsers, seedBooks, seedTradeRequests} = require('../seed/seed');
+const {ObjectID} = require('mongodb');
 
 const userOneId = seedUsers[0]._id;
 
@@ -88,10 +89,18 @@ const moreBooks = [{
   _addedBy: userOneId
 }];
 
+const moreUsers = [{
+  _id: new ObjectID(),
+  email: 'yasser@gmail.com',
+  name: "Yasser Hussain",
+  password: 'abc123'
+}];
+
 const allBooks = seedBooks.concat(moreBooks);
+const allUsers = seedUsers.concat(moreUsers);
 
 module.exports = {
-  users: seedUsers,
+  users: allUsers,
   books: allBooks,
   tradeRequests: seedTradeRequests
 };
