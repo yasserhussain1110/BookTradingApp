@@ -37,24 +37,6 @@
 
 <style scoped>
 
-  .gallery {
-    background-color: white;
-    display: inline-block;
-    margin: 5px;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 5px;
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: none;
-    cursor: pointer;
-  }
-
   .pager {
     text-align: center;
     margin-top: 50px;

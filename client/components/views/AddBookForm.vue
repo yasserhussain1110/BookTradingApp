@@ -239,21 +239,8 @@
     outline: none;
   }
 
-  .gallery {
-    background-color: white;
-    display: inline-block;
-    margin: 5px;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 5px;
-  }
-
   .selected {
     border: 4px solid green;
     padding: 2px;
-  }
-
-  a:hover {
-    cursor: pointer;
   }
 </style>
