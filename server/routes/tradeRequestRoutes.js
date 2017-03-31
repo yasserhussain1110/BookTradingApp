@@ -4,6 +4,13 @@ const auth = require('../middleware/auth');
 
 const addTradeRequestRoutes = app => {
 
+  app.get('/tradeRequests/byMe', auth, (req, res) => {
+    let user = req.user;
+    TradeRequest.find({_requester: user._id}).then(tradeRequests => {
+      res.send(tradeRequests);
+    }).catch(e => console.log("Error Occurred"));
+  });
+
   app.post('/tradeRequests', auth, (req, res) => {
     let user = req.user;
     let {requestedBook, exchangeBook} = req.body;

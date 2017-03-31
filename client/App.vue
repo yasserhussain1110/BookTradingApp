@@ -16,10 +16,6 @@
       AppBody
     },
     created: function () {
-      this.$http.get('/books').then(res => {
-        this.$store.commit('gotBooks', res.body);
-      }).catch(e => console.log("weird error", e));
-
       this.$http.get("/identity")
         .then(res => {
           let token = res.headers.map['x-auth'][0];
@@ -31,6 +27,10 @@
         .catch(res => {
           this.$store.commit('loggedOff');
         });
+
+      this.$http.get('/books').then(res => {
+        this.$store.commit('gotBooks', res.body);
+      }).catch(e => console.log("weird error", e));
     }
   }
 </script>
