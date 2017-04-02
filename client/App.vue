@@ -8,6 +8,8 @@
 <script>
   import Top from './components/Top';
   import AppBody from './components/AppBody.vue';
+  import {mapState} from 'vuex';
+  import {getBooks, getIdentity, getTradeRequestsByMe, getTradeRequestsForMe}  from './lib/fetchMoreInfo';
 
   export default {
     name: 'app',
@@ -15,22 +17,17 @@
       Top,
       AppBody
     },
+    computed: {
+      ...mapState({
+        token: state => state.token
+      })
+    },
     created: function () {
-      this.$http.get("/identity")
-        .then(res => {
-          let token = res.headers.map['x-auth'][0];
-          let user = res.body;
-          this.$store.commit('loggedIn');
-          this.$store.commit('gotUser', user);
-          this.$store.commit('gotToken', token);
-        })
-        .catch(res => {
-          this.$store.commit('loggedOff');
-        });
-
-      this.$http.get('/books').then(res => {
-        this.$store.commit('gotBooks', res.body);
-      }).catch(e => console.log("weird error", e));
+      getIdentity.bind(this)().then(() => {
+        getTradeRequestsByMe.bind(this)();
+        getTradeRequestsForMe.bind(this)();
+      });
+      getBooks.bind(this)();
     }
   }
 </script>

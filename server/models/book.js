@@ -40,12 +40,10 @@ const BookSchema = mongoose.Schema({
   }
 });
 
-/**
- BookSchema.methods.toJSON = function() {
+BookSchema.methods.toJSON = function () {
   let book = this;
   return _.pick(book, ['title', 'description', 'thumbnailURL', '_ownedBy', '_addedBy']);
 };
- */
 
 const Book = mongoose.model('Book', BookSchema);
 

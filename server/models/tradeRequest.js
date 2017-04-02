@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Book = require('./book');
+const _ = require('lodash');
 
 const TradeRequestSchema = mongoose.Schema({
   status: {
@@ -48,6 +50,26 @@ TradeRequestSchema.statics.ensureTradeRequestIsForUser = function (trId, userId)
     });
 };
 
+TradeRequestSchema.statics.findAllTradeRequestsByUser = function (userId) {
+  return TradeRequest.find({_requester: userId})
+    .populate('_requestedBook')
+    .populate('_exchangeBook')
+    .populate('_requester');
+};
+
+TradeRequestSchema.statics.findAllTradeRequestsForUser = function (userId) {
+  let TradeRequest = this;
+
+  return Book.find({_ownedBy: userId}, {_id: 1}).then(books => {
+    return books.map(book => book._id);
+  }).then(bookIds => {
+    return TradeRequest.find({_requestedBook: {$in: bookIds}})
+      .populate('_requestedBook')
+      .populate('_exchangeBook')
+      .populate('_requester');
+  });
+};
+
 TradeRequestSchema.statics.rejectOrCloseRelatedRequestsInvolvingSameBooks = function (tr) {
   let TradeRequest = this;
 
@@ -90,6 +112,11 @@ TradeRequestSchema.statics.rejectOrCloseRelatedRequestsInvolvingSameBooks = func
         }, {status: "closed"})
       }
     });
+};
+
+TradeRequestSchema.methods.toJSON = function () {
+  let tradeRequest = this;
+  return _.pick(tradeRequest, ['status', '_requester', '_requestedBook', '_exchangeBook']);
 };
 
 const TradeRequest = mongoose.model('TradeRequest', TradeRequestSchema);

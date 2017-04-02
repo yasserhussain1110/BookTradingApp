@@ -26,6 +26,8 @@
 
 <script>
   import 'font-awesome/css/font-awesome.css';
+  import {mapState} from 'vuex';
+  import {login, getTradeRequestsByMe, getTradeRequestsForMe} from '../lib/fetchMoreInfo'
 
   export default {
     name: 'auth',
@@ -39,7 +41,10 @@
     computed: {
       showOrHideClass: function () {
         return this.showAuthForm ? "show" : "hide";
-      }
+      },
+      ...mapState({
+        token: state => state.token
+      })
     },
     methods: {
       goBack: function () {
@@ -47,22 +52,10 @@
       },
       submit: function () {
         let {email, password} = this;
-        this.$http.post('/login', {email, password})
-          .then(res => {
-            let token = res.headers.map['x-auth'][0];
-            let user = res.body;
-            this.$store.commit('loggedIn');
-            this.$store.commit('gotUser', user);
-            this.$store.commit('gotToken', token);
-            this.$emit("back");
-            this.$emit("showFlash");
-            setTimeout(() => {
-              this.$emit('hideFlash');
-            }, 2000);
-          })
-          .catch(e => {
-            console.log(e.body.error);
-          });
+        login.bind(this)(email, password).then(() => {
+          getTradeRequestsByMe.bind(this)();
+          getTradeRequestsForMe.bind(this)();
+        }).catch(e => console.log(e))
       }
     }
   }

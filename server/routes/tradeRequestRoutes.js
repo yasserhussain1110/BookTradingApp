@@ -3,12 +3,18 @@ const Book = require('../models/book');
 const auth = require('../middleware/auth');
 
 const addTradeRequestRoutes = app => {
-
   app.get('/tradeRequests/byMe', auth, (req, res) => {
     let user = req.user;
-    TradeRequest.find({_requester: user._id}).then(tradeRequests => {
+    TradeRequest.findAllTradeRequestsByUser(user._id).then(tradeRequests => {
       res.send(tradeRequests);
-    }).catch(e => console.log("Error Occurred"));
+    }).catch(e => console.log(e));
+  });
+
+  app.get('/tradeRequests/forMe', auth, (req, res) => {
+    let user = req.user;
+    TradeRequest.findAllTradeRequestsForUser(user._id).then(tradeRequests => {
+      res.send(tradeRequests);
+    }).catch(e => console.log(e));
   });
 
   app.post('/tradeRequests', auth, (req, res) => {

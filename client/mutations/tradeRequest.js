@@ -18,5 +18,12 @@ export default {
     state.navigation = "tradeRequestsByMe";
     state.viewType = "tradeRequestDetail";
     state.viewObject = trId;
+  },
+  gotTradeRequestsByMe(state, tradeRequests) {
+    state.tradeRequestsByMe = tradeRequests;
+
+  },
+  gotTradeRequestsForMe(state, tradeRequests) {
+    state.tradeRequestsForMe = tradeRequests;
   }
 }
