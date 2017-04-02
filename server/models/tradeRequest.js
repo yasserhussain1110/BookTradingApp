@@ -116,7 +116,7 @@ TradeRequestSchema.statics.rejectOrCloseRelatedRequestsInvolvingSameBooks = func
 
 TradeRequestSchema.methods.toJSON = function () {
   let tradeRequest = this;
-  return _.pick(tradeRequest, ['status', '_requester', '_requestedBook', '_exchangeBook']);
+  return _.pick(tradeRequest, ['_id', 'status', '_requester', '_requestedBook', '_exchangeBook']);
 };
 
 const TradeRequest = mongoose.model('TradeRequest', TradeRequestSchema);

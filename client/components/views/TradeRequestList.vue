@@ -15,25 +15,39 @@
         <td>{{tradeRequest._requester.email}}</td>
         <td>
           <div class="status-action-box">
-            <span class="status opened">{{tradeRequest.status}}</span>
+            <span
+              v-bind:class="tradeRequest.status"
+              class="status">{{tradeRequest.status}}</span>
             <span class="divider"></span>
             <span class="fa fa-caret-down drop"
-                  v-on:click.stop="clickDropDown(index)"></span>
+                  v-on:click.stop="changeActiveDropDown(index)"></span>
             <div
               v-if="navigation==='tradeRequestsByMe'"
               v-bind:class="{'show': index===activeDropDown}"
               class="action-container">
-              <div class="action">Close</div>
-              <div class="action">More..</div>
+              <div
+                v-if="tradeRequest.status === 'opened'"
+                v-on:click="closeTradeRequestByMe(tradeRequest, index)"
+                class="action">
+                Close
+              </div>
+              <div v-on:click="showTradeRequestDetail(tradeRequest)" class="action">Detail..</div>
             </div>
 
             <div
               v-else-if="navigation==='tradeRequestsForMe'"
               v-bind:class="{'show': index===activeDropDown}"
               class="action-container">
-              <div class="action">Accept</div>
-              <div class="action">Reject</div>
-              <div class="action">More..</div>
+              <div
+                v-if="tradeRequest.status === 'opened'"
+                v-on:click="acceptTradeRequestForMe(tradeRequest, index)" class="action">
+                Accept
+              </div>
+              <div v-if="tradeRequest.status === 'opened'"
+                   v-on:click="rejectTradeRequestForMe(tradeRequest, index)" class="action">
+                Reject
+              </div>
+              <div v-on:click="showTradeRequestDetail(tradeRequest)" class="action">Detail..</div>
             </div>
           </div>
         </td>
@@ -54,19 +68,41 @@
       }
     },
     methods: {
-      clickDropDown: function (index) {
+      changeActiveDropDown: function (index) {
         if (this.activeDropDown === index) {
           this.activeDropDown = -1
         } else {
           this.activeDropDown = index;
         }
+      },
+      closeTradeRequestByMe: function (tradeRequest, index) {
+        this.$http.post(`/tradeRequests/${tradeRequest._id}/close`, {}, {headers: {'x-auth': this.token}})
+          .then(r => {
+            this.$store.commit('updateTradeRequestByMeStatus', {index, newStatus: "closed"});
+          })
+          .catch(e => console.log(e));
+      },
+      acceptTradeRequestForMe: function (tradeRequest, index) {
+        this.$http.post(`/tradeRequests/${tradeRequest._id}/accept`, {}, {headers: {'x-auth': this.token}})
+          .then(r => {
+            this.$store.commit('updateTradeRequestForMeStatus', {index, newStatus: "accepted"});
+          })
+          .catch(e => console.log(e));
+      },
+      rejectTradeRequestForMe: function (tradeRequest, index) {
+        this.$http.post(`/tradeRequests/${tradeRequest._id}/close`, {}, {headers: {'x-auth': this.token}})
+          .then(r => {
+            this.$store.commit('updateTradeRequestForMeStatus', {index, newStatus: "rejected"});
+          })
+          .catch(e => console.log(e));
       }
     },
     computed: {
       ...mapState({
         tradeRequestsByMe: state => state.tradeRequestsByMe,
         tradeRequestsForMe: state => state.tradeRequestsForMe,
-        navigation: state => state.navigation
+        navigation: state => state.navigation,
+        token: state => state.token
       }),
       requestsToShow: function () {
         if (this.navigation === "tradeRequestsByMe") {
@@ -132,6 +168,18 @@
 
   .opened {
     color: green;
+  }
+
+  .closed {
+    color: darkorange;
+  }
+
+  .rejected {
+    color: red;
+  }
+
+  .accepted {
+    color: blue;
   }
 
   .action-container {
