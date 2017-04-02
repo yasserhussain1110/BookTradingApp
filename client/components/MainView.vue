@@ -26,14 +26,7 @@
     computed: mapState({
       isLoggedIn: state => state.isLoggedIn,
       viewType: state => state.viewType
-    }),
-    data () {
-      return {}
-    },
-    methods: {
-      aMethod: function () {
-      }
-    }
+    })
   }
 </script>
 
