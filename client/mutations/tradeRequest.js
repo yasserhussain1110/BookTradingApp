@@ -1,14 +1,14 @@
 export default {
-  updateTradeRequestByMeStatus(state, {index, newStatus}){
+  closeTradeRequestByMe(state, index){
     state.tradeRequestsByMe = [...state.tradeRequestsByMe.slice(0, index),
-      Object.assign({}, state.tradeRequestsByMe[index], {status: newStatus}),
+      Object.assign({}, state.tradeRequestsByMe[index], {status: "closed"}),
       ...state.tradeRequestsByMe.slice(index + 1)
     ];
   },
-  updateTradeRequestForMeStatus(state, {index, newStatus}){
-    state.tradeRequestsForMe = [...state.tradeRequestsForMe.slice(0, index),
-      Object.assign({}, state.tradeRequestsForMe[index], {status: newStatus}),
-      ...state.tradeRequestsForMe.slice(index + 1)
+  rejectTradeRequestForMe(state, index){
+    state.tradeRequestsByMe = [...state.tradeRequestsByMe.slice(0, index),
+      Object.assign({}, state.tradeRequestsByMe[index], {status: "rejected"}),
+      ...state.tradeRequestsByMe.slice(index + 1)
     ];
   },
   showTradeRequestsForMe(state) {

@@ -97,26 +97,31 @@ const seedTradeRequests = [{
   _id: new ObjectID(),
   _requester: userOneId,
   _requestedBook: bookThreeId,
+  _requestee: userTwoId,
   _exchangeBook: bookTwoId
 }, {
   _id: new ObjectID(),
   _requester: userTwoId,
   _requestedBook: bookOneId,
+  _requestee: userOneId,
   _exchangeBook: bookThreeId
 }, {
   _id: new ObjectID(),
   _requester: userOneId,
   _requestedBook: bookFiveId,
+  _requestee: userThreeId,
   _exchangeBook: bookOneId
 }, {
   _id: new ObjectID(),
   _requester: userFourId,
   _requestedBook: bookOneId,
+  _requestee: userOneId,
   _exchangeBook: bookSixId
 }, {
   _id: new ObjectID(),
   _requester: userTwoId,
   _requestedBook: bookSixId,
+  _requestee: userFourId,
   _exchangeBook: bookThreeId
 }];
 

@@ -5,14 +5,14 @@
         <th>Sl. No.</th>
         <th>Requested Book</th>
         <th>Exchange Book</th>
-        <th>Requested By</th>
+        <th>{{navigation === "tradeRequestsByMe" ? "Requested From" : "Requester"}}</th>
         <th>Status</th>
       </tr>
       <tr v-for="(tradeRequest, index) in requestsToShow">
         <td>{{index + 1}}</td>
         <td class="book">{{tradeRequest._requestedBook.title}}</td>
         <td class="book">{{tradeRequest._exchangeBook.title}}</td>
-        <td>{{tradeRequest._requester.email}}</td>
+        <td>{{navigation === "tradeRequestsByMe" ? tradeRequest._requestee.email : tradeRequest._requester.email}}</td>
         <td>
           <div class="status-action-box">
             <span
@@ -59,6 +59,7 @@
 <script>
   import 'font-awesome/css/font-awesome.css';
   import {mapState} from 'vuex';
+  import {getTradeRequestsByMe, getTradeRequestsForMe, getBooks} from './../../lib/fetchMoreInfo';
 
   export default {
     name: "trade-request-list",
@@ -78,21 +79,23 @@
       closeTradeRequestByMe: function (tradeRequest, index) {
         this.$http.post(`/tradeRequests/${tradeRequest._id}/close`, {}, {headers: {'x-auth': this.token}})
           .then(r => {
-            this.$store.commit('updateTradeRequestByMeStatus', {index, newStatus: "closed"});
-          })
-          .catch(e => console.log(e));
-      },
-      acceptTradeRequestForMe: function (tradeRequest, index) {
-        this.$http.post(`/tradeRequests/${tradeRequest._id}/accept`, {}, {headers: {'x-auth': this.token}})
-          .then(r => {
-            this.$store.commit('updateTradeRequestForMeStatus', {index, newStatus: "accepted"});
+            this.$store.commit('closeTradeRequestByMe', index);
           })
           .catch(e => console.log(e));
       },
       rejectTradeRequestForMe: function (tradeRequest, index) {
         this.$http.post(`/tradeRequests/${tradeRequest._id}/close`, {}, {headers: {'x-auth': this.token}})
           .then(r => {
-            this.$store.commit('updateTradeRequestForMeStatus', {index, newStatus: "rejected"});
+            this.$store.commit('rejectTradeRequestForMe', index);
+          })
+          .catch(e => console.log(e));
+      },
+      acceptTradeRequestForMe: function (tradeRequest, index) {
+        this.$http.post(`/tradeRequests/${tradeRequest._id}/accept`, {}, {headers: {'x-auth': this.token}})
+          .then(r => {
+            getTradeRequestsByMe.bind(this)();
+            getTradeRequestsForMe.bind(this)();
+            getBooks.bind(this)();
           })
           .catch(e => console.log(e));
       }

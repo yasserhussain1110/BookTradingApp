@@ -38,12 +38,14 @@ const addTradeRequestRoutes = app => {
         if (!book) {
           return Promise.reject({error: "No such requested book"});
         }
+        return book;
       })
-      .then(() => {
+      .then(book => {
         let tradeRequest = new TradeRequest({
           _requester: user._id,
           _requestedBook: requestedBook,
-          _exchangeBook: exchangeBook
+          _exchangeBook: exchangeBook,
+          _requestee: book._ownedBy
         });
         return tradeRequest.save();
       })
@@ -60,17 +62,12 @@ const addTradeRequestRoutes = app => {
     let userId = req.user._id;
     let trId = req.params.id;
 
-    TradeRequest.ensureTradeRequestIsForUser(trId, userId).then(tr => {
+    TradeRequest.findTradeRequestByRequesteeUserId(trId, userId).then(tr => {
       return tr.update({status: "rejected"});
     }).then(() => {
       res.status(200).send();
     }).catch(err => {
-      //console.log(err);
-      if (err.error === "Book not owned by user") {
-        return res.status(403).send(err);
-      } else {
-        return res.status(400).send(err);
-      }
+      res.status(404).send(err);
     });
   });
 
@@ -95,7 +92,7 @@ const addTradeRequestRoutes = app => {
     let user = req.user;
     let trId = req.params.id;
 
-    TradeRequest.ensureTradeRequestIsForUser(trId, user._id).then(tr => {
+    TradeRequest.findTradeRequestByRequesteeUserId(trId, user._id).then(tr => {
       let requestedBooksOriginalOwner = tr._requestedBook._ownedBy;
 
       // Reject or close all other trade requests involving same requested and exchange books
@@ -114,12 +111,7 @@ const addTradeRequestRoutes = app => {
         res.status(200).send();
       });
     }).catch(err => {
-      //console.log(err);
-      if (err.error === "Book not owned by user") {
-        return res.status(403).send(err);
-      } else {
-        return res.status(400).send(err);
-      }
+      res.status(404).send(err);
     });
   });
 };
