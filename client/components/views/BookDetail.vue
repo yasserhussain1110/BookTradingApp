@@ -25,11 +25,11 @@
     </div>
 
     <div v-if="user" class="action-buttons">
-      <button v-on:click="trade" class="trade">Trade</button>
+      <button v-on:click="showTradeBox" class="trade">Trade</button>
       <button v-if="whoseBooks==='myBooks'" v-on:click="deleteBook" class="delete">Delete</button>
     </div>
 
-    <trade-modal v-on:close="closeModal" :show="showModal"></trade-modal>
+    <trade-modal v-on:close="closeTradeBox" :show="showModal"></trade-modal>
   </div>
 
 </template>
@@ -47,7 +47,7 @@
     },
     data(){
       return {
-        showModal: true
+        showModal: false
       }
     },
     beforeMount() {
@@ -81,7 +81,10 @@
       }
     },
     methods: {
-      closeModal: function () {
+      showTradeBox: function () {
+        this.showModal = true;
+      },
+      closeTradeBox: function () {
         this.showModal = false;
       },
       deleteBook: function () {
