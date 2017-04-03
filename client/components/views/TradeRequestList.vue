@@ -1,5 +1,5 @@
 <template>
-  <div @click="activeDropDown = -1" class="trade-request-list">
+  <div v-on:click="activeDropDown = -1" class="trade-request-list">
     <table>
       <tr>
         <th>Sl. No.</th>
@@ -21,34 +21,21 @@
             <span class="divider"></span>
             <span class="fa fa-caret-down drop"
                   v-on:click.stop="changeActiveDropDown(index)"></span>
-            <div
-              v-if="navigation==='tradeRequestsByMe'"
-              v-bind:class="{'show': index===activeDropDown}"
-              class="action-container">
-              <div
-                v-if="tradeRequest.status === 'opened'"
-                v-on:click="closeTradeRequestByMe(tradeRequest, index)"
-                class="action">
-                Close
-              </div>
+
+            <div class="action-container"
+                 v-bind:class="{'show': index===activeDropDown}">
+              <template v-if="tradeRequest.status === 'opened'">
+                <template v-if="navigation==='tradeRequestsByMe'">
+                  <div class="action" v-on:click="closeTradeRequestByMe(tradeRequest, index)">Close</div>
+                </template>
+                <template v-else-if="navigation==='tradeRequestsForMe'">
+                  <div v-on:click="acceptTradeRequestForMe(tradeRequest, index)" class="action">Accept</div>
+                  <div v-on:click="rejectTradeRequestForMe(tradeRequest, index)" class="action">Reject</div>
+                </template>
+              </template>
               <div v-on:click="showTradeRequestDetail(tradeRequest)" class="action">Detail..</div>
             </div>
 
-            <div
-              v-else-if="navigation==='tradeRequestsForMe'"
-              v-bind:class="{'show': index===activeDropDown}"
-              class="action-container">
-              <div
-                v-if="tradeRequest.status === 'opened'"
-                v-on:click="acceptTradeRequestForMe(tradeRequest, index)" class="action">
-                Accept
-              </div>
-              <div v-if="tradeRequest.status === 'opened'"
-                   v-on:click="rejectTradeRequestForMe(tradeRequest, index)" class="action">
-                Reject
-              </div>
-              <div v-on:click="showTradeRequestDetail(tradeRequest)" class="action">Detail..</div>
-            </div>
           </div>
         </td>
       </tr>
