@@ -39,17 +39,25 @@
       </div>
     </section>
 
-    <template v-if="navigation==='tradeRequestsForMe'">
-      <div class="action-buttons">
-        <button v-on:click="acceptTradeRequestForMe" class="accept">Accept</button>
-        <button v-on:click="rejectTradeRequestForMe" class="reject">Reject</button>
-      </div>
+    <div class="status-box">
+      <label><strong><u>Status:</u></strong></label>
+      <span v-bind:class="tradeRequest.status">{{tradeRequest.status}}</span>
+    </div>
+
+    <template v-if="tradeRequest.status==='opened'">
+      <template v-if="navigation==='tradeRequestsForMe'">
+        <div class="action-buttons">
+          <button v-on:click="acceptTradeRequestForMe" class="accept">Accept</button>
+          <button v-on:click="rejectTradeRequestForMe" class="reject">Reject</button>
+        </div>
+      </template>
+      <template v-else-if="navigation==='tradeRequestsByMe'">
+        <div class="action-buttons">
+          <button v-on:click="closeTradeRequestByMe" class="close">Close</button>
+        </div>
+      </template>
     </template>
-    <template v-else-if="navigation==='tradeRequestsByMe'">
-      <div class="action-buttons">
-        <button v-on:click="closeTradeRequestByMe" class="close">Close</button>
-      </div>
-    </template>
+
   </div>
 </template>
 
@@ -108,6 +116,7 @@
             getTradeRequestsByMe.bind(this)();
             getTradeRequestsForMe.bind(this)();
             getBooks.bind(this)();
+            this.tradeRequest.status = "accepted";
           })
           .catch(e => console.log(e));
       },
@@ -160,6 +169,22 @@
     text-shadow: none;
   }
 
+  .opened {
+    color: green;
+  }
+
+  .closed {
+    color: darkorange;
+  }
+
+  .rejected {
+    color: red;
+  }
+
+  .accepted {
+    color: blue;
+  }
+
   .accept {
     color: white;
     background-color: green;
@@ -176,5 +201,11 @@
     color: black;
     background-color: yellow;
     text-shadow: 1px 1px white;
+  }
+
+  .status-box {
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
   }
 </style>

@@ -10,6 +10,8 @@ export default {
       Object.assign({}, state.tradeRequestsByMe[index], {status: "closed"}),
       ...state.tradeRequestsByMe.slice(index + 1)
     ];
+
+    state.viewObject = state.tradeRequestsByMe[index];
   },
   rejectTradeRequestForMe(state, indexOrRequest){
     let index;
@@ -22,6 +24,8 @@ export default {
       Object.assign({}, state.tradeRequestsForMe[index], {status: "rejected"}),
       ...state.tradeRequestsForMe.slice(index + 1)
     ];
+
+    state.viewObject = state.tradeRequestsForMe[index];
   },
   showTradeRequestsForMe(state) {
     state.navigation = "tradeRequestsForMe";

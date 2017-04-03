@@ -9,9 +9,9 @@
         <th>Status</th>
       </tr>
       <tr v-for="(tradeRequest, index) in requestsToShow">
-        <td>{{index + 1}}</td>
-        <td class="book">{{tradeRequest._requestedBook.title}}</td>
-        <td class="book">{{tradeRequest._exchangeBook.title}}</td>
+        <td class="sl"><span v-on:click="showTradeRequestDetail(tradeRequest)">{{index + 1}}</span></td>
+        <td class="book"><span>{{tradeRequest._requestedBook.title}}</span></td>
+        <td class="book"><span>{{tradeRequest._exchangeBook.title}}</span></td>
         <td>{{navigation === "tradeRequestsByMe" ? tradeRequest._requestee.email : tradeRequest._requester.email}}</td>
         <td>
           <div class="status-action-box">
@@ -130,13 +130,19 @@
 
   tr {
     background-color: #EFEFEF;
+    box-shadow: 0 1px 1px black;
   }
 
   td, th {
     padding: 2px 5px;
   }
 
-  .book {
+  .sl > span {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .book > span{
     text-decoration: underline;
     cursor: pointer;
   }
