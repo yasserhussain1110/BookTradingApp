@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-fade">
     <div v-on:click="back" class="modal-mask" v-show="show">
-      <div class="modal-container">
+      <div v-on:click.stop="" class="modal-container">
         <h2>Creating New Trade Request</h2>
         <div class="trade-item trade-first-book">
           <div>
