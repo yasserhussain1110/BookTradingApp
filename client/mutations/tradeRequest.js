@@ -21,12 +21,12 @@ export default {
     state.viewType = "tradeRequestList";
     state.viewObject = null;
   },
-  showATradeRequestsForMe(state, trId) {
+  showAParticularTradeRequestsForMe(state, trId) {
     state.navigation = "tradeRequestsForMe";
     state.viewType = "tradeRequestDetail";
     state.viewObject = trId;
   },
-  showATradeRequestsByMe(state, trId) {
+  showAParticularTradeRequestsByMe(state, trId) {
     state.navigation = "tradeRequestsByMe";
     state.viewType = "tradeRequestDetail";
     state.viewObject = trId;

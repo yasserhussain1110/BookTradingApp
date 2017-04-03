@@ -85,6 +85,13 @@
             getBooks.bind(this)();
           })
           .catch(e => console.log(e));
+      },
+      showTradeRequestDetail: function (tradeRequest) {
+        if (this.navigation === "tradeRequestsByMe") {
+          this.$store.commit('showAParticularTradeRequestsByMe', tradeRequest);
+        } else if (this.navigation === "tradeRequestsForMe") {
+          this.$store.commit('showAParticularTradeRequestsForMe', tradeRequest);
+        }
       }
     },
     computed: {
