@@ -35,3 +35,15 @@ const convertMongoIdToDate = mongoId => {
   let dt = new Date(secondsSinceEpoch * 1000);
   return dt;
 };
+
+const getOwnedByIdOfBook = book => {
+  if (typeof book._ownedBy === 'object') {
+    return book._ownedBy._id;
+  } else if (typeof book._ownedBy === 'string') {
+    return book._ownedBy;
+  }
+};
+
+export const booksBelongingToMe = (allBooks, myId) => (allBooks.filter(book => getOwnedByIdOfBook(book) === myId));
+
+export const booksNotBelongingToMe = (allBooks, myId) => (allBooks.filter(book => getOwnedByIdOfBook(book) !== myId));

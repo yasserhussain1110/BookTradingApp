@@ -13,6 +13,7 @@
 
 <script>
   import {mapState} from 'vuex';
+  import {booksBelongingToMe} from '../../lib/helper';
 
   export default {
     name: 'book-list',
@@ -26,7 +27,7 @@
         if (this.whoseBooks === "allBooks") {
           return this.books;
         } else if (this.whoseBooks === "myBooks") {
-          return this.books.filter(book => book._ownedBy === this.user._id);
+          return booksBelongingToMe(this.books, this.user._id);
         } else {
           console.log("Severe Error: Neither 'allBooks' nor 'myBooks'");
         }

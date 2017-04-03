@@ -40,6 +40,7 @@
 
 <script>
   import {mapState} from 'vuex';
+  import {booksBelongingToMe, booksNotBelongingToMe} from '../../lib/helper';
 
   const labels = {
     "allBooks": {
@@ -84,9 +85,9 @@
       },
       bookList: function () {
         if (this.whoseBooks === "myBooks") {
-          return this.books.filter(book => book._ownedBy !== this.user._id);
+          return booksNotBelongingToMe(this.books, this.user._id);
         } else if (this.whoseBooks === "allBooks") {
-          return this.books.filter(book => book._ownedBy === this.user._id);
+          return booksBelongingToMe(this.books, this.user._id);
         }
       }
     }
