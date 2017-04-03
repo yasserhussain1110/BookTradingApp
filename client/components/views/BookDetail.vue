@@ -25,9 +25,11 @@
     </div>
 
     <div v-if="user" class="action-buttons">
-      <button v-on:click="" class="trade">Trade</button>
+      <button v-on:click="trade" class="trade">Trade</button>
       <button v-if="whoseBooks==='myBooks'" v-on:click="deleteBook" class="delete">Delete</button>
     </div>
+
+    <trade-modal v-on:close="closeModal" :show="showModal"></trade-modal>
   </div>
 
 </template>
@@ -36,8 +38,18 @@
   import {convertMongoIdToReadableDate} from '../../lib/helper';
   import {mapState} from 'vuex';
   import {clip} from '../../lib/helper';
+  import TradeModal from './TradeModal.vue';
+
   export default {
     name: "book-detail",
+    components: {
+      TradeModal
+    },
+    data(){
+      return {
+        showModal: true
+      }
+    },
     beforeMount() {
       if (typeof this.bookShowing._ownedBy === 'string') {
         this.$http.get(`/users/${this.bookShowing._ownedBy}`).then(res => {
@@ -69,6 +81,9 @@
       }
     },
     methods: {
+      closeModal: function () {
+        this.showModal = false;
+      },
       deleteBook: function () {
         this.$http.delete(`/books/${this.bookShowing._id}`, {
           headers: {'x-auth': this.token}
