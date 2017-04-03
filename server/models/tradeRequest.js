@@ -50,14 +50,17 @@ TradeRequestSchema.statics.findTradeRequestByRequesteeUserId = function (trId, u
 
   return TradeRequest.findOne({_id: trId, _requestee: userId})
     .populate('_requestedBook')
-    .populate('_exchangeBook');
+    .populate('_exchangeBook')
+    .populate('_requestee')
+    .populate('_requester');
 };
 
 TradeRequestSchema.statics.findAllTradeRequestsByUser = function (userId) {
   return TradeRequest.find({_requester: userId})
     .populate('_requestedBook')
     .populate('_exchangeBook')
-    .populate('_requestee');
+    .populate('_requestee')
+    .populate('_requester');
 };
 
 TradeRequestSchema.statics.findAllTradeRequestsForUser = function (userId) {
@@ -66,6 +69,7 @@ TradeRequestSchema.statics.findAllTradeRequestsForUser = function (userId) {
   return TradeRequest.find({_requestee: userId})
     .populate('_requestedBook')
     .populate('_exchangeBook')
+    .populate('_requestee')
     .populate('_requester');
 };
 

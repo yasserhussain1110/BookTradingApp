@@ -1,14 +1,26 @@
 export default {
-  closeTradeRequestByMe(state, index){
+  closeTradeRequestByMe(state, indexOrRequest){
+    let index;
+    if (typeof indexOrRequest === 'number') {
+      index = indexOrRequest;
+    } else {
+      index = state.tradeRequestsByMe.indexOf(indexOrRequest);
+    }
     state.tradeRequestsByMe = [...state.tradeRequestsByMe.slice(0, index),
       Object.assign({}, state.tradeRequestsByMe[index], {status: "closed"}),
       ...state.tradeRequestsByMe.slice(index + 1)
     ];
   },
-  rejectTradeRequestForMe(state, index){
-    state.tradeRequestsByMe = [...state.tradeRequestsByMe.slice(0, index),
-      Object.assign({}, state.tradeRequestsByMe[index], {status: "rejected"}),
-      ...state.tradeRequestsByMe.slice(index + 1)
+  rejectTradeRequestForMe(state, indexOrRequest){
+    let index;
+    if (typeof indexOrRequest === 'number') {
+      index = indexOrRequest;
+    } else {
+      index = state.tradeRequestsForMe.indexOf(indexOrRequest);
+    }
+    state.tradeRequestsForMe = [...state.tradeRequestsForMe.slice(0, index),
+      Object.assign({}, state.tradeRequestsForMe[index], {status: "rejected"}),
+      ...state.tradeRequestsForMe.slice(index + 1)
     ];
   },
   showTradeRequestsForMe(state) {
