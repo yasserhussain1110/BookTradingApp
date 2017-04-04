@@ -39,6 +39,7 @@ if (process.env.NODE_ENV === "development") {
 /* Or serve static assets in production */
 else if (process.env.NODE_ENV === "production") {
   console.log("Running In Production");
+  app.use(express.static('./dist'));
 }
 
 app.listen(port, () => {
