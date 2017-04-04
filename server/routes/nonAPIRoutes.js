@@ -120,6 +120,7 @@ const addNonAPIRoutes = app => {
         let sendableResults =
           googleResults
             .filter(isBookDescriptionTruthy)
+            .filter(hasThumbnail)
             .map(pullOfRequiredInfoFromBookResult);
         res.send(sendableResults);
       })
@@ -128,6 +129,14 @@ const addNonAPIRoutes = app => {
         res.sendStatus(403);
       });
   });
+};
+
+const convertHttpURLsToHttps = url => {
+  return url.replace(/http:\/\//, "https://");
+};
+
+const hasThumbnail = book => {
+  return book.thumbnail && typeof book.thumbnail === 'string';
 };
 
 const isBookDescriptionTruthy = book => {
@@ -139,7 +148,7 @@ const pullOfRequiredInfoFromBookResult = book => {
   return {
     title,
     description,
-    thumbnailURL: thumbnail
+    thumbnailURL: convertHttpURLsToHttps(thumbnail)
   }
 };
 

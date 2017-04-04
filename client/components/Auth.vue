@@ -5,10 +5,10 @@
       <label>{{ formName }}</label>
     </div>
     <div class="input-field">
-      <input v-on:focus="hideErrors" v-model="email" placeholder="Your Email                                      "/>
+      <input type="text" v-on:focus="hideErrors" v-model="email" placeholder="Your Email                                      "/>
     </div>
     <div class="input-field">
-      <input v-on:focus="hideErrors" v-model="password" placeholder="Your Password                                "/>
+      <input type="password" v-on:focus="hideErrors" v-model="password" placeholder="Your Password                                "/>
     </div>
     <div class="button-field">
       <button v-on:click="submit" class="auth-button">
