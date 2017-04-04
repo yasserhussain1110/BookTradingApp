@@ -92,6 +92,7 @@
           headers: {'x-auth': this.token}
         }).then(() => {
           this.$store.commit('removeBook', this.bookShowing._id);
+          this.$store.commit('showAllMyBooks');
         }).catch(e => {
           console.error(e);
         });
