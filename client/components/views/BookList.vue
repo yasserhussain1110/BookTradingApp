@@ -1,5 +1,5 @@
 <template>
-  <div class="book-list">
+  <div v-show="booksToShow.length" class="book-list">
     <div class="gallery" v-for="(book, index) in booksToShow">
       <a v-on:click="showBookDetail(book)"><img :src="book.thumbnailURL"/></a>
     </div>
@@ -57,6 +57,9 @@
 </script>
 
 <style scoped>
+  .book-list {
+    padding: 20px;
+  }
 
   .pager {
     text-align: center;
