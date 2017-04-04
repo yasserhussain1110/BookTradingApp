@@ -1,63 +1,67 @@
 <template>
-  <div class="side-nav-bar">
-    <ul class="parent-list">
-      <li
-        class="nav option"
-        v-on:click="showAllBooks"
-        v-bind:class="{'nav-selected': isSelected('allBooks')}">
-        <a
-          class="link parent-link no-sub-link">
-          All Books
-        </a>
-      </li>
+  <div class="side-nav-bar-container" v-bind:class="{'side-nav-bar-container-hidden': !sideBarExpanded}">
+    <div v-show="sideBarExpanded" class="side-nav-bar">
+      <ul class="parent-list">
+        <li
+          class="nav option"
+          v-on:click="showAllBooks"
+          v-bind:class="{'nav-selected': isSelected('allBooks')}">
+          <a
+            class="link parent-link no-sub-link">
+            All Books
+          </a>
+        </li>
 
-      <li
-        class="nav option"
-        v-if="isLoggedIn"
-        v-on:click="showAllMyBooks"
-        v-bind:class="{'nav-selected': isSelected('myBooks')}">
-        <a
-          class="link parent-link no-sub-link">
-          My Books
-        </a>
-      </li>
+        <li
+          class="nav option"
+          v-if="isLoggedIn"
+          v-on:click="showAllMyBooks"
+          v-bind:class="{'nav-selected': isSelected('myBooks')}">
+          <a
+            class="link parent-link no-sub-link">
+            My Books
+          </a>
+        </li>
 
-      <li
-        class="nav option"
-        v-if="isLoggedIn"
-        v-on:click="showAddBookForm"
-        v-bind:class="{'nav-selected': isSelected('addBook')}">
-        <a
-          class="link parent-link no-sub-link">
-          Add Book
-        </a>
-      </li>
+        <li
+          class="nav option"
+          v-if="isLoggedIn"
+          v-on:click="showAddBookForm"
+          v-bind:class="{'nav-selected': isSelected('addBook')}">
+          <a
+            class="link parent-link no-sub-link">
+            Add Book
+          </a>
+        </li>
 
-      <li
-        class="nav option"
-        v-if="isLoggedIn"
-        v-on:click="showTradeRequestsByMe"
-        v-bind:class="{'nav-selected': isSelected('tradeRequestsByMe')}">
-        <a
-          class="link parent-link no-sub-link">
-          Requests By Me
-        </a>
-      </li>
+        <li
+          class="nav option"
+          v-if="isLoggedIn"
+          v-on:click="showTradeRequestsByMe"
+          v-bind:class="{'nav-selected': isSelected('tradeRequestsByMe')}">
+          <a
+            class="link parent-link no-sub-link">
+            Requests By Me
+          </a>
+        </li>
 
-      <li
-        class="nav option"
-        v-if="isLoggedIn"
-        v-on:click="showTradeRequestsForMe"
-        v-bind:class="{'nav-selected': isSelected('tradeRequestsForMe')}">
-        <a
-          class="link parent-link no-sub-link">
-          Requests For Me
-        </a>
-      </li>
-    </ul>
+        <li
+          class="nav option"
+          v-if="isLoggedIn"
+          v-on:click="showTradeRequestsForMe"
+          v-bind:class="{'nav-selected': isSelected('tradeRequestsForMe')}">
+          <a
+            class="link parent-link no-sub-link">
+            Requests For Me
+          </a>
+        </li>
+      </ul>
+    </div>
 
     <div class="collapse">
-      <i class="fa fa-arrow-left fa-2x collapse-icon" aria-hidden="true"></i>
+      <i v-on:click="changeSideBarState" class="fa fa-2x collapse-icon"
+         v-bind:class="sideBarExpanded ? 'fa-arrow-left': 'fa-arrow-right' "
+         aria-hidden="true"></i>
     </div>
   </div>
 </template>
@@ -68,11 +72,26 @@
 
   export default {
     name: 'side-bar',
-    computed: mapState({
-      navigation: state => state.navigation,
-      isLoggedIn: state => state.isLoggedIn
-    }),
+    data() {
+      return {
+        sideBarExpanded: false
+      };
+    },
+    computed: {
+      ...mapState({
+        navigation: state => state.navigation,
+        isLoggedIn: state => state.isLoggedIn
+      })
+    },
+    watch: {
+      isLoggedIn: function () {
+        this.sideBarExpanded = this.isLoggedIn;
+      }
+    },
     methods: {
+      changeSideBarState: function () {
+        this.sideBarExpanded = !this.sideBarExpanded;
+      },
       isSelected: function (nav) {
         return this.navigation === nav;
       },
@@ -88,7 +107,7 @@
 </script>
 
 <style scoped>
-  .side-nav-bar {
+  .side-nav-bar-container {
     position: relative;
 
     /*
@@ -110,11 +129,19 @@
     height: 0%;
     text-align: left;
     background-color: #B5C588;
-    padding: 10px 0 10px 0.5%;
     border-radius: 10px;
     margin-top: 30px;
     display: inline-block;
     color: white;
+    /*transition: flex 1s ease;*/
+  }
+
+  .side-nav-bar {
+    padding: 5px 5px 5px 10px;
+  }
+
+  .side-nav-bar-container-hidden {
+    flex: 0 0 0;
   }
 
   .nav > a {
@@ -167,7 +194,7 @@
     width: 40px;
     height: 40px;
     left: -20px;
-    top: 55px;
+    top: -40px;
     opacity: 0.4;
     background-color: white;
     border-radius: 50%;
