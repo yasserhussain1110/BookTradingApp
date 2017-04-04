@@ -19,7 +19,7 @@
         </div>
       </div>
     </section>
-    <section class="exhange-book-section">
+    <section v-if="exchangeBook" class="exhange-book-section">
       <h3>Exchange Book</h3>
       <div class="gallery">
         <a><img :src="exchangeBook.thumbnailURL"/></a>

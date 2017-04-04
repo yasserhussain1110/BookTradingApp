@@ -11,7 +11,7 @@
       <tr v-for="(tradeRequest, index) in requestsToShow">
         <td class="sl"><span v-on:click="showTradeRequestDetail(tradeRequest)">{{index + 1}}</span></td>
         <td class="book"><span>{{tradeRequest._requestedBook.title}}</span></td>
-        <td class="book"><span>{{tradeRequest._exchangeBook.title}}</span></td>
+        <td class="book"><span>{{tradeRequest._exchangeBook ? tradeRequest._exchangeBook.title : ""}}</span></td>
         <td>{{navigation === "tradeRequestsByMe" ? tradeRequest._requestee.email : tradeRequest._requester.email}}</td>
         <td>
           <div class="status-action-box">
