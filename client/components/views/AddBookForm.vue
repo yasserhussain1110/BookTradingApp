@@ -32,6 +32,10 @@
       <label><u><strong>Description:</strong></u></label>
       <span class="description"></span>
     </div>
+
+    <div v-show="showStatus" class="status-box">
+      <span>{{statusMessage}}</span>
+    </div>
   </div>
 </template>
 
@@ -52,7 +56,9 @@
       return {
         title: "",
         selectedBooks: {},
-        books: []
+        books: [],
+        showStatus: false,
+        statusMessage: ""
       }
     },
     methods: {
@@ -90,6 +96,11 @@
           this.$store.commit('gotBooks', books);
           this.selectedBooks = {};
           console.log("all books added");
+          this.showStatus = true;
+          this.statusMessage = `${books.length} books added successfully`;
+          setTimeout(() => {
+            this.showStatus = false;
+          }, 2000);
         }).catch(res => {
           let successfullyAddedBooks = res.body
             .filter(sendBookResult => sendBookResult.status)
@@ -98,6 +109,11 @@
           this.$store.commit('gotBooks', books);
           this.selectedBooks = {};
           console.log(`${successfullyAddedBooks.length} books added successfully`);
+          this.showStatus = true;
+          this.statusMessage = `${successfullyAddedBooks.length} books added successfully`;
+          setTimeout(() => {
+            this.showStatus = false;
+          }, 2000);
         });
       },
       isSelected: function (bookIndex) {
@@ -115,8 +131,8 @@
         document.querySelector(".tooltip").style.display = "none";
       },
       showTooltip: function (book, event) {
-        document.querySelector(".tooltip").style.top = (event.pageY - 180) + "px";
-        document.querySelector(".tooltip").style.left = (event.pageX - 320) + "px";
+        document.querySelector(".tooltip").style.top = (event.pageY - 230) + "px";
+        document.querySelector(".tooltip").style.left = (event.pageX - 510) + "px";
         document.querySelector(".tooltip").style.display = "initial";
         document.querySelector(".tooltip .title").innerHTML = book.title;
         document.querySelector(".tooltip .description").innerHTML = clip(book.description, 150);
@@ -138,6 +154,21 @@
 </script>
 
 <style scoped>
+  .add-book-form {
+    position: relative;
+  }
+
+  .status-box {
+    background-color: lightblue;
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 5px;
+    text-align: center;
+    color: black;
+  }
+
   .tooltip {
     text-align: left;
     background-color: lightsteelblue;
