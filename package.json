@@ -15,11 +15,12 @@
     "FCC",
     "MERN",
     "node",
+    "nodemon",
     "express",
     "mongo",
-    "react",
-    "redux",
-    "mongoose"
+    "mongoose",
+    "vue",
+    "vuex"
   ],
   "author": "Yasser Hussain",
   "license": "MIT",
