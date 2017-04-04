@@ -2,7 +2,7 @@
   <div v-on:click="activeDropDown = -1" class="trade-request-list">
     <table>
       <tr>
-        <th>Sl. No.</th>
+        <th>#</th>
         <th>Requested Book</th>
         <th>Exchange Book</th>
         <th>{{navigation === "tradeRequestsByMe" ? "Requested From" : "Requester"}}</th>
@@ -121,10 +121,12 @@
   .trade-request-list {
     width: 80%;
     text-align: center;
+    min-height: 300px;
   }
 
   table {
     margin: auto;
+    width: 90%;
     border-spacing: 0 10px;
   }
 
@@ -135,6 +137,15 @@
 
   td, th {
     padding: 2px 5px;
+    width: 10%;
+  }
+
+  th:nth-of-type(1) {
+    width: 5%;
+  }
+
+  td:nth-of-type(1) {
+    width: 5%;
   }
 
   .sl > span {
@@ -142,7 +153,7 @@
     text-decoration: underline;
   }
 
-  .book > span{
+  .book > span {
     text-decoration: underline;
     cursor: pointer;
   }
@@ -189,9 +200,9 @@
     position: absolute;
     top: 35px;
     left: 0;
+    right: 0;
     background-color: gray;
     color: white;
-    width: 85px;
     border-radius: 5px;
     display: none;
     z-index: 1;
