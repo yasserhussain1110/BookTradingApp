@@ -14,6 +14,9 @@ export default {
   gotBooks(state, books) {
     state.books = [...state.books, ...books];
   },
+  resetBooks(state, books) {
+    state.books = books;
+  },
   showAllBooks(state) {
     state.navigation = "allBooks";
     state.viewType = "bookList";

@@ -14,7 +14,7 @@ export const getIdentity = function () {
 
 export const getBooks = function () {
   this.$http.get('/books').then(res => {
-    this.$store.commit('gotBooks', res.body);
+    this.$store.commit('resetBooks', res.body);
   }).catch(e => console.log("weird error", e));
 };
 
