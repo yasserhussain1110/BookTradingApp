@@ -1,14 +1,23 @@
 <template>
   <div class="flash" v-bind:class="{show: showFlash}">
     <strong>Success!!</strong>
-    <span>You are logged In!</span>
+    <span>{{flashMessage}}</span>
   </div>
 </template>
 
 <script>
   export default {
     name: 'logged-in-flash',
-    props: ["showFlash"]
+    props: ["showFlash", "formName"],
+    computed: {
+      flashMessage: function () {
+        if (this.formName === "SignUp") {
+          return "Thank you for signing up!";
+        } else if (this.formName === "LogIn") {
+          return "You are logged In!";
+        }
+      }
+    }
   };
 </script>
 

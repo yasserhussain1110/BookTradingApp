@@ -52,6 +52,25 @@ const addNonAPIRoutes = app => {
       });
   });
 
+  app.post('/signup', handleIdentityIfFound, (req, res) => {
+    request(app)
+      .post('/users')
+      .send(req.body)
+      .end((err, apiRes) => {
+        if (err) {
+          return res.status(err.statusCode).send({error: err.error});
+        }
+        let user = apiRes.body;
+        let token = apiRes.headers['x-auth'];
+        let identity = {
+          _id: user._id,
+          token
+        };
+        req.session.identity = identity;
+        res.status(apiRes.statusCode).header('x-auth', token).send(apiRes.body);
+      });
+  });
+
   app.post('/login', handleIdentityIfFound, (req, res) => {
     request(app)
       .post('/users/login')
@@ -69,6 +88,26 @@ const addNonAPIRoutes = app => {
         req.session.identity = identity;
         res.status(apiRes.statusCode).header('x-auth', token).send(apiRes.body);
       });
+  });
+
+  app.post('/logout', (req, res) => {
+    authorizeUser(req).then(() => {
+      request(app)
+        .delete('/users/me/token')
+        .set('x-auth', req.session.identity.token)
+        .send()
+        .end((err, apiRes) => {
+          if (err) {
+            return res.status(err.statusCode).send({error: err.error});
+          }
+          req.session.identity = null;
+          req.session.destroy();
+          res.status(200).send();
+        });
+    }).catch(e => {
+      console.log(e);
+      res.status(403).send();
+    });
   });
 
   app.post('/searchBook', (req, res) => {

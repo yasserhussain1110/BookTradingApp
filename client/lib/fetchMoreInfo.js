@@ -38,6 +38,21 @@ export const getTradeRequestsForMe = function () {
   }).catch(e => console.log(e));
 };
 
+export const signup = function (email, password) {
+  return this.$http.post('/signup', {email, password})
+    .then(res => {
+      let token = res.headers.map['x-auth'][0];
+      let user = res.body;
+      this.$store.commit('loggedIn');
+      this.$store.commit('gotUser', user);
+      this.$store.commit('gotToken', token);
+    })
+    .catch(e => {
+      console.log(e.body.errors);
+      throw e;
+    });
+};
+
 export const login = function (email, password) {
   return this.$http.post('/login', {email, password})
     .then(res => {
@@ -46,13 +61,9 @@ export const login = function (email, password) {
       this.$store.commit('loggedIn');
       this.$store.commit('gotUser', user);
       this.$store.commit('gotToken', token);
-      this.$emit("back");
-      this.$emit("showFlash");
-      setTimeout(() => {
-        this.$emit('hideFlash');
-      }, 2000);
     })
     .catch(e => {
-      console.log(e.body.error);
+      console.log(e.body.errors);
+      throw e;
     });
 };

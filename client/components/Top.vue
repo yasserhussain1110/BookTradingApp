@@ -5,7 +5,7 @@
     <div class="side-buttons"
          v-bind:class="{hidden: showAuthForm}">
       <div v-if="isLoggedIn">
-        <button>Logout</button>
+        <button v-on:click="logout">Logout</button>
       </div>
       <div v-else>
         <button v-on:click="showLoginForm">Login</button>
@@ -20,20 +20,20 @@
       v-on:showFlash="doShowFlash"
       v-on:hideFlash="doHideFlash">
     </auth>
-    <logged-in-flash :showFlash="showFlash"></logged-in-flash>
+    <flash :formName="formName" :showFlash="showFlash"></flash>
   </div>
 </template>
 
 <script>
   import Auth from './Auth';
-  import LoggedInFlash from './LoggedInFlash.vue';
+  import Flash from './Flash.vue';
   import {mapState} from 'vuex';
 
   export default {
     name: 'top',
     components: {
       Auth,
-      LoggedInFlash
+      Flash
     },
     data () {
       return {
@@ -47,6 +47,13 @@
       isLoggedIn: state => state.isLoggedIn
     }),
     methods: {
+      logout: function () {
+        this.$http.post('/logout').then(() => {
+          this.$store.commit('loggedOff');
+        }).catch(e => {
+          console.log(e);
+        });
+      },
       showLoginForm: function () {
         this.showAuthForm = true;
         this.formName = "LogIn";
@@ -57,7 +64,6 @@
       },
       back: function () {
         this.showAuthForm = false;
-        this.formName = "";
       },
       doShowFlash: function () {
         this.showFlash = true;

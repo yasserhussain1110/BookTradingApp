@@ -1,14 +1,14 @@
 <template>
-  <div class="auth"
+  <div v-on:keyup.enter="submit" class="auth"
        v-bind:class="showOrHideClass">
-    <div>
+    <div class="form">
       <label>{{ formName }}</label>
     </div>
     <div class="input-field">
-      <input v-model="email" placeholder="Your Email                                      "/>
+      <input v-on:focus="hideErrors" v-model="email" placeholder="Your Email                                      "/>
     </div>
     <div class="input-field">
-      <input v-model="password" placeholder="Your Password                                "/>
+      <input v-on:focus="hideErrors" v-model="password" placeholder="Your Password                                "/>
     </div>
     <div class="button-field">
       <button v-on:click="submit" class="auth-button">
@@ -17,8 +17,14 @@
       </button>
     </div>
 
-    <div v-on:click="goBack" class="back">
-      <div class="x">X</div>
+    <div class="back-container">
+      <div v-on:click="goBack" class="back">
+        <div class="x">X</div>
+      </div>
+    </div>
+
+    <div class="error-box" v-show="showingError">
+      <div class="error-message" v-for="errorMessage in errorMessageList">{{errorMessage}}</div>
     </div>
 
   </div>
@@ -27,7 +33,18 @@
 <script>
   import 'font-awesome/css/font-awesome.css';
   import {mapState} from 'vuex';
-  import {login, getTradeRequestsByMe, getTradeRequestsForMe} from '../lib/fetchMoreInfo'
+  import {login, signup, getTradeRequestsByMe, getTradeRequestsForMe} from '../lib/fetchMoreInfo';
+
+  const formToActionsMap = {
+    LogIn: {
+      action: login,
+      errorMessage: "Login failure"
+    },
+    SignUp: {
+      action: signup,
+      errorMessage: "Signup failure"
+    }
+  };
 
   export default {
     name: 'auth',
@@ -35,7 +52,9 @@
     data () {
       return {
         email: "",
-        password: ""
+        password: "",
+        showingError: false,
+        errorMessageList: []
       }
     },
     computed: {
@@ -49,19 +68,70 @@
     methods: {
       goBack: function () {
         this.$emit('back');
+        this.resetFields();
+        this.hideErrors();
+      },
+      hideErrors: function () {
+        this.showingError = false;
+      },
+      showErrors: function (errorList) {
+        this.errorMessageList = errorList;
+        this.showingError = true;
+      },
+      resetFields: function () {
+        this.password = "";
+        this.email = "";
       },
       submit: function () {
         let {email, password} = this;
-        login.bind(this)(email, password).then(() => {
+        if (!email || !password) {
+          return this.showErrors(["Email or password cannot be empty"]);
+        }
+        formToActionsMap[this.formName].action.bind(this)(email, password).then(() => {
+          this.resetFields();
+          this.$emit("back");
+          this.$emit("showFlash");
+          setTimeout(() => {
+            this.$emit('hideFlash');
+          }, 2000);
+
           getTradeRequestsByMe.bind(this)();
           getTradeRequestsForMe.bind(this)();
-        }).catch(e => console.log(e))
+        }).catch(e => {
+          let errorList;
+          if (e.body.errors) {
+            errorList = Object.keys(e.body.errors).map(key => e.body.errors[key].message)
+          } else {
+            errorList = [formToActionsMap[this.formName].errorMessage];
+          }
+
+          this.resetFields();
+          this.showErrors(errorList);
+        })
       }
     }
   }
 </script>
 
 <style scoped>
+  .error-box {
+    position: absolute;
+    background-color: red;
+    top: 250px;
+    left: 2px;
+    width: 95%;
+    opacity: 0.9;
+    font-size: 0.9em;
+    padding: 5px;
+    text-align: center;
+    color: white;
+    border-radius: 15px;
+  }
+
+  .error-message {
+    margin: 10px;
+  }
+
   .auth {
     position: absolute;
     right: 0;
@@ -70,7 +140,6 @@
     border-radius: 5px;
     text-align: left;
     padding: 20px 30px;
-    overflow: hidden;
   }
 
   .show {
@@ -143,21 +212,32 @@
    *
    * Next used css prop overflow hidden on container.
    */
+
+  .back-container {
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background-color: inherit;
+    overflow: hidden;
+    position: absolute;
+  }
+
   .back {
+    top: -4px;
+    right: -4px;
+    position: absolute;
     height: 30px;
     width: 30px;
     background-color: #ED4337;
     border-radius: 50%;
-    top: -5px;
-    right: -5px;
-    position: absolute;
     box-shadow: -1px 1px gray;
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
   }
 
   .x {
-    margin-top: 10px;
+    margin-top: 8px;
     margin-left: 10px;
     font-size: 0.8em;
     font-weight: bolder;
