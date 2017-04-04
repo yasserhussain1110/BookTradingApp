@@ -4,10 +4,12 @@
       <a v-on:click="showBookDetail(book)"><img :src="book.thumbnailURL"/></a>
     </div>
 
+    <!-- Pagination
     <div class="pager">
       <div class="page">1</div>
       <div class="page">2</div>
     </div>
+    -->
   </div>
 </template>
 
