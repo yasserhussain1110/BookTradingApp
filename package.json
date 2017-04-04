@@ -4,10 +4,12 @@
   "description": "App for trading books",
   "main": "server/server.js",
   "scripts": {
-    "start": "nodemon server/server.js",
     "build": "webpack",
     "test": "NODE_ENV=test mocha server/tests/*.test.js",
-    "fill": "node server/fillDB.js"
+    "fill": "node server/fillDB.js",
+    "start": "per-env",
+    "start:production": "npm run build && node server/server",
+    "start:development": "nodemon server/server"
   },
   "keywords": [
     "FCC",
@@ -33,6 +35,7 @@
     "lodash": "^4.17.4",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.5",
+    "per-env": "^1.0.2",
     "validator": "^7.0.0",
     "vue": "^2.2.4",
     "vue-resource": "^1.2.1",
