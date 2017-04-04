@@ -30,6 +30,7 @@ describe("Testing Schema - TradeRequests", () => {
     let tradeRequest = new TradeRequest({
       _requester: seedUsers[0]._id,
       _requestedBook: seedBooks[3]._id,
+      _requestee: seedBooks[3]._ownedBy,
       _exchangeBook: seedBooks[0]._id
     });
     tradeRequest.save().then(() => {
@@ -44,20 +45,17 @@ describe("Testing Schema - TradeRequests", () => {
     });
   });
 
-  it("Should return a rejected promise if trade request not for correct user", done => {
-    TradeRequest.ensureTradeRequestIsForUser(seedTradeRequests[0]._id, seedUsers[0]._id)
-      .then(() => {
-        done(new Error("should not have gone there"));
-      })
-      .catch(e => {
-        expect(e.error).toBe("Book not owned by user");
+  it("Should return null if trade request not for correct user", done => {
+    TradeRequest.findTradeRequestByRequesteeUserId(seedTradeRequests[0]._id, seedUsers[0]._id)
+      .then(tr => {
+        expect(tr).toNotExist();
         done();
       });
   });
 
 
   it("Should get a populated trade request if it is for correct user", done => {
-    TradeRequest.ensureTradeRequestIsForUser(seedTradeRequests[0]._id, seedUsers[1]._id)
+    TradeRequest.findTradeRequestByRequesteeUserId(seedTradeRequests[0]._id, seedUsers[1]._id)
       .then(tr => {
         expect(tr).toExist();
         expect(tr._requestedBook.title).toBe("Da Vinci");
@@ -106,6 +104,9 @@ describe("Testing Path - /tradeRequests", () => {
       .expect(400)
       .expect('Content-Type', /application.*json/)
       .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
         expect(res.body.error).toBe("No such exchange book");
         done();
       })
@@ -122,6 +123,9 @@ describe("Testing Path - /tradeRequests", () => {
       .expect(400)
       .expect('Content-Type', /application.*json/)
       .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
         expect(res.body.error).toBe("No such requested book");
         done();
       })
@@ -135,8 +139,14 @@ describe("Testing Path - /tradeRequests/:id/accept", () => {
       .post(`/tradeRequests/${seedTradeRequests[1]._id}/accept`)
       .set('x-auth', seedUsers[1].tokens[0].tokenString)
       .send()
-      .expect(403)
-      .end(done);
+      .expect(404)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe("No such trade request");
+        done();
+      });
   });
 
   it("Should accept the target trade request and close/reject other related requests", done => {
@@ -199,21 +209,65 @@ describe("Testing Path - /tradeRequests/:id/reject", () => {
       .send()
       .expect(200)
       .end((err, res) => {
-        TradeRequest.findById(seedTradeRequests[0]).then(tr => {
+        if (err) {
+          return done(err);
+        }
+        TradeRequest.findById(seedTradeRequests[0]._id).then(tr => {
           expect(tr.status).toBe("rejected");
           done();
         });
       });
   });
 
-  it("Users who do not own requested book should not be able to reject requests", done => {
+  it("Should not allow third persons to reject trade requests", done => {
     request(app)
       .post(`/tradeRequests/${seedTradeRequests[0]._id}/reject`)
       .set('x-auth', seedUsers[2].tokens[0].tokenString)
       .send()
-      .expect(403)
+      .expect(404)
       .end((err, res) => {
-        expect(res.body.error).toBe("Book not owned by user");
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe("No such trade request");
+        TradeRequest.findById(seedTradeRequests[0]._id).then(tr => {
+          expect(tr.status).toBe("opened");
+          done();
+        });
+      });
+  });
+});
+
+
+describe("Testing Path - /tradeRequests/:id/close", () => {
+  it("Requesters should be able to close requests", done => {
+    request(app)
+      .post(`/tradeRequests/${seedTradeRequests[0]._id}/close`)
+      .set('x-auth', seedUsers[0].tokens[0].tokenString)
+      .send()
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        TradeRequest.findById(seedTradeRequests[0]._id).then(tr => {
+          expect(tr.status).toBe("closed");
+          done();
+        });
+      });
+  });
+
+  it("Should not allow third persons to close requests", done => {
+    request(app)
+      .post(`/tradeRequests/${seedTradeRequests[0]._id}/reject`)
+      .set('x-auth', seedUsers[2].tokens[0].tokenString)
+      .send()
+      .expect(404)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe("No such trade request");
         TradeRequest.findById(seedTradeRequests[0]).then(tr => {
           expect(tr.status).toBe("opened");
           done();

@@ -63,11 +63,14 @@ const addTradeRequestRoutes = app => {
     let trId = req.params.id;
 
     TradeRequest.findTradeRequestByRequesteeUserId(trId, userId).then(tr => {
+      if (!tr) {
+        throw new Error("No such trade request");
+      }
       return tr.update({status: "rejected"});
     }).then(() => {
       res.status(200).send();
     }).catch(err => {
-      res.status(404).send(err);
+      res.status(404).send({error: err.message});
     });
   });
 
@@ -79,12 +82,15 @@ const addTradeRequestRoutes = app => {
       _requester: userId,
       _id: trId
     }).then(tr => {
+      if (!tr) {
+        throw new Error("No such trade request");
+      }
       return tr.update({status: "closed"});
     }).then(() => {
       res.status(200).send();
     }).catch(err => {
       //console.log(err);
-      res.status(400).send(err);
+      res.status(400).send({error: err.message});
     });
   });
 
@@ -93,6 +99,9 @@ const addTradeRequestRoutes = app => {
     let trId = req.params.id;
 
     TradeRequest.findTradeRequestByRequesteeUserId(trId, user._id).then(tr => {
+      if (!tr) {
+        throw new Error("No such trade request");
+      }
       let requestedBooksOriginalOwner = tr._requestedBook._ownedBy;
 
       // Reject or close all other trade requests involving same requested and exchange books
@@ -111,7 +120,7 @@ const addTradeRequestRoutes = app => {
         res.status(200).send();
       });
     }).catch(err => {
-      res.status(404).send(err);
+      res.status(404).send({error: err.message});
     });
   });
 };
