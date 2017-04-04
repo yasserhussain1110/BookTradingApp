@@ -12,27 +12,31 @@
         </div>
 
         <div class="trade-item">
-          <div class="question">
+          <div v-show="whoseBooks==='allBooks'" class="question">
             <label>Add Exchange Book?</label>
-            <input v-show="whoseBooks==='allBooks'" v-model="checkBoxClicked" type="checkbox"/>
+            <input v-model="checkBoxClicked" type="checkbox"/>
           </div>
 
           <div class="action-buttons">
-            <button class="trade">Trade</button>
+            <button v-on:click="trade" class="trade">Trade</button>
             <button v-on:click.stop="back" class="back">Back</button>
           </div>
         </div>
-
 
         <div v-show="showSecondBookList" class="trade-item trade-second-book">
           <div>
             <label><strong><u>{{secondLabel}}</u></strong></label>
           </div>
 
-          <div class="gallery" v-for="(book, index) in bookList">
-            <a><img :src="book.thumbnailURL"/></a>
+          <div
+            v-bind:class="{selected: secondBookIndex===index}"
+            class="gallery" v-for="(book, index) in bookList">
+            <a><img v-on:click="selectBook(index)" :src="book.thumbnailURL"/></a>
           </div>
         </div>
+
+        <div v-show="showError" class="error-box">{{errorMessage}}</div>
+        <div v-show="tradeRequestSent" class="trade-status-box">Successfully sent trade request.</div>
       </div>
     </div>
   </transition>
@@ -40,7 +44,16 @@
 
 <script>
   import {mapState} from 'vuex';
-  import {booksBelongingToMe, booksNotBelongingToMe} from '../../lib/helper';
+  import {booksBelongingToMe, booksNotBelongingToMe, changePropForSometimeThenReset} from '../../lib/helper';
+  import {getTradeRequestsByMe} from '../../lib/fetchMoreInfo';
+
+  const initialState = {
+    checkBoxClicked: false,
+    secondBookIndex: -1,
+    showError: false,
+    errorMessage: "",
+    tradeRequestSent: false
+  };
 
   const labels = {
     "allBooks": {
@@ -49,7 +62,7 @@
     },
     "myBooks": {
       firstLabel: "Book To Exchange",
-      secondLabel: "Requested Book"
+      secondLabel: "Select a book to request"
     }
   };
 
@@ -57,13 +70,68 @@
     name: "trade-modal",
     props: ["show"],
     data() {
-      return {
-        checkBoxClicked: false
-      }
+      return Object.assign({}, {}, initialState);
     },
     methods: {
       back: function () {
+        this.resetFields();
         this.$emit("close");
+      },
+      resetFields(){
+        Object.assign(this, initialState);
+      },
+      selectBook: function (index) {
+        if (this.secondBookIndex === index) {
+          this.secondBookIndex = -1;
+        } else {
+          this.secondBookIndex = index;
+        }
+      },
+      getExchangeAndRequestedBooks: function () {
+        let exchangeBook, requestedBook;
+        if (this.whoseBooks === "myBooks") {
+          exchangeBook = this.bookShowing;
+          requestedBook = this.bookList[this.secondBookIndex];
+        } else if (this.whoseBooks === "allBooks") {
+          requestedBook = this.bookShowing;
+          exchangeBook = this.bookList[this.secondBookIndex];
+        }
+        return {exchangeBook, requestedBook};
+      },
+      validate: function (requestedBook) {
+        if (!requestedBook) {
+          this.errorMessage = "Must request a book";
+          changePropForSometimeThenReset(this, "showError", true, 3000);
+          return false;
+        } else {
+          return true;
+        }
+
+      },
+      trade: function () {
+        let {exchangeBook, requestedBook} = this.getExchangeAndRequestedBooks();
+
+        if (!this.validate(requestedBook)) return;
+
+        let requestParams = {
+          requestedBook,
+          exchangeBook
+        };
+
+        this.$http.post('/tradeRequests', requestParams, {headers: {'x-auth': this.token}})
+          .then(() => {
+            changePropForSometimeThenReset(this, "tradeRequestSent", true, 3000);
+            getTradeRequestsByMe.bind(this)();
+          })
+          .catch(e => {
+            if (e.body && e.body.code === 11000) {
+              this.errorMessage = "Cannot request same book twice";
+            } else {
+              this.errorMessage = "Some error occurred";
+            }
+
+            changePropForSometimeThenReset(this, "showError", true, 3000);
+          });
       }
     },
     computed: {
@@ -96,6 +164,23 @@
 
 
 <style scoped>
+  .error-box, .trade-status-box {
+    color: white;
+    padding: 5px;
+    width: 30%;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bolder;
+  }
+
+  .trade-status-box {
+    background-color: green;
+  }
+
+  .error-box {
+    background-color: red;
+  }
+
   .slide-fade-enter-active {
     transition: all .3s ease;
   }
@@ -209,6 +294,11 @@
   button:active {
     box-shadow: none;
     text-shadow: none;
+  }
+
+  .selected {
+    border: 4px solid green;
+    padding: 2px;
   }
 
 </style>

@@ -47,3 +47,11 @@ const getOwnedByIdOfBook = book => {
 export const booksBelongingToMe = (allBooks, myId) => (allBooks.filter(book => getOwnedByIdOfBook(book) === myId));
 
 export const booksNotBelongingToMe = (allBooks, myId) => (allBooks.filter(book => getOwnedByIdOfBook(book) !== myId));
+
+export const changePropForSometimeThenReset = (object, propName, newPropValue, time) => {
+  let oldPropValue = object[propName];
+  object[propName] = newPropValue;
+  setTimeout(() => {
+    object[propName] = oldPropValue;
+  }, time);
+};
