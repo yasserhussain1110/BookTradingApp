@@ -10,8 +10,18 @@
       </tr>
       <tr v-for="(tradeRequest, index) in requestsToShow">
         <td class="sl"><span v-on:click="showTradeRequestDetail(tradeRequest)">{{index + 1}}</span></td>
-        <td class="book"><span>{{tradeRequest._requestedBook.title}}</span></td>
-        <td class="book"><span>{{tradeRequest._exchangeBook ? tradeRequest._exchangeBook.title : ""}}</span></td>
+        <td class="book">
+          <span
+            v-on:click="showBook(tradeRequest._requestedBook, 'requestedBook')">
+            {{tradeRequest._requestedBook.title}}
+          </span>
+        </td>
+        <td class="book">
+          <span
+            v-on:click="showBook(tradeRequest._exchangeBook, 'exchangeBook')">
+            {{tradeRequest._exchangeBook ? tradeRequest._exchangeBook.title : ""}}
+          </span>
+        </td>
         <td>{{navigation === "tradeRequestsByMe" ? tradeRequest._requestee.email : tradeRequest._requester.email}}</td>
         <td>
           <div class="status-action-box">
@@ -48,6 +58,15 @@
   import {mapState} from 'vuex';
   import {getTradeRequestsByMe, getTradeRequestsForMe, getBooks} from './../../lib/fetchMoreInfo';
 
+  // Assumption :- navigation == tradeRequestsByMe
+  const simplifiedIsMyBook = bookType => {
+    if (bookType === "exchangeBook") {
+      return true;
+    } else if (bookType === "requestedBook") {
+      return false;
+    }
+  };
+
   export default {
     name: "trade-request-list",
     data() {
@@ -56,6 +75,20 @@
       }
     },
     methods: {
+      isMyBook(navigation, bookType) {
+        if (navigation === "tradeRequestsByMe") {
+          return simplifiedIsMyBook(bookType);
+        } else if (navigation === "tradeRequestsForMe") {
+          return !simplifiedIsMyBook(bookType);
+        }
+      },
+      showBook: function (book, bookType) {
+        if (this.isMyBook(this.navigation, bookType)) {
+          this.$store.commit('showMyParticularBook', book._id);
+        } else {
+          this.$store.commit('showAParticularBook', book._id);
+        }
+      },
       changeActiveDropDown: function (index) {
         if (this.activeDropDown === index) {
           this.activeDropDown = -1

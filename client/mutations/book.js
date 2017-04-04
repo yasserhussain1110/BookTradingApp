@@ -24,12 +24,25 @@ export default {
     state.viewType = "bookList";
     state.viewObject = null;
   },
-  showAParticularBook(state, bookObject) {
+  showAParticularBook(state, bookIDOrObject) {
+    let bookObject;
+    if (typeof bookIDOrObject === 'string') {
+      bookObject = state.books.find(book => book._id === bookIDOrObject);
+    } else {
+      bookObject = bookIDOrObject;
+    }
+
     state.navigation = "allBooks";
     state.viewType = "bookDetail";
     state.viewObject = bookObject;
   },
-  showMyParticularBook(state, bookObject) {
+  showMyParticularBook(state, bookIDOrObject) {
+    let bookObject;
+    if (typeof bookIDOrObject === 'string') {
+      bookObject = state.books.find(book => book._id === bookIDOrObject);
+    } else {
+      bookObject = bookIDOrObject;
+    }
     state.navigation = "myBooks";
     state.viewType = "bookDetail";
     state.viewObject = bookObject;
