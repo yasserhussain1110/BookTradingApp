@@ -30,8 +30,12 @@
     </div>
 
     <trade-modal v-on:close="closeTradeBox" :show="showModal"></trade-modal>
-  </div>
 
+    <div class="previous">
+      <i v-on:click="goPrevious" class="fa fa-arrow-left fa-2x"
+         v-bind:class="" aria-hidden="true"></i>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -81,6 +85,9 @@
       }
     },
     methods: {
+      goPrevious: function () {
+        this.$store.commit('showAllBooks');
+      },
       showTradeBox: function () {
         this.showModal = true;
       },
@@ -102,6 +109,10 @@
 </script>
 
 <style scoped>
+  .book-detail {
+    position: relative;
+  }
+
   button {
     margin: 10px 5px 8px 5px;
     padding: 7px;

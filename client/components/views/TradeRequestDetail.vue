@@ -58,6 +58,10 @@
       </template>
     </template>
 
+    <div class="previous">
+      <i v-on:click="goPrevious" class="fa fa-arrow-left fa-2x"
+         v-bind:class="" aria-hidden="true"></i>
+    </div>
   </div>
 </template>
 
@@ -92,6 +96,13 @@
       }
     },
     methods: {
+      goPrevious: function () {
+        if (this.navigation === 'tradeRequestsForMe') {
+          this.$store.commit('showTradeRequestsForMe');
+        } else if (this.navigation === 'tradeRequestsByMe') {
+          this.$store.commit('showTradeRequestsByMe');
+        }
+      },
       closeTradeRequestByMe: function () {
         let {tradeRequest} = this;
         this.$http.post(`/tradeRequests/${tradeRequest._id}/close`, {}, {headers: {'x-auth': this.token}})
@@ -132,6 +143,7 @@
 
   .trade-request-detail {
     width: 80%;
+    position: relative;
   }
 
   .info-box {

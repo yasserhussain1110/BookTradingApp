@@ -71,4 +71,26 @@
     text-decoration: none;
     cursor: pointer;
   }
+
+  .previous {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    height: 35px;
+    width: 40px;
+    padding-top: 3px;
+    background-color: rgba(173, 216, 230, 0.5);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.5s;
+  }
+
+  .previous:hover {
+    background-color: rgba(173, 216, 230, 1);
+  }
+
+  .previous > i {
+    color: green;
+  }
 </style>
