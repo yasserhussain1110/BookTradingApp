@@ -4,7 +4,7 @@
       <div v-on:click.stop="" class="modal-container">
         <h2>Creating New Trade Request</h2>
         <div class="trade-item trade-first-book">
-          <div>
+          <div class="label-box">
             <label><strong><u>{{firstLabel}}</u></strong></label>
           </div>
 
@@ -24,7 +24,7 @@
         </div>
 
         <div v-show="showSecondBookList" class="trade-item trade-second-book">
-          <div>
+          <div class="label-box">
             <label><strong><u>{{secondLabel}}</u></strong></label>
           </div>
 
@@ -303,6 +303,64 @@
   .selected {
     border: 4px solid green;
     padding: 2px;
+  }
+
+  .label-box {
+    min-width: 200px;
+  }
+
+  @media screen and (max-width: 1196px) {
+    .trade-second-book {
+      width: 50%;
+    }
+
+    .modal-container {
+      width: 90%;
+    }
+  }
+
+  @media screen and (max-width: 1196px) {
+    .trade-second-book {
+      width: 40%;
+    }
+  }
+
+  @media screen and (max-width: 820px) {
+    .trade-second-book {
+      width: 30%;
+    }
+  }
+
+  @media screen and (max-width: 670px) {
+    .modal-mask {
+      height: 2000px;
+    }
+
+    .modal-container {
+      text-align: center;
+      height: 50%;
+    }
+
+    .trade-item {
+      display: block;
+    }
+
+    .gallery-container {
+      height: 60%;
+      width: 480px;
+    }
+
+    .trade-second-book {
+      margin: 0;
+    }
+
+    .label-box {
+      width: 450px;
+    }
+
+    .trade-first-book .gallery {
+      margin-left: 185%;
+    }
   }
 
 </style>
