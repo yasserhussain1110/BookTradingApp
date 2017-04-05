@@ -55,3 +55,5 @@ export const changePropForSometimeThenReset = (object, propName, newPropValue, t
     object[propName] = oldPropValue;
   }, time);
 };
+
+export const isBooksMine = (book, myId) => (getOwnedByIdOfBook(book) === myId);
