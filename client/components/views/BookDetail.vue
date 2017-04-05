@@ -116,7 +116,19 @@
 
   .previous {
     position: static;
-    margin: -1.7% -3%;
+  }
+
+  @media screen and (-webkit-min-device-pixel-ratio: 0)
+  and (min-resolution: .001dpcm) {
+    .previous {
+      margin: -1.7% -3%;
+    }
+  }
+
+  @-moz-document url-prefix() {
+    .previous {
+      margin: 0.7% -3.0%;
+    }
   }
 
   button {
