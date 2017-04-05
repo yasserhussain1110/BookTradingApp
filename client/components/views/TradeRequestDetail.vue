@@ -136,7 +136,6 @@
 </script>
 
 <style scoped>
-
   section {
     margin: 20px 0;
   }
@@ -219,5 +218,32 @@
     text-align: center;
     margin: 10px;
     padding: 10px;
+  }
+
+  @media screen and (max-width: 746px) {
+    section {
+      text-align: center;
+    }
+
+    .info-box {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+
+    .info {
+      text-align: left;
+    }
+  }
+
+  @media screen and (max-width: 634px) {
+    .info {
+      text-align: center;
+    }
+  }
+
+  @media screen and (max-width: 1154px) and (min-width: 746px) {
+    .requested-book-section {
+      margin-top: 40px;
+    }
   }
 </style>
