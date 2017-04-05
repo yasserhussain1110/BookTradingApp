@@ -10,6 +10,7 @@
   import AppBody from './components/AppBody.vue';
   import {mapState} from 'vuex';
   import {getBooks, getIdentity, getTradeRequestsByMe, getTradeRequestsForMe}  from './lib/fetchMoreInfo';
+  import 'font-awesome/css/font-awesome.css';
 
   export default {
     name: 'app',

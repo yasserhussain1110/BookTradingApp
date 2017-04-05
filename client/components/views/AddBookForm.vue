@@ -40,7 +40,6 @@
 </template>
 
 <script>
-  import 'font-awesome/css/font-awesome.css';
   import _ from 'lodash';
   import {mapState} from 'vuex';
   import {clip} from '../../lib/helper'

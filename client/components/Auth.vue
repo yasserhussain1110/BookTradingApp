@@ -31,7 +31,6 @@
 </template>
 
 <script>
-  import 'font-awesome/css/font-awesome.css';
   import {mapState} from 'vuex';
   import {login, signup, getTradeRequestsByMe, getTradeRequestsForMe} from '../lib/fetchMoreInfo';
 
