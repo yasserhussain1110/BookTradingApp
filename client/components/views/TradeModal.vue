@@ -28,10 +28,12 @@
             <label><strong><u>{{secondLabel}}</u></strong></label>
           </div>
 
-          <div
-            v-bind:class="{selected: secondBookIndex===index}"
-            class="gallery" v-for="(book, index) in bookList">
-            <a><img v-on:click="selectBook(index)" :src="book.thumbnailURL"/></a>
+          <div class="gallery-container">
+            <div
+              v-bind:class="{selected: secondBookIndex===index}"
+              class="gallery" v-for="(book, index) in bookList">
+              <a><img v-on:click="selectBook(index)" :src="book.thumbnailURL"/></a>
+            </div>
           </div>
         </div>
 
@@ -201,13 +203,18 @@
   .trade-second-book {
     margin-left: 60px;
     margin-top: 20px;
-    overflow-y: scroll;
     width: 50%;
     height: 80%;
   }
 
-  .trade-second-book > div {
+  .trade-second-book > div:nth-of-type(1) {
     text-align: center;
+  }
+
+  .gallery-container {
+    overflow-y: scroll;
+    height: 100%;
+    margin-top: 5px;
   }
 
   .action-buttons {
@@ -246,10 +253,6 @@
     padding: 10px;
   }
 
-  .gallery {
-    margin-top: 30px;
-  }
-
   .modal-mask {
     position: absolute;
     top: 0;
@@ -257,6 +260,7 @@
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, .5);
+    z-index: 1;
   }
 
   .modal-container {
