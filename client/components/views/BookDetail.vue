@@ -1,5 +1,11 @@
 <template>
   <div class="book-detail">
+
+    <div class="previous">
+      <i v-on:click="goPrevious" class="fa fa-arrow-left fa-2x"
+         v-bind:class="" aria-hidden="true"></i>
+    </div>
+
     <div class="gallery">
       <a><img :src="bookShowing.thumbnailURL"/></a>
     </div>
@@ -30,11 +36,6 @@
     </div>
 
     <trade-modal v-on:close="closeTradeBox" :show="showModal"></trade-modal>
-
-    <div class="previous">
-      <i v-on:click="goPrevious" class="fa fa-arrow-left fa-2x"
-         v-bind:class="" aria-hidden="true"></i>
-    </div>
   </div>
 </template>
 
@@ -114,8 +115,8 @@
   }
 
   .previous {
-    top: 95px;
-    left: 220px;
+    position: static;
+    margin: -1.7% -3%;
   }
 
   button {
@@ -166,11 +167,11 @@
 
   @media screen and (max-width: 1120px) {
     .gallery {
-      margin-top: 6%;
+      margin-top: 4%;
     }
 
     .info-box {
-      margin-top: 6%;
+      margin-top: 4%;
     }
   }
 
