@@ -110,8 +110,12 @@
 
 <style scoped>
   .book-detail {
-    position: relative;
     width: 100%;
+  }
+
+  .previous {
+    top: 95px;
+    left: 220px;
   }
 
   button {
