@@ -208,13 +208,6 @@
     margin: 5px 6px 5px 0px;
   }
 
-  .sub-option {
-    font-size: 1em;
-    margin-left: 20px;
-    margin-top: 8px;
-    font-weight: normal;
-  }
-
   .no-sub-link {
     margin-left: 0;
   }
