@@ -136,6 +136,10 @@
 </script>
 
 <style scoped>
+  .previous {
+    margin: 0;
+  }
+
   section {
     margin: 20px 0;
   }
@@ -150,7 +154,7 @@
     padding: 10px;
     display: inline-block;
     vertical-align: top;
-    width: 50%;
+    width: 70%;
     border-radius: 5px;
     background-color: #D3D3D3;
   }
@@ -220,30 +224,52 @@
     padding: 10px;
   }
 
-  @media screen and (max-width: 746px) {
+  @media screen and (max-width: 1132px) {
+    .info-box {
+      margin-left: 20px;
+      margin-top: 5px;
+    }
+  }
+
+  @media screen and (max-width: 990px) {
+    .info-box {
+      width: 60%;
+    }
+
+    .requested-book-section {
+      margin-top: 30px;
+    }
+  }
+
+  @media screen and (max-width: 794px) {
+    .info-box {
+      width: 55%;
+    }
+  }
+
+  @media screen and (max-width: 730px) {
+    .info-box {
+      width: 50%;
+      margin-left: 25px;
+    }
+  }
+
+  @media screen and (max-width: 690px) {
+    .info-box {
+      width: 45%;
+      margin-left: 15px;
+    }
+  }
+
+  @media screen and (max-width: 634px) {
     section {
       text-align: center;
     }
 
     .info-box {
-      margin-left: 0;
-      margin-top: 5px;
-    }
-
-    .info {
       text-align: left;
+      width: 50%;
     }
   }
 
-  @media screen and (max-width: 634px) {
-    .info {
-      text-align: center;
-    }
-  }
-
-  @media screen and (max-width: 1154px) and (min-width: 746px) {
-    .requested-book-section {
-      margin-top: 40px;
-    }
-  }
 </style>
