@@ -1,7 +1,7 @@
 const path = require('path');
 const utils = require('./webpack-utils/utils');
 const vueLoaderConfig = require('./webpack-utils/vue-loader.conf');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -52,5 +52,16 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+
+  plugins: [
+    // copy custom static assets
+    new CopyWebpackPlugin([
+      {
+        from: resolve('./client/static'),
+        to: 'static',
+        ignore: ['.*']
+      }
+    ])
+  ]
 };

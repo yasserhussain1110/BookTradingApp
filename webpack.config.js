@@ -45,7 +45,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: path.resolve('./dist/index.html'),
-      template: 'index.html',
+      template: 'client/index.html',
       inject: true,
       minify: {
         removeComments: true,
@@ -76,17 +76,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
-    }),
-    // copy custom static assets
-    // Dont need copy plugin for now
-    /*
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve('./static'),
-        to: 'static',
-        ignore: ['.*']
-      }
-    ])*/
+    })
   ]
 });
 
