@@ -58,16 +58,15 @@
       </ul>
     </div>
 
-    <div class="collapse">
-      <i v-on:click="changeSideBarState" class="fa fa-2x collapse-icon"
-         v-bind:class="sideBarExpanded ? 'fa-arrow-left': 'fa-arrow-right' "
-         aria-hidden="true"></i>
+    <div class="collapse" v-on:click="changeSideBarState">
+      <div class="hamburger-bar"></div>
+      <div class="hamburger-bar"></div>
+      <div class="hamburger-bar"></div>
     </div>
   </div>
 </template>
 
 <script>
-  import 'font-awesome/css/font-awesome.css';
   import {mapState, mapMutations} from 'vuex';
 
   export default {
@@ -107,6 +106,38 @@
 </script>
 
 <style scoped>
+  .hamburger-bar{
+    width: 35px;
+    height: 6px;
+    background-color: #062E65;
+    margin: 5px auto;
+    border-radius: 10px;
+  }
+
+  .hamburger-bar:nth-of-type(1) {
+    margin-top: 9px;
+  }
+
+  .collapse {
+    padding: 5px;
+    text-align: center;
+    color: black;
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: -10px;
+    top: -60px;
+    opacity: 0.5;
+    background-color: white;
+    border-radius: 50%;
+    transition: opacity 0.5s;
+  }
+
+  .collapse:hover {
+    cursor: pointer;
+    opacity: 0.9;
+  }
+
   .side-nav-bar-container {
     position: relative;
 
@@ -133,7 +164,7 @@
     margin-top: 30px;
     display: inline-block;
     color: white;
-    /*transition: flex 1s ease;*/
+    transition: flex 0.5s ease;
   }
 
   .side-nav-bar {
@@ -188,31 +219,4 @@
     margin-left: 0;
   }
 
-  .collapse {
-    color: black;
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    left: -20px;
-    top: -40px;
-    opacity: 0.4;
-    background-color: white;
-    border-radius: 50%;
-    transition: opacity 0.5s;
-  }
-
-  .collapse:hover {
-    cursor: pointer;
-    opacity: 0.9;
-  }
-
-  .collapse-icon {
-    vertical-align: middle;
-    margin-top: 4px;
-    margin-left: 6px;
-  }
-
-  .hide {
-    display: none;
-  }
 </style>
