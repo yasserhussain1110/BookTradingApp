@@ -111,6 +111,7 @@
 <style scoped>
   .book-detail {
     position: relative;
+    width: 100%;
   }
 
   button {
@@ -142,7 +143,7 @@
   }
 
   .gallery {
-    margin-top: 15px;
+    margin-top: 20px;
   }
 
   .info-box {
@@ -152,11 +153,54 @@
     padding: 10px;
     background-color: lightgray;
     border-radius: 10px;
-    width: 650px;
+    width: 70%;
   }
 
   .info {
     margin: 10px;
   }
 
+  @media screen and (max-width: 1120px) {
+    .gallery {
+      margin-top: 6%;
+    }
+
+    .info-box {
+      margin-top: 6%;
+    }
+  }
+
+  @media screen and (max-width: 1020px) {
+    .info-box {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  @media screen and (max-width: 872px) {
+    .info-box {
+      width: 58%;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  @media screen and (max-width: 727px) and (min-width: 634px) {
+    .gallery, .info-box {
+      margin-top: 10%;
+    }
+  }
+
+  @media screen and (max-width: 634px) {
+    .book-detail {
+      text-align: center;
+    }
+
+    .info-box {
+      text-align: left;
+      width: 63%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
 </style>
