@@ -24,4 +24,10 @@
     display: flex;
   }
 
+  @media screen and (max-width: 649px) {
+    .app-body {
+      margin-top: 20px;
+    }
+  }
+
 </style>

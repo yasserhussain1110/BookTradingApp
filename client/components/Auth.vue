@@ -142,7 +142,7 @@
   }
 
   .show {
-    z-index: 0;
+    z-index: 1;
     display: initial;
   }
 
