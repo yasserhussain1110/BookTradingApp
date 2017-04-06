@@ -20,7 +20,9 @@
     "mongo",
     "mongoose",
     "vue",
-    "vuex"
+    "vuex",
+    "mocha",
+    "spertest"
   ],
   "author": "Yasser Hussain",
   "license": "MIT",
