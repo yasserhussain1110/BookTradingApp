@@ -126,4 +126,11 @@
   .hidden {
     display: none;
   }
+
+  @media screen and (max-width: 649px) {
+    .side-buttons {
+      right: 35%;
+      top: 40px;
+    }
+  }
 </style>

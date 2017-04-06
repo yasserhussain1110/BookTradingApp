@@ -40,7 +40,6 @@
 </template>
 
 <script>
-  import 'font-awesome/css/font-awesome.css';
   import _ from 'lodash';
   import {mapState} from 'vuex';
   import {clip} from '../../lib/helper'
@@ -156,6 +155,7 @@
 <style scoped>
   .add-book-form {
     position: relative;
+    width: 100%;
   }
 
   .status-box {
@@ -227,7 +227,7 @@
   }
 
   .filler {
-    width: 360px;
+    width: 35%;
   }
 
   .add-button {
@@ -263,5 +263,48 @@
   .selected {
     border: 4px solid green;
     padding: 2px;
+  }
+
+  @media screen and (max-width: 1255px) {
+    .filler {
+      width: 30%;
+    }
+  }
+
+  @media screen and (max-width: 1181px) {
+    .filler {
+      width: 20%;
+    }
+  }
+
+  @media screen and (max-width: 1061px) {
+    .filler {
+      width: 10%;
+    }
+  }
+
+  @media screen and (max-width: 968px) {
+    .filler {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 888px) {
+    .search-field {
+      display: block;
+    }
+
+    .button {
+      margin-top: 20px;
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    .status-box {
+      left: 20%;
+      width: 60%;
+      top: 45px;
+      padding: 0;
+    }
   }
 </style>

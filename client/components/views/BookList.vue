@@ -15,7 +15,7 @@
 
 <script>
   import {mapState} from 'vuex';
-  import {booksBelongingToMe} from '../../lib/helper';
+  import {booksBelongingToMe, isBooksMine} from '../../lib/helper';
 
   export default {
     name: 'book-list',
@@ -45,7 +45,7 @@
         if (this.whoseBooks === "myBooks") {
           this.$store.commit('showMyParticularBook', book);
         } else if (this.whoseBooks === "allBooks") {
-          if (book._ownedBy === this.user._id) {
+          if (isBooksMine(book, this.user._id)) {
             this.$store.commit('showMyParticularBook', book);
           } else {
             this.$store.commit('showAParticularBook', book);

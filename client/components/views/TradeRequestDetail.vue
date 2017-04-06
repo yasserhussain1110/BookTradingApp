@@ -58,6 +58,10 @@
       </template>
     </template>
 
+    <div class="previous">
+      <i v-on:click="goPrevious" class="fa fa-arrow-left fa-2x"
+         v-bind:class="" aria-hidden="true"></i>
+    </div>
   </div>
 </template>
 
@@ -92,6 +96,13 @@
       }
     },
     methods: {
+      goPrevious: function () {
+        if (this.navigation === 'tradeRequestsForMe') {
+          this.$store.commit('showTradeRequestsForMe');
+        } else if (this.navigation === 'tradeRequestsByMe') {
+          this.$store.commit('showTradeRequestsByMe');
+        }
+      },
       closeTradeRequestByMe: function () {
         let {tradeRequest} = this;
         this.$http.post(`/tradeRequests/${tradeRequest._id}/close`, {}, {headers: {'x-auth': this.token}})
@@ -125,6 +136,9 @@
 </script>
 
 <style scoped>
+  .previous {
+    margin: 0;
+  }
 
   section {
     margin: 20px 0;
@@ -132,6 +146,7 @@
 
   .trade-request-detail {
     width: 80%;
+    position: relative;
   }
 
   .info-box {
@@ -139,7 +154,7 @@
     padding: 10px;
     display: inline-block;
     vertical-align: top;
-    width: 50%;
+    width: 70%;
     border-radius: 5px;
     background-color: #D3D3D3;
   }
@@ -208,4 +223,53 @@
     margin: 10px;
     padding: 10px;
   }
+
+  @media screen and (max-width: 1132px) {
+    .info-box {
+      margin-left: 20px;
+      margin-top: 5px;
+    }
+  }
+
+  @media screen and (max-width: 990px) {
+    .info-box {
+      width: 60%;
+    }
+
+    .requested-book-section {
+      margin-top: 30px;
+    }
+  }
+
+  @media screen and (max-width: 794px) {
+    .info-box {
+      width: 55%;
+    }
+  }
+
+  @media screen and (max-width: 730px) {
+    .info-box {
+      width: 50%;
+      margin-left: 25px;
+    }
+  }
+
+  @media screen and (max-width: 690px) {
+    .info-box {
+      width: 45%;
+      margin-left: 15px;
+    }
+  }
+
+  @media screen and (max-width: 634px) {
+    section {
+      text-align: center;
+    }
+
+    .info-box {
+      text-align: left;
+      width: 50%;
+    }
+  }
+
 </style>

@@ -5,10 +5,12 @@
       <label>{{ formName }}</label>
     </div>
     <div class="input-field">
-      <input type="text" v-on:focus="hideErrors" v-model="email" placeholder="Your Email                                      "/>
+      <input type="text" v-on:focus="hideErrors" v-model="email"
+             placeholder="Your Email                                      "/>
     </div>
     <div class="input-field">
-      <input type="password" v-on:focus="hideErrors" v-model="password" placeholder="Your Password                                "/>
+      <input type="password" v-on:focus="hideErrors" v-model="password"
+             placeholder="Your Password                                "/>
     </div>
     <div class="button-field">
       <button v-on:click="submit" class="auth-button">
@@ -31,7 +33,6 @@
 </template>
 
 <script>
-  import 'font-awesome/css/font-awesome.css';
   import {mapState} from 'vuex';
   import {login, signup, getTradeRequestsByMe, getTradeRequestsForMe} from '../lib/fetchMoreInfo';
 
@@ -99,7 +100,9 @@
           getTradeRequestsForMe.bind(this)();
         }).catch(e => {
           let errorList;
-          if (e.body.errors) {
+          if (e.body.code === 11000) {
+            errorList = ["This email address has been taken"];
+          } else if (e.body.errors) {
             errorList = Object.keys(e.body.errors).map(key => e.body.errors[key].message)
           } else {
             errorList = [formToActionsMap[this.formName].errorMessage];
@@ -143,7 +146,7 @@
   }
 
   .show {
-    z-index: 0;
+    z-index: 1;
     display: initial;
   }
 

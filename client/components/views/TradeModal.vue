@@ -4,7 +4,7 @@
       <div v-on:click.stop="" class="modal-container">
         <h2>Creating New Trade Request</h2>
         <div class="trade-item trade-first-book">
-          <div>
+          <div class="label-box">
             <label><strong><u>{{firstLabel}}</u></strong></label>
           </div>
 
@@ -24,14 +24,16 @@
         </div>
 
         <div v-show="showSecondBookList" class="trade-item trade-second-book">
-          <div>
+          <div class="label-box">
             <label><strong><u>{{secondLabel}}</u></strong></label>
           </div>
 
-          <div
-            v-bind:class="{selected: secondBookIndex===index}"
-            class="gallery" v-for="(book, index) in bookList">
-            <a><img v-on:click="selectBook(index)" :src="book.thumbnailURL"/></a>
+          <div class="gallery-container">
+            <div
+              v-bind:class="{selected: secondBookIndex===index}"
+              class="gallery" v-for="(book, index) in bookList">
+              <a><img v-on:click="selectBook(index)" :src="book.thumbnailURL"/></a>
+            </div>
           </div>
         </div>
 
@@ -152,6 +154,10 @@
         return labels[this.whoseBooks].secondLabel;
       },
       bookList: function () {
+        if (!this.user) {
+          return [];
+        }
+
         if (this.whoseBooks === "myBooks") {
           return booksNotBelongingToMe(this.books, this.user._id);
         } else if (this.whoseBooks === "allBooks") {
@@ -201,13 +207,18 @@
   .trade-second-book {
     margin-left: 60px;
     margin-top: 20px;
-    overflow-y: scroll;
     width: 50%;
     height: 80%;
   }
 
-  .trade-second-book > div {
+  .trade-second-book > div:nth-of-type(1) {
     text-align: center;
+  }
+
+  .gallery-container {
+    overflow-y: scroll;
+    height: 100%;
+    margin-top: 5px;
   }
 
   .action-buttons {
@@ -246,10 +257,6 @@
     padding: 10px;
   }
 
-  .gallery {
-    margin-top: 30px;
-  }
-
   .modal-mask {
     position: absolute;
     top: 0;
@@ -257,6 +264,7 @@
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, .5);
+    z-index: 1;
   }
 
   .modal-container {
@@ -299,6 +307,68 @@
   .selected {
     border: 4px solid green;
     padding: 2px;
+  }
+
+  .label-box {
+    min-width: 200px;
+  }
+
+  @media screen and (max-width: 1196px) {
+    .trade-second-book {
+      width: 50%;
+    }
+
+    .modal-container {
+      width: 90%;
+    }
+  }
+
+  @media screen and (max-width: 1196px) {
+    .trade-second-book {
+      width: 40%;
+    }
+  }
+
+  @media screen and (max-width: 820px) {
+    .trade-second-book {
+      width: 30%;
+    }
+  }
+
+  @media screen and (max-width: 670px) {
+    .modal-mask {
+      height: 2000px;
+    }
+
+    .modal-container {
+      text-align: center;
+      height: 60%;
+    }
+
+    .trade-item {
+      display: block;
+    }
+
+    .gallery-container {
+      height: 100%;
+      width: 300%;
+    }
+
+    .trade-second-book {
+      margin: 0;
+    }
+
+    .label-box {
+      width: 450px;
+    }
+
+    .trade-first-book .gallery {
+      margin-left: 185%;
+    }
+
+    .trade-second-book {
+      height: 700px;
+    }
   }
 
 </style>

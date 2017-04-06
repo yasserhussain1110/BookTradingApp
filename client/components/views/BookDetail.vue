@@ -1,5 +1,11 @@
 <template>
   <div class="book-detail">
+
+    <div class="previous">
+      <i v-on:click="goPrevious" class="fa fa-arrow-left fa-2x"
+         v-bind:class="" aria-hidden="true"></i>
+    </div>
+
     <div class="gallery">
       <a><img :src="bookShowing.thumbnailURL"/></a>
     </div>
@@ -31,7 +37,6 @@
 
     <trade-modal v-on:close="closeTradeBox" :show="showModal"></trade-modal>
   </div>
-
 </template>
 
 <script>
@@ -81,6 +86,9 @@
       }
     },
     methods: {
+      goPrevious: function () {
+        this.$store.commit('showAllBooks');
+      },
       showTradeBox: function () {
         this.showModal = true;
       },
@@ -102,6 +110,27 @@
 </script>
 
 <style scoped>
+  .book-detail {
+    width: 100%;
+  }
+
+  .previous {
+    position: static;
+  }
+
+  @media screen and (-webkit-min-device-pixel-ratio: 0)
+  and (min-resolution: .001dpcm) {
+    .previous {
+      margin: -1.7% -3%;
+    }
+  }
+
+  @-moz-document url-prefix() {
+    .previous {
+      margin: 0.7% -3.0%;
+    }
+  }
+
   button {
     margin: 10px 5px 8px 5px;
     padding: 7px;
@@ -131,7 +160,7 @@
   }
 
   .gallery {
-    margin-top: 15px;
+    margin-top: 20px;
   }
 
   .info-box {
@@ -141,11 +170,54 @@
     padding: 10px;
     background-color: lightgray;
     border-radius: 10px;
-    width: 650px;
+    width: 70%;
   }
 
   .info {
     margin: 10px;
   }
 
+  @media screen and (max-width: 1120px) {
+    .gallery {
+      margin-top: 4%;
+    }
+
+    .info-box {
+      margin-top: 4%;
+    }
+  }
+
+  @media screen and (max-width: 1020px) {
+    .info-box {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  @media screen and (max-width: 872px) {
+    .info-box {
+      width: 58%;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  @media screen and (max-width: 727px) and (min-width: 634px) {
+    .gallery, .info-box {
+      margin-top: 10%;
+    }
+  }
+
+  @media screen and (max-width: 634px) {
+    .book-detail {
+      text-align: center;
+    }
+
+    .info-box {
+      text-align: left;
+      width: 63%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
 </style>

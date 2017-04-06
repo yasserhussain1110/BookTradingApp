@@ -2,20 +2,24 @@
   <div id="app">
     <top></top>
     <app-body></app-body>
+    <credits></credits>
   </div>
 </template>
 
 <script>
   import Top from './components/Top';
   import AppBody from './components/AppBody.vue';
+  import Credits from './components/Credits.vue';
   import {mapState} from 'vuex';
   import {getBooks, getIdentity, getTradeRequestsByMe, getTradeRequestsForMe}  from './lib/fetchMoreInfo';
+  import 'font-awesome/css/font-awesome.css';
 
   export default {
     name: 'app',
     components: {
       Top,
-      AppBody
+      AppBody,
+      Credits
     },
     computed: {
       ...mapState({
@@ -69,5 +73,27 @@
   a:hover, button:hover {
     text-decoration: none;
     cursor: pointer;
+  }
+
+  .previous {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    height: 35px;
+    width: 40px;
+    padding-top: 3px;
+    background-color: rgba(173, 216, 230, 0.5);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.5s;
+  }
+
+  .previous:hover {
+    background-color: rgba(173, 216, 230, 1);
+  }
+
+  .previous > i {
+    color: green;
   }
 </style>
