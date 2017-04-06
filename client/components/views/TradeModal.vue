@@ -338,7 +338,7 @@
 
     .modal-container {
       text-align: center;
-      height: 50%;
+      height: 60%;
     }
 
     .trade-item {
@@ -346,8 +346,8 @@
     }
 
     .gallery-container {
-      height: 60%;
-      width: 480px;
+      height: 100%;
+      width: 300%;
     }
 
     .trade-second-book {
@@ -360,6 +360,10 @@
 
     .trade-first-book .gallery {
       margin-left: 185%;
+    }
+
+    .trade-second-book {
+      height: 700px;
     }
   }
 
