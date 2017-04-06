@@ -123,6 +123,12 @@ const seedTradeRequests = [{
   _requestedBook: bookSixId,
   _requestee: userFourId,
   _exchangeBook: bookThreeId
+}, {
+  _id: new ObjectID(),
+  _requester: userTwoId,
+  _requestedBook: bookTwoId,
+  _requestee: userOneId,
+  _exchangeBook: bookThreeId
 }];
 
 const populateUsers = (done) => {
