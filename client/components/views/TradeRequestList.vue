@@ -260,5 +260,60 @@
     cursor: pointer;
   }
 
+  @media screen and (max-width: 876px) {
+    table {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  @media screen and (max-width: 811px) {
+    td, th {
+      padding: 0;
+      width: 1%;
+    }
+
+    th:nth-of-type(1) {
+      width: 1%;
+    }
+
+    td:nth-of-type(1) {
+      width: 1%;
+    }
+  }
+
+  @media screen and (max-width: 759px) {
+    th:nth-of-type(1) {
+      width: 0.4%;
+    }
+
+    td:nth-of-type(1) {
+      width: 0.4%;
+    }
+  }
+
+  @media screen and (max-width: 745px) {
+    th {
+      font-weight: 100;
+      font-size: 0.8em;
+    }
+
+    td {
+      font-size: 0.85em;
+    }
+
+    .status-action-box {
+      padding: 5px 0;
+      margin: 5px 0;
+    }
+  }
+
+  @media screen and (max-width: 634px) {
+    th, td {
+      font-size: 0.7em;
+    }
+  }
+
 
 </style>
