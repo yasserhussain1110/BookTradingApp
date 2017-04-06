@@ -103,7 +103,7 @@
       validate: function (requestedBook) {
         if (!requestedBook) {
           this.errorMessage = "Must request a book";
-          changePropForSometimeThenReset(this, "showError", true, 3000);
+          changePropForSometimeThenReset(this, "showError", true, false, 3000);
           return false;
         } else {
           return true;
@@ -122,7 +122,7 @@
 
         this.$http.post('/tradeRequests', requestParams, {headers: {'x-auth': this.token}})
           .then(() => {
-            changePropForSometimeThenReset(this, "tradeRequestSent", true, 3000);
+            changePropForSometimeThenReset(this, "tradeRequestSent", true, false, 3000);
             getTradeRequestsByMe.bind(this)();
           })
           .catch(e => {
@@ -132,7 +132,7 @@
               this.errorMessage = "Some error occurred";
             }
 
-            changePropForSometimeThenReset(this, "showError", true, 3000);
+            changePropForSometimeThenReset(this, "showError", true, false, 3000);
           });
       }
     },

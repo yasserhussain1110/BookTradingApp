@@ -48,11 +48,14 @@ export const booksBelongingToMe = (allBooks, myId) => (allBooks.filter(book => g
 
 export const booksNotBelongingToMe = (allBooks, myId) => (allBooks.filter(book => getOwnedByIdOfBook(book) !== myId));
 
-export const changePropForSometimeThenReset = (object, propName, newPropValue, time) => {
-  let oldPropValue = object[propName];
+/*
+ Sometimes newPropValue could be same as old that could cause issues.
+ Adding resetPropVal will fix it.
+ */
+export const changePropForSometimeThenReset = (object, propName, newPropValue, resetPropValue, time) => {
   object[propName] = newPropValue;
   setTimeout(() => {
-    object[propName] = oldPropValue;
+    object[propName] = resetPropValue;
   }, time);
 };
 
