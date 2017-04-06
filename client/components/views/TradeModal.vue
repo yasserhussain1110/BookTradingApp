@@ -127,7 +127,7 @@
           })
           .catch(e => {
             if (e.body && e.body.code === 11000) {
-              this.errorMessage = "Cannot request same book twice";
+              this.errorMessage = `Already requested ${requestedBook.title}`;
             } else {
               this.errorMessage = "Some error occurred";
             }
@@ -217,7 +217,7 @@
 
   .gallery-container {
     overflow-y: scroll;
-    height: 100%;
+    height: 80%;
     margin-top: 5px;
   }
 
@@ -261,7 +261,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
+    height: 1200px;
     width: 100%;
     background-color: rgba(0, 0, 0, .5);
     z-index: 1;
@@ -270,7 +270,7 @@
   .modal-container {
     margin: 50px auto;
     width: 80%;
-    height: 78%;
+    height: 60%;
     background-color: white;
     color: black;
     padding: 20px;
@@ -320,16 +320,15 @@
 
     .modal-container {
       width: 90%;
+      height: 80%;
+    }
+
+    .gallery-container {
+      margin-bottom: 0px;
     }
   }
 
-  @media screen and (max-width: 1196px) {
-    .trade-second-book {
-      width: 40%;
-    }
-  }
-
-  @media screen and (max-width: 820px) {
+  @media screen and (max-width: 931px) {
     .trade-second-book {
       width: 30%;
     }
@@ -342,7 +341,7 @@
 
     .modal-container {
       text-align: center;
-      height: 60%;
+      height: 80%;
     }
 
     .trade-item {
@@ -350,12 +349,13 @@
     }
 
     .gallery-container {
-      height: 100%;
+      height: 80%;
       width: 300%;
     }
 
     .trade-second-book {
       margin: 0;
+      margin-bottom: 40px;
     }
 
     .label-box {
@@ -368,6 +368,17 @@
 
     .trade-second-book {
       height: 700px;
+    }
+
+    .error-box {
+      width: 80%;
+      margin: auto;
+      margin-bottom: 20px;
+    }
+
+    .trade-status-box {
+      width: 80%;
+      margin: auto;
     }
   }
 
