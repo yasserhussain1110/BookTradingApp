@@ -2,12 +2,14 @@
   <div id="app">
     <top></top>
     <app-body></app-body>
+    <credits></credits>
   </div>
 </template>
 
 <script>
   import Top from './components/Top';
   import AppBody from './components/AppBody.vue';
+  import Credits from './components/Credits.vue';
   import {mapState} from 'vuex';
   import {getBooks, getIdentity, getTradeRequestsByMe, getTradeRequestsForMe}  from './lib/fetchMoreInfo';
   import 'font-awesome/css/font-awesome.css';
@@ -16,7 +18,8 @@
     name: 'app',
     components: {
       Top,
-      AppBody
+      AppBody,
+      Credits
     },
     computed: {
       ...mapState({
