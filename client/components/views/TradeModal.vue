@@ -154,6 +154,10 @@
         return labels[this.whoseBooks].secondLabel;
       },
       bookList: function () {
+        if (!this.user) {
+          return [];
+        }
+
         if (this.whoseBooks === "myBooks") {
           return booksNotBelongingToMe(this.books, this.user._id);
         } else if (this.whoseBooks === "allBooks") {
