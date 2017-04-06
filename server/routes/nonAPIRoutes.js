@@ -41,6 +41,11 @@ const authorizeUser = (req) => {
   });
 };
 
+/**
+ * TODO:- clean up this route
+ *  authorizeUser might not be needed here after handleIdentityIfFound
+ */
+
 const addNonAPIRoutes = app => {
   app.get('/identity', handleIdentityIfFound, (req, res) => {
     authorizeUser(req)
