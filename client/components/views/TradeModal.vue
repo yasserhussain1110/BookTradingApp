@@ -207,6 +207,7 @@
   .trade-second-book {
     margin-left: 60px;
     margin-top: 20px;
+    margin-bottom: -300px;
     width: 50%;
     height: 80%;
   }
