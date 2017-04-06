@@ -88,11 +88,11 @@ const addBookRoutes = app => {
     }).then(book => {
       return TradeRequests.update({
         _requestedBook: book._id
-      }, {status: "rejected"})
+      }, {status: "rejected"}, {multi: true})
         .then(() => {
           TradeRequests.update({
             _exchangeBook: book._id
-          }, {status: "closed"})
+          }, {status: "closed"}, {multi: true})
         })
         .then(() => {
           res.send(book);

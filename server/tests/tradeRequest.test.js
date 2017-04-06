@@ -174,6 +174,9 @@ describe("Testing Path - /tradeRequests/:id/accept", () => {
           return TradeRequest.findById(seedTradeRequests[4]._id);
         }).then(tradeRequest => {
           expect(tradeRequest.status).toBe("closed");
+          return TradeRequest.findById(seedTradeRequests[5]._id);
+        }).then(tradeRequest => {
+          expect(tradeRequest.status).toBe("closed");
           done();
         }).catch(e => done(e));
       });

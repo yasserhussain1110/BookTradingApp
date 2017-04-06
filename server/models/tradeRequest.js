@@ -83,14 +83,14 @@ TradeRequestSchema.statics.rejectOrCloseRelatedRequestsInvolvingSameBooks = func
     _id: {
       $ne: tr._id
     }
-  }, {status: "rejected"})
+  }, {status: "rejected"}, {multi: true})
 
   // Close trade request, where this trade request's requested book was offered as exchange
     .then(() => {
       return TradeRequest.update({
         status: "opened",
         _exchangeBook: tr._requestedBook._id
-      }, {status: "closed"})
+      }, {status: "closed"}, {multi: true});
     })
 
     // Close trade request, where this trade request's exchange book was offered as exchange
@@ -102,7 +102,7 @@ TradeRequestSchema.statics.rejectOrCloseRelatedRequestsInvolvingSameBooks = func
           _id: {
             $ne: tr._id
           }
-        }, {status: "closed"})
+        }, {status: "closed"}, {multi: true});
       }
     })
 
@@ -112,7 +112,7 @@ TradeRequestSchema.statics.rejectOrCloseRelatedRequestsInvolvingSameBooks = func
         return TradeRequest.update({
           status: "opened",
           _requestedBook: tr._exchangeBook._id
-        }, {status: "closed"})
+        }, {status: "closed"}, {multi: true});
       }
     });
 };
