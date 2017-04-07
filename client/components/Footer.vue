@@ -20,6 +20,10 @@
       <a target="_blank" href="https://vuex.vuejs.org/en"><img src="../assets/vuex.jpg"/></a>
     </div>
 
+    <div class="webpack">
+      <a target="_blank" href="https://webpack.js.org"><img src="../assets/webpack.svg"/></a>
+    </div>
+
     <div class="mocha">
       <a target="_blank" href="https://mochajs.org"><img src="../assets/mocha.svg"/></a>
     </div>
@@ -32,12 +36,30 @@
 </template>
 
 <script>
+  export default {
+    name: "footer"
+  }
 
 </script>
 
 <style scoped>
+
+  /* For firefox */
+  @-moz-document url-prefix() {
+    footer {
+      margin-top: 400px;
+    }
+  }
+
+  /* For chrome */
+  @media screen and (-webkit-min-device-pixel-ratio: 0)
+  and (min-resolution: .001dpcm) {
+    footer {
+      margin-top: 425px;
+    }
+  }
+
   footer {
-    margin-top: 400px;
     text-align: center;
     width: 100%;
     padding: 0;
@@ -85,6 +107,12 @@
     margin-bottom: 10px;
   }
 
+  .webpack img {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 3px;
+  }
+
   .mocha img {
     width: 70px;
     height: 70px;
@@ -93,7 +121,7 @@
   .github img {
     width: 60px;
     height: 60px;
-    margin-bottom: 10px;
+    margin-bottom: 7px;
   }
 
 </style>
