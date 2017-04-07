@@ -20,6 +20,10 @@
       <a target="_blank" href="https://vuex.vuejs.org/en"><img src="../assets/vuex.jpg"/></a>
     </div>
 
+    <div class="webpack">
+      <a target="_blank" href="https://webpack.js.org"><img src="../assets/webpack.svg"/></a>
+    </div>
+
     <div class="mocha">
       <a target="_blank" href="https://mochajs.org"><img src="../assets/mocha.svg"/></a>
     </div>
@@ -85,6 +89,12 @@
     margin-bottom: 10px;
   }
 
+  .webpack img {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 3px;
+  }
+
   .mocha img {
     width: 70px;
     height: 70px;
@@ -93,7 +103,7 @@
   .github img {
     width: 60px;
     height: 60px;
-    margin-bottom: 10px;
+    margin-bottom: 7px;
   }
 
 </style>
