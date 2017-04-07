@@ -36,12 +36,30 @@
 </template>
 
 <script>
+  export default {
+    name: "footer"
+  }
 
 </script>
 
 <style scoped>
+
+  /* For firefox */
+  @-moz-document url-prefix() {
+    footer {
+      margin-top: 400px;
+    }
+  }
+
+  /* For chrome */
+  @media screen and (-webkit-min-device-pixel-ratio: 0)
+  and (min-resolution: .001dpcm) {
+    footer {
+      margin-top: 425px;
+    }
+  }
+
   footer {
-    margin-top: 400px;
     text-align: center;
     width: 100%;
     padding: 0;

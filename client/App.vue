@@ -2,14 +2,14 @@
   <div id="app">
     <top></top>
     <app-body></app-body>
-    <credits></credits>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
   import Top from './components/Top';
   import AppBody from './components/AppBody.vue';
-  import Credits from './components/Credits.vue';
+  import AppFooter from './components/Footer.vue';
   import {mapState} from 'vuex';
   import {getBooks, getIdentity, getTradeRequestsByMe, getTradeRequestsForMe}  from './lib/fetchMoreInfo';
   import 'font-awesome/css/font-awesome.css';
@@ -19,7 +19,7 @@
     components: {
       Top,
       AppBody,
-      Credits
+      AppFooter
     },
     computed: {
       ...mapState({
