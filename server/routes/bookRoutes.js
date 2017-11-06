@@ -1,9 +1,11 @@
 const Book = require('../models/book');
 const TradeRequests = require('../models/tradeRequest');
+const googleBooksAPI = require('google-books-search-2');
 const auth = require('../middleware/auth');
 
 const options = {
-  key: process.env.GOOGLE_API_KEY
+  key: process.env.GOOGLE_API_KEY,
+  limit: 30
 };
 
 const addMultipleBooks = (books, request, response) => {
@@ -102,6 +104,44 @@ const addBookRoutes = app => {
       res.status(400).send(e);
     });
   });
+
+  app.post('/search-book', auth, (req, res) => {
+    const title = req.body.title;
+    return googleBooksAPI.search(title, options)
+      .then(googleResults => {
+        const sendableResults =
+          googleResults
+            .filter(isBookDescriptionTruthy)
+            .filter(hasThumbnail)
+            .map(pullOfRequiredInfoFromBookResult);
+        res.send(sendableResults);
+      })
+      .catch(e => {
+        console.error(e);
+        res.sendStatus(403);
+      });
+  });
+};
+
+const convertHttpURLsToHttps = url => {
+  return url.replace(/http:\/\//, "https://");
+};
+
+const hasThumbnail = book => {
+  return book.thumbnail && typeof book.thumbnail === 'string';
+};
+
+const isBookDescriptionTruthy = book => {
+  return !!book.description;
+};
+
+const pullOfRequiredInfoFromBookResult = book => {
+  let {title, description, thumbnail} = book;
+  return {
+    title,
+    description,
+    thumbnailURL: convertHttpURLsToHttps(thumbnail)
+  }
 };
 
 module.exports = addBookRoutes;

@@ -5,3 +5,4 @@ build
 .env.*
 data
 dist
+npm-debug.log

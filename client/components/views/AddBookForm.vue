@@ -139,7 +139,11 @@
       search: function () {
         let {title} = this;
         if (title) {
-          this.$http.post('/searchBook', {title})
+          this.$http.post('/search-book', {title}, {
+            headers: {
+              'x-auth': this.token
+            }
+          })
             .then(res => {
               let books = res.body;
               this.books = books;
@@ -234,8 +238,9 @@
     padding: 5px 10px;
     box-shadow: inset 0 0 0 1px #27496d;
     text-shadow: -2px 2px #346392;
-    background-color: #ff9664;
     background-image: linear-gradient(top, #6496c8, #346392);
+    background-image: -moz-linear-gradient(top, #6496c8, #346392);
+    background-image: -webkit-linear-gradient(top, #6496c8, #346392);
   }
 
   .clickable {

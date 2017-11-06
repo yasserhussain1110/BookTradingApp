@@ -1,15 +1,22 @@
 export const getIdentity = function () {
-  return this.$http.get("/identity")
-    .then(res => {
-      let token = res.headers.get('x-auth');
-      let user = res.body;
+  const token = localStorage.getItem('auth-token');
+  if (token) {
+    return this.$http.post('/users/me', {}, {
+      headers: {
+        'x-auth': token
+      }
+    }).then(res => {
+      const user = res.body;
       this.$store.commit('loggedIn');
       this.$store.commit('gotUser', user);
       this.$store.commit('gotToken', token);
-    })
-    .catch(res => {
-      this.$store.commit('loggedOff');
+    }).catch(e => {
+      localStorage.removeItem('auth-token');
+      throw e;
     });
+  } else {
+    return Promise.reject(new Error('No Auth Token'));
+  }
 };
 
 export const getBooks = function () {
@@ -39,7 +46,7 @@ export const getTradeRequestsForMe = function () {
 };
 
 export const signup = function (email, password) {
-  return this.$http.post('/signup', {email, password})
+  return this.$http.post('/users', {email, password})
     .then(res => {
       let token = res.headers.get('x-auth');
       let user = res.body;
@@ -54,13 +61,14 @@ export const signup = function (email, password) {
 };
 
 export const login = function (email, password) {
-  return this.$http.post('/login', {email, password})
+  return this.$http.post('/users/login', {email, password})
     .then(res => {
       let token = res.headers.get('x-auth');
       let user = res.body;
       this.$store.commit('loggedIn');
       this.$store.commit('gotUser', user);
       this.$store.commit('gotToken', token);
+      localStorage.setItem('auth-token', token);
     })
     .catch(e => {
       console.log(e.body.errors);

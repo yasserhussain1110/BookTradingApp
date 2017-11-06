@@ -48,11 +48,9 @@
     }),
     methods: {
       logout: function () {
-        this.$http.post('/logout').then(() => {
-          this.$store.commit('loggedOff');
-        }).catch(e => {
-          console.log(e);
-        });
+        localStorage.removeItem('auth-token');
+        this.$store.commit('loggedOff');
+        this.$store.commit('showAllBooks');
       },
       showLoginForm: function () {
         this.showAuthForm = true;
