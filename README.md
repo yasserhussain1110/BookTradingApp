@@ -112,7 +112,7 @@ If user selects reject, the `requester` (the one who opened the request) is info
 
 ##### `Accept`
 If this is selected, books are exchanged. Other additional actions also take place.
-See [below](feature-5-intelligent-trade-request-management)
+See [below](#feature-5---intelligent-trade-requests-management).
 
 ### Feature #5 - Intelligent Trade Requests Management
 ![Trade Requests](readme-resources/trade.gif)
