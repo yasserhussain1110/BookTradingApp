@@ -32,7 +32,6 @@
     "body-parser": "^1.17.1",
     "connect-loki": "^1.0.9",
     "express": "^4.14.1",
-    "express-session": "^1.15.1",
     "google-books-search-2": "^0.3.0",
     "humanize": "0.0.9",
     "jsonwebtoken": "^7.3.0",

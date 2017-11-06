@@ -11,7 +11,12 @@
   import AppBody from './components/AppBody.vue';
   import AppFooter from './components/Footer.vue';
   import {mapState} from 'vuex';
-  import {getBooks, getIdentity, getTradeRequestsByMe, getTradeRequestsForMe}  from './lib/fetchMoreInfo';
+  import {
+    getBooks,
+    getIdentity,
+    getTradeRequestsByMe,
+    getTradeRequestsForMe
+  }  from './lib/fetchMoreInfo';
   import 'font-awesome/css/font-awesome.css';
 
   export default {
@@ -30,6 +35,8 @@
       getIdentity.bind(this)().then(() => {
         getTradeRequestsByMe.bind(this)();
         getTradeRequestsForMe.bind(this)();
+      }).catch(e => {
+        console.error(e);
       });
       getBooks.bind(this)();
     }

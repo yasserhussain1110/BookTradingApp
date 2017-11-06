@@ -139,7 +139,11 @@
       search: function () {
         let {title} = this;
         if (title) {
-          this.$http.post('/searchBook', {title})
+          this.$http.post('/search-book', {
+            headers: {
+              'x-auth': this.token
+            }
+          }, {title})
             .then(res => {
               let books = res.body;
               this.books = books;
