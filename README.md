@@ -1,6 +1,6 @@
 ## BookTrading App
 
-An app for trading books. Made as an FCC exercise.
+An app for trading books.
 
 ## Prerequisites
 Make sure you have the following installed.
@@ -9,7 +9,6 @@ Make sure you have the following installed.
 
 ## Starting the App
 Follow below steps to start the app locally for the first time.
-
 
  * clone this repo
  * cd into the `BookTradingApp` directory
@@ -27,9 +26,14 @@ Follow below steps to start the app locally for the first time.
 This app helps send/receive/manage trade requests for books.
 
 ### Feature #1 - Book Gallery
+
+![Books](readme-resources/booklist.png)
+
 User can view all the books available, i.e. books owned by **all** the users can be viewed.
 
 ### Feature #2 - Add/Delete a book
+![Trade Requests](readme-resources/add-books.gif)
+
 User can add a book to the app. Adding a book in the app means that the user is indicating they possess the book.
 
 The app has a built in search system, which helps a user search for a book and add it.
@@ -43,6 +47,9 @@ User can add mutiple books at the same time.
 User can have multiple copies of the same book.
 
 ### Feature #3 - Opening Trade Requests
+
+![Trade Requests](readme-resources/trade-requests.png)
+
 This is the core feature of this app, i.e, users can exchange books.
 
 When a user opens a trade request for a book, the user may decide to give or not give any book in exchange.
@@ -88,31 +95,35 @@ This will be the **Category #2** [with exchange request](#with-exchange-requests
 As should be obvious by now there are two kinds of `Trade Request`.
 
 #### Trade Request Opened by a User
-User can open `Trade Requests By Me` section to see a list of requests opened by them. 
+User can open `Trade Requests By Me` section to see a list of requests opened by them.
 
 They can see the book they asked for and the book they wanted to give in exchange (if they **did** want to give a book in exhange, remember this is **optional**).
 
-The only action a user can perform in this situation is `close` the `Trade Request`. 
+The only action a user can perform in this situation is `close` the `Trade Request`.
 
 #### Trade Request Opened for a User
-User can open `Trade Requests For Me` section to see a list of requests opened by **other** users asking for books they own. 
+User can open `Trade Requests For Me` section to see a list of requests opened by **other** users asking for books they own.
 
 They can see the book the other user asked for and the book the other user wanted to give in exchange (if at all, this is **optional**).
 
 User can perform two options here:-
-##### `Reject` 
+##### `Reject`
 If user selects reject, the `requester` (the one who opened the request) is informed.
 
-##### `Accept` 
-If this is selected, multiple things happen.
+##### `Accept`
+If this is selected, books are exchanged. Other additional actions also take place.
+See [below](feature-5-intelligent-trade-request-management)
+
+### Feature #5 - Intelligent Trade Requests Management
+![Trade Requests](readme-resources/trade.gif)
+
+If a user accepts a `Trade Request` for a particular book. It makes sense that he is implicitly rejecting other `Trade Requests` for the same book.
+
+Hence these are the steps which the system performs when a user accepts a `Trade Request`.
 
  * All pending requests by other users asking for the same book is automatically `rejected`. (If you have accepted the trade request of one person for a book, it automatically means you have rejected other requests for the same book.)
 
  * All pending requests by the user in which this particular book was supposed to be given away as exchange book are `closed`. (If you have accepted the trade request of one person for a book, it means you will no longer possess the book. And so you cannot tell anyone that you want to give this book in exchange.)
-
- * The books are exchanged, i.e, the books' owner changes.
-
-The backend intelligently decided which `Trade Request` is no longer valid (according to above rules) and `closes`/`rejects` them automatically so the user has a hasssle free experience.
 
 ## TODO:-
 
