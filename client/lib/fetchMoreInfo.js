@@ -10,7 +10,10 @@ export const getIdentity = function () {
       this.$store.commit('loggedIn');
       this.$store.commit('gotUser', user);
       this.$store.commit('gotToken', token);
-    })
+    }).catch(e => {
+      localStorage.removeItem('auth-token');
+      throw e;
+    });
   } else {
     return Promise.reject(new Error('No Auth Token'));
   }
