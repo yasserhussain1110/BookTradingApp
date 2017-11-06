@@ -50,6 +50,7 @@
       logout: function () {
         localStorage.removeItem('auth-token');
         this.$store.commit('loggedOff');
+        this.$store.commit('showAllBooks');
       },
       showLoginForm: function () {
         this.showAuthForm = true;
