@@ -25,7 +25,7 @@ An app for trading books.
   * [Author](#author)
   * [License](#license)
   * [Acknowledgments](#acknowledgments)
-  * [TODO](#todo)
+  * [TODOs](#todos-)
 
 ## Prerequisites
 Make sure you have the following installed.
@@ -88,7 +88,7 @@ This app helps send/receive/manage trade requests for books.
 
   If a user asks for a book and wants to give their book in return then this is like actually exchanging a book in real life scenario.
 
-  **Both the above options are possible using this app.**
+  *Both the above options are possible using this app.*
 
   There are basically two ways to open `trade requests`.
 
@@ -188,7 +188,7 @@ Please keep an eye on the Project's issue tracker and if you think you can handl
 * ChinguCentral Community
 * Family and Friends
 
-## TODO:-
+## TODOs:-
 
 * Improve UI, particularly trade modal dropdown.
 * Add linting to webpack
