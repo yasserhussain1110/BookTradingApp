@@ -30,7 +30,7 @@ An app for trading books.
 ## Prerequisites
 Make sure you have the following installed.
  * Node (version, >= 7)
- * Mongo (version, >= 3)
+ * MongoDB (version, >= 3)
 
 ## Starting the App
 Follow below steps to start the app locally for the first time.
@@ -168,6 +168,7 @@ This app helps send/receive/manage trade requests for books.
 - [Mocha](https://mochajs.org) - Testing Framework
 - [Git](https://git-scm.com) - Version Control
 - [VS Code](https://code.visualstudio.com) - Code Editor
+- [Heroku](www.Heroku,com) - Hosting and Continuous Deployment
 - [Chrome](https://www.google.com/chrome/browser/desktop/index.html) - Browser
 
 ## Contributing
