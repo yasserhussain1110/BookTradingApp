@@ -10,7 +10,7 @@ An app for trading books.
   * [Starting the App](#starting-the-app)
   * [Salient Features](#salient-features)
     * [Book Gallery](#1-book-gallery)
-    * [Add/Delete a book](#2-add-delete-a-book)
+    * [Add/Delete a book](#2-adddelete-a-book)
     * [Opening Trade Requests](#3-opening-trade-requests)
       * [No Exchange Requests](#no-exchange-requests)
       * [With Exchange Requests](#with-exchange-requests)
@@ -19,8 +19,6 @@ An app for trading books.
     * [Managing Trade Requests](#4-managing-trade-requests)
       * [Trade Request Opened by User](#trade-request-opened-by-user)
       * [Trade Request Opened for User](#trade-request-opened-for-user)
-      * [Reject Trade Request](#reject-trade-request)
-      * [Accept Trade Request](#accept-trade-request)
     * [Intelligent Trade Request Management](#5-intelligent-trade-request-management)
   * [Built With](#built-with)
   * [Contributing](#contributing)
@@ -126,7 +124,7 @@ This app helps send/receive/manage trade requests for books.
  As should be obvious by now there are two kinds of `Trade Request`.
 
   #### Trade Request Opened by User
-  
+
   User can open `Trade Requests By Me` section to see a list of requests opened by them.
 
   They can see the book they asked for and the book they wanted to give in exchange (if they **did** want to give a book in exhange, remember this is **optional**).
@@ -138,18 +136,12 @@ This app helps send/receive/manage trade requests for books.
   User can open `Trade Requests For Me` section to see a list of requests opened by **other** users asking for books they own.
 
   They can see the book the other user asked for and the book the other user wanted to give in exchange (if at all, this is **optional**).
- 
 
- User can perform two options here:-
+  User can perform two options here
 
-  ##### Reject Trade Request
-
-  If user selects reject, the `requester` (the one who opened the request) is informed.
-
-  ##### Accept Trade Request
-
-  If this is selected, books are exchanged. Other additional actions also take place.
-  See [below](#feature-5---intelligent-trade-requests-management).
+   *   **Reject Trade Request** - If user selects reject, the `requester` (the one who opened the request) is informed.
+   *   **Accept Trade Request** - If this is selected, books are exchanged. Other additional actions also take place.
+       See [below](#feature-5---intelligent-trade-requests-management).
 
  ### 5. Intelligent Trade Request Management
 
@@ -162,7 +154,7 @@ This app helps send/receive/manage trade requests for books.
   * All pending requests by other users asking for the same book is automatically `rejected`. (If you have accepted the trade request of one person for a book, it automatically means you have rejected other requests for the same book.)
 
   * All pending requests by the user in which this particular book was supposed to be given away as exchange book are `closed`. (If you have accepted the trade request of one person for a book, it means you will no longer possess the book. And so you cannot tell anyone that you want to give this book in exchange.)
-  
+
 ## Built With
 
 - [Node](https://nodejs.org) - JS Runtime Environment
