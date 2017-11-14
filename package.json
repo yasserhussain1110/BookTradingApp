@@ -35,7 +35,6 @@
     "humanize": "0.0.9",
     "jsonwebtoken": "^7.3.0",
     "lodash": "^4.17.4",
-    "mongodb": "^2.2.24",
     "mongoose": "^4.8.5",
     "per-env": "^1.0.2",
     "validator": "^7.0.0",
